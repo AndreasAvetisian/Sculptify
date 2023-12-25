@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SculptifyTheme {
                 Surface() {
-                    Main()
+                    MainScaffoldView()
                 }
             }
         }
