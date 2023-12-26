@@ -16,7 +16,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -35,15 +34,23 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.ACHIEVEMENTS_ROUTE
 import com.example.sculptify.MAIN_ROUTE
+import com.example.sculptify.R
 import com.example.sculptify.STATISTICS_ROUTE
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomBar(navController: NavHostController) {
+
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+
+    // Callback function to be passed to MeMBS
+    val onBottomSheetDismiss: () -> Unit = {
+        showBottomSheet = false
+    }
+
     Column {
         Divider( thickness = 2.dp, color = Color(0xff909090))
         Row(modifier = Modifier
@@ -60,56 +67,36 @@ fun BottomBar(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Button(
-                    iconId = painterResource(id = com.example.sculptify.R.drawable.main_page_icon),
+                    iconId = painterResource(id = R.drawable.main_page_icon),
                     text = "Main",
                     iconDescription = "main page icon",
                     Modifier.clickable { navController.navigate(MAIN_ROUTE) }
                 )
                 Button(
-                    iconId = painterResource(id = com.example.sculptify.R.drawable.main_page_icon),
+                    iconId = painterResource(id = R.drawable.main_page_icon),
                     text = "Statistics",
                     iconDescription = "statistics page icon",
                     Modifier.clickable { navController.navigate(STATISTICS_ROUTE) }
                 )
                 Button(
-                    iconId = painterResource(id = com.example.sculptify.R.drawable.main_page_icon),
+                    iconId = painterResource(id = R.drawable.main_page_icon),
                     text = "Achievements",
                     iconDescription = "achievements page icon",
                     Modifier.clickable { navController.navigate(ACHIEVEMENTS_ROUTE) }
                 )
                 Button(
-                    iconId = painterResource(id = com.example.sculptify.R.drawable.main_page_icon),
+                    iconId = painterResource(id = R.drawable.main_page_icon),
                     text = "Me",
                     iconDescription = "me page icon",
                     Modifier.clickable { showBottomSheet = true }
                 )
 
                 if (showBottomSheet) {
-                    ModalBottomSheet(
-                        onDismissRequest = {
-                            showBottomSheet = false
-                        },
+                    MeMBS(
                         sheetState = sheetState,
-                        containerColor = Color(0xff1C1C1E)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(400.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Card (
-                                modifier = Modifier
-                                    .clickable { scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) {
-                                            showBottomSheet = false
-                                        }
-                                    } }
-                            ) {
-                                Text(text = "Hello", color = Color.Red)
-                            }
-                        }
-                    }
+                        scope = scope,
+                        onDismiss = onBottomSheetDismiss
+                    )
                 }
             }
         }
