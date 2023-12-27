@@ -3,7 +3,6 @@ package com.example.sculptify
 import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,7 +25,7 @@ const val ME_ROUTE = "me"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MeScreen(
+fun MeMBS_NavControllerHandler(
     navController: NavHostController
 ) {
     val sheetState = rememberModalBottomSheetState()
@@ -44,10 +43,8 @@ fun MeScreen(
 @Composable
 fun MainScaffoldView() {
     val navController = rememberNavController()
-//    val scState = rememberScaffoldState( rememberDrawerState(DrawerValue.Closed) )
 
     Scaffold(
-//        scaffoldState = scState,
         content = { MainContentView(navController) },
         bottomBar = { BottomBar(navController) },
     )
@@ -60,7 +57,7 @@ fun MainContentView(navController: NavHostController) {
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
-        composable( route = ME_ROUTE ){ MeScreen(navController) }
+        composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
     }
 }
 

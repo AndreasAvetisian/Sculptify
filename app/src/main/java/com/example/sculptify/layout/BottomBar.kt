@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,8 @@ import com.example.sculptify.STATISTICS_ROUTE
 fun BottomBar(navController: NavHostController) {
 
     var showBottomSheet by remember { mutableStateOf(false) }
+    var selectedButton by remember { mutableStateOf(BottomBarButton.Main) }
+    var lastClickedButton by remember { mutableStateOf(BottomBarButton.Main) }
 
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -49,6 +52,7 @@ fun BottomBar(navController: NavHostController) {
     // Callback function to be passed to MeMBS
     val onBottomSheetDismiss: () -> Unit = {
         showBottomSheet = false
+        selectedButton = lastClickedButton
     }
 
     Column {
@@ -66,29 +70,52 @@ fun BottomBar(navController: NavHostController) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Button(
+                BottomBarButton(
                     iconId = painterResource(id = R.drawable.main_page_icon),
                     text = "Main",
                     iconDescription = "main page icon",
-                    Modifier.clickable { navController.navigate(MAIN_ROUTE) }
+                    modifier = Modifier,
+                    selected = selectedButton == BottomBarButton.Main,
+                    onClick = {
+                        navController.navigate(MAIN_ROUTE)
+                        lastClickedButton = BottomBarButton.Main
+                        selectedButton = BottomBarButton.Main
+                    }
                 )
-                Button(
-                    iconId = painterResource(id = R.drawable.main_page_icon),
+                BottomBarButton(
+                    iconId = painterResource(id = R.drawable.statistics_icon),
                     text = "Statistics",
                     iconDescription = "statistics page icon",
-                    Modifier.clickable { navController.navigate(STATISTICS_ROUTE) }
+                    modifier = Modifier,
+                    selected = selectedButton == BottomBarButton.Statistics,
+                    onClick = {
+                        navController.navigate(STATISTICS_ROUTE)
+                        lastClickedButton = BottomBarButton.Statistics
+                        selectedButton = BottomBarButton.Statistics
+                    }
                 )
-                Button(
-                    iconId = painterResource(id = R.drawable.main_page_icon),
+                BottomBarButton(
+                    iconId = painterResource(id = R.drawable.achievements_icon),
                     text = "Achievements",
                     iconDescription = "achievements page icon",
-                    Modifier.clickable { navController.navigate(ACHIEVEMENTS_ROUTE) }
+                    modifier = Modifier,
+                    selected = selectedButton == BottomBarButton.Achievements,
+                    onClick = {
+                        navController.navigate(ACHIEVEMENTS_ROUTE)
+                        lastClickedButton = BottomBarButton.Achievements
+                        selectedButton = BottomBarButton.Achievements
+                    }
                 )
-                Button(
-                    iconId = painterResource(id = R.drawable.main_page_icon),
+                BottomBarButton(
+                    iconId = painterResource(id = R.drawable.profile_icon),
                     text = "Me",
                     iconDescription = "me page icon",
-                    Modifier.clickable { showBottomSheet = true }
+                    modifier = Modifier,
+                    selected = selectedButton == BottomBarButton.Me,
+                    onClick = {
+                        showBottomSheet = true
+                        lastClickedButton = selectedButton
+                    }
                 )
 
                 if (showBottomSheet) {
@@ -104,18 +131,25 @@ fun BottomBar(navController: NavHostController) {
 }
 
 @Composable
-fun Button(
+fun BottomBarButton(
     iconId: Painter,
     text: String,
     iconDescription: String,
-    modifier: Modifier
+    modifier: Modifier,
+    selected: Boolean,
+    onClick: () -> Unit
 ) {
+
+    val textColor = if (selected) Color(0xFF0060FE) else Color(0xff909090)
+    val iconColor = if (selected) Color(0xFF0060FE) else Color(0xff909090)
+
     Card(
         shape = RoundedCornerShape(14.25.dp),
         colors = CardDefaults.cardColors(Color(0xFF1C1C1E)),
         modifier = modifier
             .width(71.25.dp)
             .height(57.dp)
+            .clickable { onClick() }
 
     ) {
         Column (
@@ -127,14 +161,21 @@ fun Button(
         ) {
             Icon(
                 painter = iconId,
-                tint = Color(0xff909090),
+                tint = iconColor,
                 contentDescription = iconDescription
             )
             Text(
-                color = Color(0xff909090),
+                color = textColor,
                 fontSize = 9.975.sp,
                 text = text
             )
         }
     }
+}
+
+enum class BottomBarButton {
+    Main,
+    Statistics,
+    Achievements,
+    Me
 }
