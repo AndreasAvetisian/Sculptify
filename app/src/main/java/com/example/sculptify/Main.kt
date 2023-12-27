@@ -21,6 +21,7 @@ const val MAIN_ROUTE = "main"
 const val STATISTICS_ROUTE = "statistics"
 const val ACHIEVEMENTS_ROUTE = "achievements"
 const val ME_ROUTE = "me"
+const val VERSION = "1.0.0"
 
 
 @OptIn(ExperimentalMaterial3Api::class)
