@@ -121,7 +121,8 @@ fun BottomBar(navController: NavHostController) {
                     MeMBS(
                         sheetState = sheetState,
                         scope = scope,
-                        onDismiss = onBottomSheetDismiss
+                        onDismiss = onBottomSheetDismiss,
+                        navController = navController
                     )
                 }
             }

@@ -28,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.sculptify.MY_PROFILE_ROUTE
 import com.example.sculptify.VERSION
 import com.example.sculptify.ui.theme.balooFontFamily
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +39,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MeView(
+    navController: NavHostController,
     scope: CoroutineScope,
     sheetState: SheetState,
     onDismiss: () -> Unit
@@ -71,6 +74,7 @@ fun MeView(
                                 onDismiss()
                             }
                         }
+                        navController.navigate(MY_PROFILE_ROUTE)
                     }
                 ) // My Profile ending
                 Row (
