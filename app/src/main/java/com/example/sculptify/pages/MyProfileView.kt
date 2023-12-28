@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.ME_ROUTE
+import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
@@ -52,7 +52,7 @@ fun MyProfileView(navController: NavHostController) {
                     .height(30.dp)
                     .clickable {
                         navController.popBackStack()
-                        navController.navigate(ME_ROUTE)
+                        navController.navigate(MAIN_ROUTE)
                     },
                 shape = RoundedCornerShape(15.dp),
                 colors = CardDefaults.cardColors(Color(0xff1C1C1E))
