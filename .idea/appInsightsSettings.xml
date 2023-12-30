@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.sculptify" />
+                  <option name="mobileSdkAppId" value="1:1026319217953:android:6b2bd41dbd0cacf2803a60" />
+                  <option name="projectId" value="sculptify-2dc23" />
+                  <option name="projectNumber" value="1026319217953" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

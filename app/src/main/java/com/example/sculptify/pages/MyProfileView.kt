@@ -1,5 +1,6 @@
 package com.example.sculptify.pages
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,21 +17,47 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.sculptify.AUTHENTICATION_ROUTE
 import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.UserViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 @Composable
 fun MyProfileView(navController: NavHostController) {
+    val userVM: UserViewModel = viewModel()
+//    val fireStore = Firebase.firestore
+//    val fAuth = Firebase.auth
+//    var currentUserRoute by remember { mutableStateOf("") }
+//
+//    fireStore
+//        .collection("users")
+//        .document(fAuth.currentUser?.uid.toString())
+//        .get()
+//        .addOnSuccessListener {
+//            currentUserRoute = it.get("root").toString()
+//        }
+//
+//    userVM.getUserData()
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -111,8 +138,9 @@ fun MyProfileView(navController: NavHostController) {
                     input = "********"
                 )
                 UserInput(
-                    text = "Gender",
-                    input = "Male"
+                    text = "Name",
+                    input = "a"
+//                    input = userVM.userdata.value["firstName"].toString()
                 )
                 UserInput(
                     text = "Year of Birth",
@@ -120,14 +148,32 @@ fun MyProfileView(navController: NavHostController) {
                 )
                 UserInput(
                     text = "Height",
-                    input = "181cm"
+                    input = "a"
+//                    input = userVM.userdata.value["height"].toString()
                 )
                 UserInput(
                     text = "Weight",
-                    input = "75kg"
+                    input = "a"
+//                    input = userVM.userdata.value["weight"].toString()
                 )
             }
             Column {}
+        }
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Card (
+                colors = CardDefaults.cardColors(Color(0xFFFF0000)),
+                modifier = Modifier
+                    .padding(0.dp, 10.dp)
+                    .clickable {
+                        userVM.logout(navController)
+                    }
+            ) {
+                Text(text = "Log out", color = Color.White)
+            }
         }
     }
 }

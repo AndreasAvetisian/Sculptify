@@ -1,6 +1,7 @@
 package com.example.sculptify
 
 import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,6 +11,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,6 +27,7 @@ import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.pages.StatisticsView
+import com.example.sculptify.viewModels.UserViewModel
 
 const val AUTHENTICATION_ROUTE = "authentication"
 const val SIGN_UP_ROUTE = "sign up"
@@ -61,25 +65,33 @@ fun MainScaffoldView() {
     Scaffold(
 
         content = {
-            AuthenticationView(navController)
-//            MainContentView(navController)
+            MainContentView(navController)
         },
         bottomBar = {
-//            val currentBackStackEntry by navController.currentBackStackEntryAsState()
-//            val currentRoute = currentBackStackEntry?.destination?.route
-//
-//            if (currentRoute != MY_PROFILE_ROUTE && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE) {
-//                BottomBar(navController)
-//            }
+            val currentBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = currentBackStackEntry?.destination?.route
+
+            if (currentRoute != MY_PROFILE_ROUTE
+                && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE
+                && currentRoute != AUTHENTICATION_ROUTE
+                && currentRoute != SIGN_UP_ROUTE
+                ) {
+                BottomBar(navController)
+            }
         }
     )
 }
 
 @Composable
 fun MainContentView(navController: NavHostController) {
+    val userVM: UserViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = MAIN_ROUTE ){
-        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController) }
+    NavHost(
+        navController = navController,
+//        startDestination = if (userVM.isAuthorized.value) MAIN_ROUTE else AUTHENTICATION_ROUTE
+        startDestination = AUTHENTICATION_ROUTE
+    ){
+        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, userVM) }
         composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
