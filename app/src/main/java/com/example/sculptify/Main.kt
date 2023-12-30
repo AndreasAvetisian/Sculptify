@@ -18,12 +18,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sculptify.layout.BottomBar
 import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.pages.AchievementsView
+import com.example.sculptify.pages.AuthenticationView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
+import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.pages.StatisticsView
 
-
+const val AUTHENTICATION_ROUTE = "authentication"
+const val SIGN_UP_ROUTE = "sign up"
 const val MAIN_ROUTE = "main"
 const val STATISTICS_ROUTE = "statistics"
 const val ACHIEVEMENTS_ROUTE = "achievements"
@@ -58,15 +61,16 @@ fun MainScaffoldView() {
     Scaffold(
 
         content = {
-            MainContentView(navController)
+            AuthenticationView(navController)
+//            MainContentView(navController)
         },
         bottomBar = {
-            val currentBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = currentBackStackEntry?.destination?.route
-
-            if (currentRoute != MY_PROFILE_ROUTE && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE) {
-                BottomBar(navController)
-            }
+//            val currentBackStackEntry by navController.currentBackStackEntryAsState()
+//            val currentRoute = currentBackStackEntry?.destination?.route
+//
+//            if (currentRoute != MY_PROFILE_ROUTE && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE) {
+//                BottomBar(navController)
+//            }
         }
     )
 }
@@ -75,6 +79,8 @@ fun MainScaffoldView() {
 fun MainContentView(navController: NavHostController) {
 
     NavHost(navController = navController, startDestination = MAIN_ROUTE ){
+        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController) }
+        composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
@@ -90,11 +96,7 @@ fun MainContentView(navController: NavHostController) {
         ) {
             MyProfileView(navController)
         }
-        composable(
-            route = MY_FAVORITE_MY_HISTORY_ROUTE
-        ) {
-            MyFavorite_MyHistoryView(navController)
-        }
+        composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
     }
 }
 
