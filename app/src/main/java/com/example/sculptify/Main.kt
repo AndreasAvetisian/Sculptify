@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -84,14 +85,12 @@ fun MainScaffoldView() {
 
 @Composable
 fun MainContentView(navController: NavHostController) {
-    val userVM: UserViewModel = viewModel()
-
     NavHost(
         navController = navController,
 //        startDestination = if (userVM.isAuthorized.value) MAIN_ROUTE else AUTHENTICATION_ROUTE
         startDestination = AUTHENTICATION_ROUTE
     ){
-        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, userVM) }
+        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController) }
         composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
