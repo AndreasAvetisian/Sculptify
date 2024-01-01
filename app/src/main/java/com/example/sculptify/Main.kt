@@ -1,7 +1,7 @@
 package com.example.sculptify
 
 import android.annotation.SuppressLint
-import androidx.activity.ComponentActivity
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -11,7 +11,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,7 +26,10 @@ import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.pages.StatisticsView
+import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 const val AUTHENTICATION_ROUTE = "authentication"
 const val SIGN_UP_ROUTE = "sign up"
@@ -84,14 +86,16 @@ fun MainScaffoldView() {
 
 @Composable
 fun MainContentView(navController: NavHostController) {
+    val loginVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
+    val isAuthorized = Firebase.auth.currentUser?.uid.toString().isNotEmpty()
+    Log.d("********", isAuthorized.toString())
 
     NavHost(
         navController = navController,
-//        startDestination = if (userVM.isAuthorized.value) MAIN_ROUTE else AUTHENTICATION_ROUTE
-        startDestination = AUTHENTICATION_ROUTE
+        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE
     ){
-        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, userVM) }
+        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, loginVM) }
         composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }

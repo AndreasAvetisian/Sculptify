@@ -1,41 +1,45 @@
 package com.example.sculptify.viewModels
 
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.sculptify.data.User
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class UserViewModel: ViewModel() {
-    val state = mutableStateOf(User())
+    private val fAuth = Firebase.auth
+    private val fireStore = Firebase.firestore
+    var userdata = mutableStateOf(mapOf<String,Any>())
+    var isLoading by mutableStateOf(false)
+    var isError by mutableStateOf(false)
 
-
-    init {
-        getData()
-    }
-
-    private fun getData() {
-        viewModelScope.launch {
-            state.value = getUserData()
+    fun getUserData(){
+        isLoading = true
+        isError = false
+        fAuth.currentUser?.uid?.let { userId ->
+            fireStore
+                .collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    isLoading = false
+                    if (documentSnapshot.exists()) {
+                        val userDataMap = documentSnapshot.data ?: emptyMap()
+                        Log.d("UserViewModel", "Retrieved user data: $userDataMap")
+                        userdata.value = documentSnapshot.data ?: emptyMap()
+                    } else {
+                        Log.d("UserViewModel", "User document does not exist.")
+                        userdata.value = emptyMap()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    isLoading = false
+                    isError = true
+                    Log.e("UserViewModel", "Error retrieving user data", exception)
+                }
         }
     }
-}
-suspend fun getUserData(): User {
-    val db = FirebaseFirestore.getInstance()
-    var userData = User()
-
-    try {
-        db.collection("users").get().await().map {
-            val result = it.toObject(User::class.java)
-            userData = result
-        }
-    } catch (e: FirebaseFirestoreException) {
-        Log.d("error", "getDataFromFireStore: $e")
-    }
-
-    return userData
 }

@@ -45,19 +45,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.sculptify.MAIN_ROUTE
-import com.example.sculptify.MY_FAVORITE_MY_HISTORY_ROUTE
-import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.R
 import com.example.sculptify.SIGN_UP_ROUTE
-import com.example.sculptify.viewModels.UserViewModel
+import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.AuthenticationViewModel
 
 @Composable
 fun AuthenticationView(
     navController: NavHostController,
-    userVM: UserViewModel
+    loginVM: AuthenticationViewModel
 ) {
     val heightAnimation = remember { Animatable(1f) }
     val cornerRadiusAnimation = remember { Animatable(40.dp.value) }
@@ -164,7 +161,7 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(0.dp, 10.dp)
                         .clickable {
-                            userVM.logInUser(email, pw, navController)
+                            loginVM.logInUser(email, pw, navController)
                         },
                 ) {
                     Icon(
@@ -195,8 +192,8 @@ fun AuthenticationView(
                             }
                     )
                 }
-                ErrorMessage(userVM)
-                Text(text = userVM.isAuthorized.value.toString())
+                ErrorMessage(loginVM)
+//                Text(text = userVM.isAuthorized.value.toString())
             }
         }
     }
@@ -220,7 +217,8 @@ fun InputField(
         onValueChange = onValueChange,
         visualTransformation = visualTransformation,
         label = {
-            Text(text = label,
+            Text(
+                text = label,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Normal
             )
@@ -261,8 +259,8 @@ fun InputField(
 }
 
 @Composable
-fun ErrorMessage(userVM: UserViewModel) {
-    if (userVM.errorMessage.value.isEmpty()) {
+fun ErrorMessage(loginVM: AuthenticationViewModel) {
+    if (loginVM.errorMessage.value.isEmpty()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -276,7 +274,7 @@ fun ErrorMessage(userVM: UserViewModel) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = userVM.errorMessage.value,
+                text = loginVM.errorMessage.value,
                 fontSize = 18.sp,
                 color = Color.Red,
                 modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)

@@ -1,6 +1,5 @@
 package com.example.sculptify.pages
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,46 +16,33 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.sculptify.AUTHENTICATION_ROUTE
 import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 
 @Composable
 fun MyProfileView(navController: NavHostController) {
+    val loginVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
-//    val fireStore = Firebase.firestore
-//    val fAuth = Firebase.auth
-//    var currentUserRoute by remember { mutableStateOf("") }
-//
-//    fireStore
-//        .collection("users")
-//        .document(fAuth.currentUser?.uid.toString())
-//        .get()
-//        .addOnSuccessListener {
-//            currentUserRoute = it.get("root").toString()
-//        }
-//
-//    userVM.getUserData()
+
+    LaunchedEffect(true) {
+        userVM.getUserData()
+    }
 
     Column (
         modifier = Modifier
@@ -131,49 +117,48 @@ fun MyProfileView(navController: NavHostController) {
             ) {
                 UserInput(
                     text = "Email",
-                    input = "example@gmail.com"
+                    input = Firebase.auth.currentUser?.email.toString(),
+                    onClick = {}
                 )
                 UserInput(
-                    text = "Password",
-                    input = "********"
+                    text = "Modify Password",
+                    input = "********",
+                    onClick = {}
                 )
                 UserInput(
                     text = "Name",
-                    input = "a"
-//                    input = userVM.userdata.value["firstName"].toString()
+                    input = userVM.userdata.value["firstName"].toString(),
+                    onClick = {}
                 )
                 UserInput(
                     text = "Year of Birth",
-                    input = "1990"
+                    input = userVM.userdata.value["yearOfBirth"].toString(),
+                    onClick = {}
                 )
                 UserInput(
                     text = "Height",
-                    input = "a"
-//                    input = userVM.userdata.value["height"].toString()
+                    input = userVM.userdata.value["height"].toString(),
+                    onClick = {}
                 )
                 UserInput(
                     text = "Weight",
-                    input = "a"
-//                    input = userVM.userdata.value["weight"].toString()
+                    input = userVM.userdata.value["weight"].toString(),
+                    onClick = {}
                 )
             }
             Column {}
         }
         Row (
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(top = 10.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            Card (
-                colors = CardDefaults.cardColors(Color(0xFFFF0000)),
-                modifier = Modifier
-                    .padding(0.dp, 10.dp)
-                    .clickable {
-                        userVM.logout(navController)
-                    }
-            ) {
-                Text(text = "Log out", color = Color.White)
-            }
+            LogOutButton(
+                onClick = {
+                    loginVM.logout(navController)
+                }
+            )
         }
     }
 }
@@ -181,12 +166,16 @@ fun MyProfileView(navController: NavHostController) {
 @Composable
 fun UserInput(
     text: String,
-    input: String
+    input: String,
+    onClick: () -> Unit
 ) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .height(26.79.dp),
+            .height(26.79.dp)
+            .clickable {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -196,7 +185,7 @@ fun UserInput(
                 fontSize = 20.sp,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xffFCFCFC)
+                color = Color(0xffffffff)
             )
         }
         Row (
@@ -210,6 +199,46 @@ fun UserInput(
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xff909090)
+            )
+            Icon(
+                modifier = Modifier
+                    .scale(scaleX = -1f, scaleY = 1f)
+                    .padding(0.dp, 3.dp, 0.dp, 0.dp),
+                painter = painterResource(id = R.drawable.arrow),
+                contentDescription = "arrow",
+                tint = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+fun LogOutButton(
+    onClick: () -> Unit
+) {
+    Row (
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xff1C1C1E))
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.675.dp, 10.dp, 15.675.dp, 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Log out",
+                fontSize = 20.sp,
+                fontFamily = balooFontFamily,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xffffffff)
             )
             Icon(
                 modifier = Modifier
