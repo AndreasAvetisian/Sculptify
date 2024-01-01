@@ -1,8 +1,8 @@
 package com.example.sculptify.viewModels
 
-import androidx.lifecycle.ViewModel
 import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sculptify.data.User
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,16 +26,16 @@ class UserViewModel: ViewModel() {
 }
 suspend fun getUserData(): User {
     val db = FirebaseFirestore.getInstance()
-    var userDara = User()
+    var userData = User()
 
     try {
         db.collection("users").get().await().map {
             val result = it.toObject(User::class.java)
-            userDara = result
+            userData = result
         }
     } catch (e: FirebaseFirestoreException) {
         Log.d("error", "getDataFromFireStore: $e")
     }
 
-    return userDara
+    return userData
 }

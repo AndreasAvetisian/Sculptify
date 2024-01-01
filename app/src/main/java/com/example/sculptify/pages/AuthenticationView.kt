@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -44,17 +45,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.sculptify.MAIN_ROUTE
+import com.example.sculptify.MY_FAVORITE_MY_HISTORY_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.R
 import com.example.sculptify.SIGN_UP_ROUTE
-import com.example.sculptify.viewModels.SignInViewModel
+import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
 fun AuthenticationView(
     navController: NavHostController,
-    viewModel: SignInViewModel = hiltViewModel()
+    userVM: UserViewModel
 ) {
     val heightAnimation = remember { Animatable(1f) }
     val cornerRadiusAnimation = remember { Animatable(40.dp.value) }
@@ -161,7 +164,7 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(0.dp, 10.dp)
                         .clickable {
-                            viewModel.loginUser(email, pw)
+                            userVM.logInUser(email, pw, navController)
                         },
                 ) {
                     Icon(
@@ -192,6 +195,8 @@ fun AuthenticationView(
                             }
                     )
                 }
+                ErrorMessage(userVM)
+                Text(text = userVM.isAuthorized.value.toString())
             }
         }
     }
@@ -253,4 +258,29 @@ fun InputField(
         shape = MaterialTheme.shapes.large,
         trailingIcon = trailingIcon
     )
+}
+
+@Composable
+fun ErrorMessage(userVM: UserViewModel) {
+    if (userVM.errorMessage.value.isEmpty()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(34.dp)
+        ) {}
+    } else {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(34.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = userVM.errorMessage.value,
+                fontSize = 18.sp,
+                color = Color.Red,
+                modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)
+            )
+        }
+    }
 }
