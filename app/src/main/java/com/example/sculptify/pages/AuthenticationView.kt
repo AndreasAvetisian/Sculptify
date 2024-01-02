@@ -54,7 +54,7 @@ import com.example.sculptify.viewModels.AuthenticationViewModel
 @Composable
 fun AuthenticationView(
     navController: NavHostController,
-    loginVM: AuthenticationViewModel
+    authVM: AuthenticationViewModel
 ) {
     val heightAnimation = remember { Animatable(1f) }
     val cornerRadiusAnimation = remember { Animatable(40.dp.value) }
@@ -161,7 +161,7 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(0.dp, 10.dp)
                         .clickable {
-                            loginVM.logInUser(email, pw, navController)
+                            authVM.logInUser(email, pw, navController)
                         },
                 ) {
                     Icon(
@@ -192,8 +192,7 @@ fun AuthenticationView(
                             }
                     )
                 }
-                ErrorMessage(loginVM)
-//                Text(text = userVM.isAuthorized.value.toString())
+                ErrorMessage(authVM)
             }
         }
     }
@@ -259,8 +258,8 @@ fun InputField(
 }
 
 @Composable
-fun ErrorMessage(loginVM: AuthenticationViewModel) {
-    if (loginVM.errorMessage.value.isEmpty()) {
+fun ErrorMessage(authVM: AuthenticationViewModel) {
+    if (authVM.errorMessage.value.isEmpty()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -274,7 +273,7 @@ fun ErrorMessage(loginVM: AuthenticationViewModel) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = loginVM.errorMessage.value,
+                text = authVM.errorMessage.value,
                 fontSize = 18.sp,
                 color = Color.Red,
                 modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)

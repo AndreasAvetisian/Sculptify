@@ -1,7 +1,6 @@
 package com.example.sculptify
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,7 +26,6 @@ import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.pages.StatisticsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
-import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -86,17 +84,15 @@ fun MainScaffoldView() {
 
 @Composable
 fun MainContentView(navController: NavHostController) {
-    val loginVM: AuthenticationViewModel = viewModel()
-    val userVM: UserViewModel = viewModel()
+    val authVM: AuthenticationViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid.toString().isNotEmpty()
-    Log.d("********", isAuthorized.toString())
 
     NavHost(
         navController = navController,
         startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE
     ){
-        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, loginVM) }
-        composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
+        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
+        composable( route = SIGN_UP_ROUTE ) { SignUpView() }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }

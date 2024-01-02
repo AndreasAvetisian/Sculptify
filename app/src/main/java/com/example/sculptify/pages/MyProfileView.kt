@@ -37,7 +37,7 @@ import com.google.firebase.auth.auth
 
 @Composable
 fun MyProfileView(navController: NavHostController) {
-    val loginVM: AuthenticationViewModel = viewModel()
+    val authVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
 
     LaunchedEffect(true) {
@@ -104,7 +104,7 @@ fun MyProfileView(navController: NavHostController) {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(316.35.dp)
+                .height(365.37.dp)
                 .background(Color(0xff1C1C1E)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -128,6 +128,11 @@ fun MyProfileView(navController: NavHostController) {
                 UserInput(
                     text = "Name",
                     input = userVM.userdata.value["firstName"].toString(),
+                    onClick = {}
+                )
+                UserInput(
+                    text = "Gender",
+                    input = userVM.userdata.value["gender"].toString(),
                     onClick = {}
                 )
                 UserInput(
@@ -156,7 +161,7 @@ fun MyProfileView(navController: NavHostController) {
         ) {
             LogOutButton(
                 onClick = {
-                    loginVM.logout(navController)
+                    authVM.logout(navController)
                 }
             )
         }
