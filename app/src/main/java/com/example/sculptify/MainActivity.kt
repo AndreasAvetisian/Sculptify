@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
-import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.ui.theme.SculptifyTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,8 +12,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SculptifyTheme {
                 Surface() {
-//                    MainScaffoldView()
-                    SignUpView()
+                    MainScaffoldView()
                 }
             }
         }

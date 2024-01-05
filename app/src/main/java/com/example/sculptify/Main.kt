@@ -92,7 +92,7 @@ fun MainContentView(navController: NavHostController) {
         startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
-        composable( route = SIGN_UP_ROUTE ) { SignUpView() }
+        composable( route = SIGN_UP_ROUTE ) { SignUpView(navController) }
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }

@@ -11,11 +11,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
@@ -23,8 +20,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,14 +27,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -48,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.SIGN_UP_ROUTE
+import com.example.sculptify.layout.ErrorMessage
+import com.example.sculptify.layout.InputField
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 
@@ -134,7 +128,16 @@ fun AuthenticationView(
                     label = "Email",
                     keyboardType = KeyboardType.Email,
                     visualTransformation = VisualTransformation.None,
-                    trailingIcon = null
+                    trailingIcon = null,
+                    textStyle = TextStyle(
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontFamily = balooFontFamily,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    modifier = Modifier
+                        .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                        .fillMaxWidth()
                 )
                 InputField(
                     value = pw,
@@ -153,7 +156,16 @@ fun AuthenticationView(
                                 isHiddenPw = !isHiddenPw
                             },
                         )
-                    }
+                    },
+                    textStyle = TextStyle(
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontFamily = balooFontFamily,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    modifier = Modifier
+                        .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                        .fillMaxWidth()
                 )
                 Card (
                     colors = CardDefaults.cardColors(Color(0xff0060FE)),
@@ -175,14 +187,14 @@ fun AuthenticationView(
                 Row {
                     Text(
                         text = "Don't have an account?",
-                        fontSize = 12.sp,
+                        fontSize = 18.sp,
                         fontFamily = balooFontFamily,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
                     Text(
                         text = " Sign up!",
-                        fontSize = 12.sp,
+                        fontSize = 18.sp,
                         fontFamily = balooFontFamily,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xff0060FE),
@@ -194,90 +206,6 @@ fun AuthenticationView(
                 }
                 ErrorMessage(authVM)
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun InputField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    keyboardType: KeyboardType,
-    visualTransformation: VisualTransformation,
-    trailingIcon: @Composable (() -> Unit)?
-) {
-    val containerColor = Color(0xff1C1C1E)
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        visualTransformation = visualTransformation,
-        label = {
-            Text(
-                text = label,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Normal
-            )
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = { keyboardController?.hide() }
-        ),
-        singleLine = true,
-        modifier = Modifier
-            .padding(40.dp, 0.dp, 40.dp, 0.dp)
-            .fillMaxWidth()
-            .padding(0.dp, 10.dp, 0.dp, 10.dp),
-        colors = TextFieldDefaults.colors(
-            cursorColor = Color.White,
-            focusedContainerColor = containerColor,
-            unfocusedContainerColor = containerColor,
-            disabledContainerColor = containerColor,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            focusedLabelColor = Color.White,
-            unfocusedLabelColor = Color.White,
-            disabledLabelColor = Color.White,
-        ),
-        textStyle = TextStyle(
-            fontSize = 20.sp,
-            color = Color.White,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Normal
-        ),
-        shape = MaterialTheme.shapes.large,
-        trailingIcon = trailingIcon
-    )
-}
-
-@Composable
-fun ErrorMessage(authVM: AuthenticationViewModel) {
-    if (authVM.errorMessage.value.isEmpty()) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(34.dp)
-        ) {}
-    } else {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(34.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = authVM.errorMessage.value,
-                fontSize = 18.sp,
-                color = Color.Red,
-                modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)
-            )
         }
     }
 }
