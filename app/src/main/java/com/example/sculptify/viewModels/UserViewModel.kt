@@ -12,6 +12,8 @@ import com.google.firebase.firestore.firestore
 class UserViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
+    var successMessage = mutableStateOf("")
+    var errorMessage = mutableStateOf("")
     var userdata = mutableStateOf(mapOf<String,Any>())
     var isLoading by mutableStateOf(false)
     var isError by mutableStateOf(false)
@@ -39,6 +41,22 @@ class UserViewModel: ViewModel() {
                     isLoading = false
                     isError = true
                     Log.e("UserViewModel", "Error retrieving user data", exception)
+                }
+        }
+    }
+
+    fun modifyPassword(pw:String){
+        if (pw.isNotEmpty()) {
+            fAuth.currentUser?.updatePassword(pw)
+                ?.addOnSuccessListener {
+                    Log.d("********", "Password modified successfully")
+                    successMessage.value = "Password modified successfully"
+                    errorMessage.value = ""
+                }
+                ?.addOnFailureListener { exception ->
+                    Log.e("********", "Error modifying password", exception)
+                    errorMessage.value = "Error modifying password"
+                    successMessage.value = ""
                 }
         }
     }

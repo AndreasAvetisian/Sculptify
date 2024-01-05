@@ -168,7 +168,12 @@ fun AuthenticationView(
                         .fillMaxWidth()
                 )
                 Card (
-                    colors = CardDefaults.cardColors(Color(0xff0060FE)),
+                    colors = CardDefaults.cardColors(
+                        if (email.isNotEmpty() && pw.isNotEmpty())
+                            Color(0xff0060FE)
+                        else
+                            Color(0xff0060FE).copy(alpha = 0.2f)
+                    ),
                     shape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier
                         .padding(0.dp, 10.dp)

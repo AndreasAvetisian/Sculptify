@@ -1,6 +1,5 @@
 package com.example.sculptify.pages
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
@@ -41,45 +41,56 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.AUTHENTICATION_ROUTE
-import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
 import com.example.sculptify.layout.InputField
 import com.example.sculptify.layout.RegConfirmButton
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.AuthenticationViewModel
+import kotlin.math.roundToInt
 
 var pageCounter by mutableIntStateOf(1)
 
-var reg_firstName by mutableStateOf("")
-var reg_isAdmin by mutableStateOf(false)
-var reg_cbs by mutableIntStateOf(15)
-var reg_rbe by mutableIntStateOf(30)
-var reg_dayStreak by mutableIntStateOf(0)
-var reg_weeklyGoal by mutableFloatStateOf(3f)
-var reg_gender by mutableStateOf("Male")
-var reg_height by mutableStateOf<Int?>(null)
-var reg_weight by mutableStateOf<Int?>(null)
-var reg_yearOfBirth by mutableStateOf<Int?>(null)
+var regEmail by mutableStateOf("")
+var regPw by mutableStateOf("")
+var isHiddenPw by mutableStateOf(true)
+var regFirstName by mutableStateOf("")
+var regIsAdmin by mutableStateOf(false)
+var regCbs by mutableIntStateOf(15)
+var regRbe by mutableIntStateOf(30)
+var regDayStreak by mutableIntStateOf(0)
+var regWeeklyGoal by mutableFloatStateOf(3f)
+var regGender by mutableStateOf("")
+var regHeight by mutableStateOf("")
+var regWeight by mutableStateOf("")
+var regYearOfBirth by mutableStateOf("")
 
 @Composable
-fun SignUpView(navController: NavHostController) {
+fun SignUpView(
+    navController: NavHostController,
+    authVM: AuthenticationViewModel
+) {
     Column (
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
         when (pageCounter) {
-            1 -> { RegistrationBeginning(navController) }
-            2 -> { NameAndAge() }
-            3 -> { HeightAndWeight() }
-            4 -> { Gender() }
-            5 -> { WeeklyGoal() }
-            6 -> { RegistrationEnding(navController) }
+            1 -> { RegistrationBeginning(authVM, navController) }
+            2 -> { EmailAndPassword() }
+            3 -> { NameAndAge() }
+            4 -> { HeightAndWeight() }
+            5 -> { Gender() }
+            6 -> { WeeklyGoal() }
+            7 -> { RegistrationEnding(authVM, navController) }
         }
     }
 }
 
 @Composable
-fun RegistrationBeginning(navController: NavHostController) {
+fun RegistrationBeginning(
+    authVM: AuthenticationViewModel,
+    navController: NavHostController
+) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -120,6 +131,7 @@ fun RegistrationBeginning(navController: NavHostController) {
                     .padding(end = 10.dp)
                     .height(60.dp)
                     .clickable {
+                        authVM.errorMessage.value = ""
                         navController.navigate(AUTHENTICATION_ROUTE)
                     },
             )
@@ -131,6 +143,99 @@ fun RegistrationBeginning(navController: NavHostController) {
                     .height(60.dp)
                     .clickable {
                         pageCounter += 1
+                    }
+            )
+        }
+    }
+}
+// --------------------------Email and Password----------------------------
+@Composable
+fun EmailAndPassword() {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(15.675.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.92f)
+                .padding(15.675.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            InputField(
+                value = regEmail,
+                onValueChange = { regEmail = it},
+                label = "Email",
+                keyboardType = KeyboardType.Email,
+                visualTransformation = VisualTransformation.None,
+                trailingIcon = null,
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    fontFamily = balooFontFamily,
+                    fontWeight = FontWeight.Normal
+                ),
+                modifier = Modifier
+                    .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                    .fillMaxWidth()
+            )
+            InputField(
+                value = regPw,
+                onValueChange = { regPw = it},
+                label = "Password",
+                keyboardType = KeyboardType.Password,
+                visualTransformation = if (isHiddenPw) PasswordVisualTransformation() else  VisualTransformation.None,
+                trailingIcon = {
+                    Icon(
+                        painter = painterResource(
+                            id = if (isHiddenPw) R.drawable.password_hidden else R.drawable.password_revealed
+                        ),
+                        contentDescription = "password icon",
+                        tint = Color.White,
+                        modifier = Modifier.clickable {
+                            isHiddenPw = !isHiddenPw
+                        },
+                    )
+                },
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    fontFamily = balooFontFamily,
+                    fontWeight = FontWeight.Normal
+                ),
+                modifier = Modifier
+                    .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                    .fillMaxWidth()
+            )
+        }
+        Row {
+            RegConfirmButton(
+                text = "LOG IN",
+                bgColor = Color(0xff1C1C1E),
+                modifier = Modifier
+                    .width(100.dp)
+                    .padding(end = 10.dp)
+                    .height(60.dp)
+                    .clickable {
+                        pageCounter -= 1
+                    },
+            )
+            RegConfirmButton(
+                text = "NEXT",
+                bgColor = if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                    Color(0xff0060FE)
+                } else Color(0xff0060FE).copy(alpha = 0.2f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .clickable {
+                        if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                            pageCounter += 1
+                        }
                     }
             )
         }
@@ -164,8 +269,8 @@ fun NameAndAge() {
                 fontWeight = FontWeight.Bold
             )
             InputField(
-                value = reg_firstName,
-                onValueChange = { reg_firstName = it },
+                value = regFirstName,
+                onValueChange = { regFirstName = it },
                 label = "",
                 keyboardType = KeyboardType.Text,
                 visualTransformation = VisualTransformation.None,
@@ -189,10 +294,8 @@ fun NameAndAge() {
                 fontWeight = FontWeight.Bold
             )
             InputField(
-                value = reg_yearOfBirth?.toString() ?: "",
-                onValueChange = { newValue ->
-                    reg_yearOfBirth = newValue.toIntOrNull()
-                },
+                value = regYearOfBirth,
+                onValueChange = { regYearOfBirth = it },
                 label = "",
                 keyboardType = KeyboardType.Number,
                 visualTransformation = VisualTransformation.None,
@@ -226,18 +329,17 @@ fun NameAndAge() {
             )
             RegConfirmButton(
                 text = "NEXT",
-                bgColor = if (reg_firstName.isNotEmpty() && reg_yearOfBirth !== null) {
+                bgColor = if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
                     Color(0xff0060FE)
                 } else Color(0xff0060FE).copy(alpha = 0.2f),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .clickable {
-                        if (reg_firstName.isNotEmpty() && reg_yearOfBirth !== null) {
+                        if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
                             pageCounter += 1
-                            Log.d("aaaaaaaaaaaaaaaa", "$reg_firstName and $reg_yearOfBirth")
                         }
-                    },
+                    }
             )
         }
     }
@@ -270,10 +372,8 @@ fun HeightAndWeight() {
                 fontWeight = FontWeight.Bold
             )
             InputField(
-                value = reg_height?.toString() ?: "",
-                onValueChange = { newValue ->
-                    reg_height = newValue.toIntOrNull()
-                },
+                value = regHeight,
+                onValueChange = { regHeight = it },
                 label = "",
                 keyboardType = KeyboardType.Number,
                 visualTransformation = VisualTransformation.None,
@@ -307,10 +407,8 @@ fun HeightAndWeight() {
                 fontWeight = FontWeight.Bold
             )
             InputField(
-                value = reg_weight?.toString() ?: "",
-                onValueChange = { newValue ->
-                    reg_weight = newValue.toIntOrNull()
-                },
+                value = regWeight,
+                onValueChange = { regWeight = it },
                 label = "",
                 keyboardType = KeyboardType.Number,
                 visualTransformation = VisualTransformation.None,
@@ -354,16 +452,13 @@ fun HeightAndWeight() {
             )
             RegConfirmButton(
                 text = "NEXT",
-                bgColor = if (reg_height !== null && reg_weight !== null) {
-                    Color(0xff0060FE)
-                } else Color(0xff0060FE).copy(alpha = 0.2f),
+                bgColor = Color(0xff0060FE),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .clickable {
-                        if (reg_height !== null && reg_weight !== null) {
+                        if (regHeight.isNotEmpty() && regWeight.isNotEmpty()) {
                             pageCounter += 1
-                            Log.d("aaaaaaaaaaaaaaaa", "$reg_height and $reg_weight")
                         }
                     }
             )
@@ -416,7 +511,7 @@ fun Gender() {
                         .height(120.dp)
                         .clickable {
                             selectedButton = GenderButton.Male
-                            reg_gender = "Male"
+                            regGender = "Male"
                         },
                     iconId = R.drawable.male,
                     tint = if (selectedButton == GenderButton.Male) Color.White else Color(0xff0000ff),
@@ -431,7 +526,7 @@ fun Gender() {
                         .height(120.dp)
                         .clickable {
                             selectedButton = GenderButton.Female
-                            reg_gender = "Female"
+                            regGender = "Female"
                         },
                     iconId = R.drawable.female,
                     tint = if (selectedButton == GenderButton.Female) Color.White else Color(0xffFFC0CB),
@@ -448,7 +543,7 @@ fun Gender() {
                     .height(60.dp)
                     .clickable {
                         selectedButton = GenderButton.Others
-                        reg_gender = "Others"
+                        regGender = "Others"
                     },
                 iconId = R.drawable.female,
                 tint = Color(0xffFFC0CB),
@@ -473,16 +568,15 @@ fun Gender() {
             )
             RegConfirmButton(
                 text = "NEXT",
-                bgColor =  if (reg_gender.isNotEmpty()) {
+                bgColor =  if (regGender.isNotEmpty()) {
                     Color(0xff0060FE)
                 } else Color(0xff0060FE).copy(alpha = 0.2f),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .clickable {
-                        if (reg_gender.isNotEmpty()) {
+                        if (regGender.isNotEmpty()) {
                             pageCounter += 1
-                            Log.d("aaaaaaaaaaaaaaaa", reg_gender)
                         }
                     }
             )
@@ -540,7 +634,7 @@ fun GenderButton(
     }
 }
 
-// ---------------------------Height and Weight--------------------------------
+// ---------------------------Weekly Goal--------------------------------
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -570,7 +664,7 @@ fun WeeklyGoal() {
             )
             Icon(
                 painter = painterResource(
-                    id = when (reg_weeklyGoal) {
+                    id = when (regWeeklyGoal) {
                         1f -> R.drawable.weekly_goal_1
                         2f -> R.drawable.weekly_goal_2
                         3f -> R.drawable.weekly_goal_3
@@ -579,7 +673,7 @@ fun WeeklyGoal() {
                     }
                 ),
                 contentDescription = "",
-                tint = when (reg_weeklyGoal) {
+                tint = when (regWeeklyGoal) {
                     1f -> Color(0xff0000FF)
                     2f -> Color(0xffFFFF00)
                     3f -> Color(0xffFFA500)
@@ -590,7 +684,7 @@ fun WeeklyGoal() {
                     .size(100.dp)
             )
             Text(
-                text = if (reg_weeklyGoal == 1f) "time" else "times" + " / week",
+                text = if (regWeeklyGoal == 1f) "time" else "times" + " / week",
                 color = Color.White,
                 fontSize = 30.sp,
                 fontFamily = balooFontFamily,
@@ -598,9 +692,9 @@ fun WeeklyGoal() {
                 textAlign = TextAlign.Center
             )
             Slider(
-                value = reg_weeklyGoal,
+                value = regWeeklyGoal,
                 onValueChange = { newValue ->
-                    reg_weeklyGoal = newValue
+                    regWeeklyGoal = newValue
                 },
                 modifier = Modifier
                     .padding(top = 20.dp),
@@ -618,7 +712,7 @@ fun WeeklyGoal() {
                 thumb = {
                     Card (
                         colors = CardDefaults.cardColors(
-                            when (reg_weeklyGoal) {
+                            when (regWeeklyGoal) {
                                 1f -> Color(0xff0000FF)
                                 2f -> Color(0xffFFFF00)
                                 3f -> Color(0xffFFA500)
@@ -680,8 +774,6 @@ fun WeeklyGoal() {
                     .height(60.dp)
                     .clickable {
                         pageCounter += 1
-                        reg_weeklyGoal.toInt()
-                        Log.d("aaaaaaaaaaaaaaaa", "${reg_weeklyGoal.toInt()}")
                     }
             )
         }
@@ -690,7 +782,10 @@ fun WeeklyGoal() {
 
 // ---------------------------Registration Ending-----------------------------
 @Composable
-fun RegistrationEnding(navController: NavHostController) {
+fun RegistrationEnding(
+    authVM: AuthenticationViewModel,
+    navController: NavHostController
+) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -739,15 +834,38 @@ fun RegistrationEnding(navController: NavHostController) {
             )
             RegConfirmButton(
                 text = "CREATE AN ACCOUNT",
-                bgColor = if (reg_firstName.isNotEmpty() && reg_yearOfBirth !== null) {
+                bgColor = if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
                     Color(0xff0060FE)
                 } else Color(0xff0060FE).copy(alpha = 0.2f),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .clickable {
-                        // SIGN UP FUNCTION HERE
-                        navController.navigate(MAIN_ROUTE)
+                        if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                            authVM.signUpUser(
+                                regEmail,
+                                regPw,
+                                regFirstName,
+                                regIsAdmin,
+                                regCbs,
+                                regRbe,
+                                regDayStreak,
+                                regWeeklyGoal.roundToInt(),
+                                regGender,
+                                regHeight.toInt(),
+                                regWeight.toInt(),
+                                regYearOfBirth.toInt(),
+                                navController
+                            )
+                            regEmail = ""
+                            regPw = ""
+                            regFirstName = ""
+                            regGender = ""
+                            regHeight = ""
+                            regWeight = ""
+                            regYearOfBirth = ""
+                            pageCounter = 1
+                        }
                     }
             )
         }

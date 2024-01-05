@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,6 +30,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
+import com.example.sculptify.layout.DeleteUserButton
+import com.example.sculptify.layout.SignOutButton
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
@@ -153,15 +156,21 @@ fun MyProfileView(navController: NavHostController) {
             }
             Column {}
         }
-        Row (
+        Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp),
-            horizontalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LogOutButton(
+            SignOutButton(
                 onClick = {
-                    authVM.logout(navController)
+                    authVM.signOut(navController)
+                }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            DeleteUserButton(
+                onClick = {
+                    authVM.deleteUser(navController)
                 }
             )
         }
@@ -204,46 +213,6 @@ fun UserInput(
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xff909090)
-            )
-            Icon(
-                modifier = Modifier
-                    .scale(scaleX = -1f, scaleY = 1f)
-                    .padding(0.dp, 3.dp, 0.dp, 0.dp),
-                painter = painterResource(id = R.drawable.arrow),
-                contentDescription = "arrow",
-                tint = Color.White
-            )
-        }
-    }
-}
-
-@Composable
-fun LogOutButton(
-    onClick: () -> Unit
-) {
-    Row (
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xff1C1C1E))
-            .clickable {
-                onClick()
-            },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.675.dp, 10.dp, 15.675.dp, 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Log out",
-                fontSize = 20.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xffffffff)
             )
             Icon(
                 modifier = Modifier
