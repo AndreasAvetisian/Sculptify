@@ -1,4 +1,4 @@
-package com.example.sculptify.pages
+package com.example.sculptify.auth
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

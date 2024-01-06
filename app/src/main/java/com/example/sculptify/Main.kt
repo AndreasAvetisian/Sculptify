@@ -16,21 +16,35 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.sculptify.auth.AuthenticationView
+import com.example.sculptify.auth.ConfirmRegistration
+import com.example.sculptify.auth.EmailAndPassword
+import com.example.sculptify.auth.GenderSelection
+import com.example.sculptify.auth.HeightAndWeight
+import com.example.sculptify.auth.NameAndYOB
+import com.example.sculptify.auth.SignUpView
+import com.example.sculptify.auth.WeeklyGoal
 import com.example.sculptify.layout.BottomBar
 import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.pages.AchievementsView
-import com.example.sculptify.pages.AuthenticationView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
-import com.example.sculptify.pages.SignUpView
 import com.example.sculptify.pages.StatisticsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 const val AUTHENTICATION_ROUTE = "authentication"
+// -------------------------------------SignUp--------------------------------------------
 const val SIGN_UP_ROUTE = "sign up"
+const val EMAIL_AND_PASSWORD = "email and password"
+const val NAME_AND_YOB = "name and year of birth"
+const val HEIGHT_AND_WEIGHT = "height and weight"
+const val GENDER_SELECTION = "gender selection"
+const val WEEKLY_GOAL = "weekly goal"
+const val CONFIRM_REGISTRATION = "confirm registration"
+// ---------------------------------------------------------------------------------------
 const val MAIN_ROUTE = "main"
 const val STATISTICS_ROUTE = "statistics"
 const val ACHIEVEMENTS_ROUTE = "achievements"
@@ -92,7 +106,15 @@ fun MainContentView(navController: NavHostController) {
         startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
+        // -------------------------------------SignUp--------------------------------------------
         composable( route = SIGN_UP_ROUTE ) { SignUpView(navController, authVM) }
+        composable( route = EMAIL_AND_PASSWORD ) { EmailAndPassword(navController) }
+        composable( route = NAME_AND_YOB ) { NameAndYOB(navController) }
+        composable( route = HEIGHT_AND_WEIGHT ) { HeightAndWeight(navController) }
+        composable( route = GENDER_SELECTION ) { GenderSelection(navController) }
+        composable( route = WEEKLY_GOAL ) { WeeklyGoal(navController) }
+        composable( route = CONFIRM_REGISTRATION ) { ConfirmRegistration(navController, authVM) }
+        // ---------------------------------------------------------------------------------------
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
