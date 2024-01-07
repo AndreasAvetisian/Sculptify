@@ -26,13 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeeklyGoal(navController: NavHostController) {
+fun WeeklyGoal() {
     Column (
         modifier = Modifier
             .fillMaxSize()

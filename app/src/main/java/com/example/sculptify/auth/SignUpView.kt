@@ -21,9 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.ui.theme.balooFontFamily
-import com.example.sculptify.viewModels.AuthenticationViewModel
 
 var regEmail by mutableStateOf("")
 var regPw by mutableStateOf("")
@@ -40,10 +38,7 @@ var regWeight by mutableStateOf("")
 var regYearOfBirth by mutableStateOf("")
 
 @Composable
-fun SignUpView(
-    navController: NavHostController,
-    authVM: AuthenticationViewModel
-) {
+fun SignUpView() {
     Column (
         modifier = Modifier
             .fillMaxSize()

@@ -37,6 +37,7 @@ import com.example.sculptify.auth.regRbe
 import com.example.sculptify.auth.regWeeklyGoal
 import com.example.sculptify.auth.regWeight
 import com.example.sculptify.auth.regYearOfBirth
+import com.example.sculptify.auth.weakPwError
 import com.example.sculptify.layout.BottomBar
 import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.layout.SignUpBottomBar
@@ -101,19 +102,21 @@ fun MainScaffoldView() {
             val currentRoute = currentBackStackEntry?.destination?.route
             val authVM: AuthenticationViewModel = viewModel()
 
-            if (currentRoute != MY_PROFILE_ROUTE
-                && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE
-                && currentRoute != AUTHENTICATION_ROUTE
-                && currentRoute != SIGN_UP_ROUTE
-                && currentRoute != EMAIL_AND_PASSWORD
-                && currentRoute != NAME_AND_YOB
-                && currentRoute != HEIGHT_AND_WEIGHT
-                && currentRoute != GENDER_SELECTION
-                && currentRoute != WEEKLY_GOAL
-                && currentRoute != CONFIRM_REGISTRATION
-                ) {
+            if (
+                currentRoute == MAIN_ROUTE ||
+                currentRoute == STATISTICS_ROUTE ||
+                currentRoute == ACHIEVEMENTS_ROUTE
+            ) {
                 BottomBar(navController)
-            } else {
+            } else if (
+                currentRoute == SIGN_UP_ROUTE ||
+                currentRoute == EMAIL_AND_PASSWORD ||
+                currentRoute == NAME_AND_YOB ||
+                currentRoute == HEIGHT_AND_WEIGHT ||
+                currentRoute == GENDER_SELECTION ||
+                currentRoute == WEEKLY_GOAL ||
+                currentRoute == CONFIRM_REGISTRATION
+            ){
                 SignUpBottomBar(
                     backText = if (currentRoute == SIGN_UP_ROUTE) "LOG IN" else "BACK",
                     backOnClick = {
@@ -137,17 +140,19 @@ fun MainScaffoldView() {
                             else -> "NEXT"
                         },
                     nextBgColor =
-                        if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                        if (regEmail.isNotEmpty() && regPw.isNotEmpty() && currentRoute == EMAIL_AND_PASSWORD && weakPwError.isEmpty()) {
                             Color(0xff0060FE)
-                        } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
+                        } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty() && currentRoute == NAME_AND_YOB) {
                             Color(0xff0060FE)
-                        } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty()) {
+                        } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty() && currentRoute == HEIGHT_AND_WEIGHT) {
                             Color(0xff0060FE)
-                        } else if (regGender.isNotEmpty()) {
+                        } else if (regGender.isNotEmpty() && currentRoute == GENDER_SELECTION) {
                             Color(0xff0060FE)
                         } else if (currentRoute == SIGN_UP_ROUTE) {
                             Color(0xff0060FE)
                         } else if (currentRoute == WEEKLY_GOAL) {
+                            Color(0xff0060FE)
+                        } else if (currentRoute == CONFIRM_REGISTRATION) {
                             Color(0xff0060FE)
                         } else {
                             Color(0xff0060FE).copy(alpha = 0.2f)
@@ -156,8 +161,9 @@ fun MainScaffoldView() {
                         when (currentRoute) {
                             SIGN_UP_ROUTE -> { navController.navigate(EMAIL_AND_PASSWORD) }
                             EMAIL_AND_PASSWORD -> {
-                                if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                                if (regEmail.isNotEmpty() && regPw.isNotEmpty() && weakPwError.isEmpty()) {
                                     navController.navigate(NAME_AND_YOB)
+                                    weakPwError = ""
                                 }
                             }
                             NAME_AND_YOB -> {
@@ -177,7 +183,7 @@ fun MainScaffoldView() {
                             }
                             WEEKLY_GOAL -> { navController.navigate(CONFIRM_REGISTRATION) }
                             CONFIRM_REGISTRATION -> {
-                                if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                                 if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
                                     authVM.signUpUser(
                                         regEmail,
                                         regPw,
@@ -189,7 +195,7 @@ fun MainScaffoldView() {
                                         regWeeklyGoal.roundToInt(),
                                         regGender,
                                         regHeight.toInt(),
-                                        regWeight.toInt(),
+                                        regWeight.toFloat(),
                                         regYearOfBirth.toInt(),
                                         navController
                                     )
@@ -222,13 +228,13 @@ fun MainContentView(navController: NavHostController) {
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
         // -------------------------------------SignUp--------------------------------------------
-        composable( route = SIGN_UP_ROUTE ) { SignUpView(navController, authVM) }
-        composable( route = EMAIL_AND_PASSWORD ) { EmailAndPassword(navController) }
-        composable( route = NAME_AND_YOB ) { NameAndYOB(navController) }
-        composable( route = HEIGHT_AND_WEIGHT ) { HeightAndWeight(navController) }
-        composable( route = GENDER_SELECTION ) { GenderSelection(navController) }
-        composable( route = WEEKLY_GOAL ) { WeeklyGoal(navController) }
-        composable( route = CONFIRM_REGISTRATION ) { ConfirmRegistration(navController, authVM) }
+        composable( route = SIGN_UP_ROUTE ) { SignUpView() }
+        composable( route = EMAIL_AND_PASSWORD ) { EmailAndPassword() }
+        composable( route = NAME_AND_YOB ) { NameAndYOB() }
+        composable( route = HEIGHT_AND_WEIGHT ) { HeightAndWeight() }
+        composable( route = GENDER_SELECTION ) { GenderSelection() }
+        composable( route = WEEKLY_GOAL ) { WeeklyGoal() }
+        composable( route = CONFIRM_REGISTRATION ) { ConfirmRegistration() }
         // ---------------------------------------------------------------------------------------
         composable( route = MAIN_ROUTE ){ MainView() }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
@@ -248,6 +254,3 @@ fun MainContentView(navController: NavHostController) {
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
     }
 }
-
-
-

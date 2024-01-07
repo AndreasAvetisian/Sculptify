@@ -9,6 +9,6 @@ data class User(
     val weeklyGoal: Int = 3,
     val gender: String = "",
     val height: Int = 0,
-    val weight: Int = 0,
+    val weight: Float = 0f,
     val yearOfBirth: Int = 0
 )

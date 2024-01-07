@@ -8,6 +8,9 @@ import com.example.sculptify.AUTHENTICATION_ROUTE
 import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.data.User
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
@@ -15,7 +18,6 @@ class AuthenticationViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
     val isAuthorized = Firebase.auth.currentUser?.uid.toString().isNotEmpty()
-    var successMessage = mutableStateOf("")
     var errorMessage = mutableStateOf("")
 
     companion object {
@@ -33,10 +35,19 @@ class AuthenticationViewModel: ViewModel() {
                     Log.d(SignIp_TAG, "Logged in successfully")
                     navController.navigate(MAIN_ROUTE)
                     errorMessage.value = ""
-                    successMessage.value = ""
                 }
-                .addOnFailureListener {
-                    errorMessage.value = "Incorrect email or password"
+                .addOnFailureListener { error: Exception ->
+                    when (error) {
+                        is FirebaseAuthInvalidCredentialsException -> {
+                            errorMessage.value = "Incorrect email or password. Please try again."
+                        }
+                        is FirebaseAuthUserCollisionException -> {
+                            errorMessage.value = "Email already exists. Please use a different email."
+                        }
+                        else -> {
+                            errorMessage.value = "Authentication failed. Please check your email and password again."
+                        }
+                    }
                 }
         } else {
             errorMessage.value = "Please, fill email and password fields"
@@ -54,7 +65,7 @@ class AuthenticationViewModel: ViewModel() {
         regWeeklyGoal: Int,
         regGender: String,
         regHeight: Int,
-        regWeight: Int,
+        regWeight: Float,
         regYearOfBirth: Int,
         navController: NavHostController
     ) {
@@ -65,13 +76,16 @@ class AuthenticationViewModel: ViewModel() {
                     logInUser(regEmail, regPw, navController)
                     navController.navigate(MAIN_ROUTE)
                 }
-                .addOnFailureListener { error ->
-                    when {
-                        error.message?.contains("email address is already in use") == true -> {
-                            errorMessage.value = "Email address is already in use."
+                .addOnFailureListener { error: Exception ->
+                    when (error) {
+                        is FirebaseAuthUserCollisionException -> {
+                            errorMessage.value = "Email already exists. Please use a different email."
+                        }
+                        is FirebaseAuthWeakPasswordException -> {
+                            errorMessage.value = "Weak password. Please choose a stronger password."
                         }
                         else -> {
-                            errorMessage.value = "Check your email and password again."
+                            errorMessage.value = "Registration failed. Please check your email and password again."
                         }
                     }
                 }
@@ -91,7 +105,7 @@ class AuthenticationViewModel: ViewModel() {
         regWeeklyGoal: Int,
         regGender: String,
         regHeight: Int,
-        regWeight: Int,
+        regWeight: Float,
         regYearOfBirth: Int
     ) {
         val user = User(
@@ -121,7 +135,6 @@ class AuthenticationViewModel: ViewModel() {
         fAuth.signOut()
         Log.d(SignOut_TAG, "Logout successfully")
         errorMessage.value = ""
-        successMessage.value = ""
         navController.navigate(AUTHENTICATION_ROUTE)
     }
 

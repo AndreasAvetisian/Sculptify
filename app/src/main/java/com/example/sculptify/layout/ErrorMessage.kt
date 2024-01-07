@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.viewModels.AuthenticationViewModel
@@ -24,15 +25,15 @@ fun ErrorMessage(authVM: AuthenticationViewModel) {
     } else {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(34.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = authVM.errorMessage.value,
                 fontSize = 18.sp,
                 color = Color.Red,
-                modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)
+                modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp),
+                textAlign = TextAlign.Center
             )
         }
     }

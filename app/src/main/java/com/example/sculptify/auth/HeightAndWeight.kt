@@ -23,13 +23,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.InputField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun HeightAndWeight(navController: NavHostController) {
+fun HeightAndWeight() {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +58,9 @@ fun HeightAndWeight(navController: NavHostController) {
                 )
                 InputField(
                     value = regHeight,
-                    onValueChange = { regHeight = it },
+                    onValueChange = {
+                        if (it.length <= 3) regHeight = it
+                    },
                     label = "",
                     keyboardType = KeyboardType.Number,
                     visualTransformation = VisualTransformation.None,
@@ -94,7 +95,9 @@ fun HeightAndWeight(navController: NavHostController) {
                 )
                 InputField(
                     value = regWeight,
-                    onValueChange = { regWeight = it },
+                    onValueChange = {
+                        regWeight = it
+                    },
                     label = "",
                     keyboardType = KeyboardType.Number,
                     visualTransformation = VisualTransformation.None,

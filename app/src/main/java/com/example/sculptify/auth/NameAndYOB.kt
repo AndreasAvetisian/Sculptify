@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,15 +16,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.layout.InputField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun NameAndYOB(navController: NavHostController) {
+fun NameAndYOB() {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -64,12 +61,10 @@ fun NameAndYOB(navController: NavHostController) {
                         fontSize = 20.sp,
                         color = Color.White,
                         fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Center
+                        fontWeight = FontWeight.Normal
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .width(200.dp)
                 )
                 Text(
                     text = "and you were born in",
@@ -80,7 +75,9 @@ fun NameAndYOB(navController: NavHostController) {
                 )
                 InputField(
                     value = regYearOfBirth,
-                    onValueChange = { regYearOfBirth = it },
+                    onValueChange = {
+                        if (it.length <= 4) regYearOfBirth = it
+                    },
                     label = "",
                     keyboardType = KeyboardType.Number,
                     visualTransformation = VisualTransformation.None,
@@ -89,12 +86,10 @@ fun NameAndYOB(navController: NavHostController) {
                         fontSize = 20.sp,
                         color = Color.White,
                         fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Center
+                        fontWeight = FontWeight.Normal
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .width(200.dp)
                 )
             }
         }

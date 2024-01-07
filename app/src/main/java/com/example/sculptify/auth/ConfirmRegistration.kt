@@ -1,5 +1,6 @@
 package com.example.sculptify.auth
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,44 +15,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.ui.theme.balooFontFamily
-import com.example.sculptify.viewModels.AuthenticationViewModel
 
 @Composable
-fun ConfirmRegistration(
-    navController: NavHostController,
-    authVM: AuthenticationViewModel
-) {
+fun ConfirmRegistration() {
+
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.675.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Color.Black)
     ) {
         Column (
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.92f)
+                .fillMaxSize()
                 .padding(15.675.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Done!",
-                color = Color.White,
-                fontSize = 60.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "Let's get started!",
-                color = Color.White,
-                fontSize = 30.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold
-            )
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.92f)
+                    .padding(15.675.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Done!",
+                    color = Color.White,
+                    fontSize = 60.sp,
+                    fontFamily = balooFontFamily,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "Let's get started!",
+                    color = Color.White,
+                    fontSize = 30.sp,
+                    fontFamily = balooFontFamily,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

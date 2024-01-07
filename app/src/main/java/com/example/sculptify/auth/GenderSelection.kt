@@ -31,12 +31,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun GenderSelection(navController: NavHostController) {
+fun GenderSelection() {
     var selectedButton by remember { mutableStateOf(GenderButton.Male) }
 
     Column (
