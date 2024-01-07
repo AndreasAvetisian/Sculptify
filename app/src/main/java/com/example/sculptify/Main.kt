@@ -10,6 +10,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,8 +25,21 @@ import com.example.sculptify.auth.HeightAndWeight
 import com.example.sculptify.auth.NameAndYOB
 import com.example.sculptify.auth.SignUpView
 import com.example.sculptify.auth.WeeklyGoal
+import com.example.sculptify.auth.regCbs
+import com.example.sculptify.auth.regDayStreak
+import com.example.sculptify.auth.regEmail
+import com.example.sculptify.auth.regFirstName
+import com.example.sculptify.auth.regGender
+import com.example.sculptify.auth.regHeight
+import com.example.sculptify.auth.regIsAdmin
+import com.example.sculptify.auth.regPw
+import com.example.sculptify.auth.regRbe
+import com.example.sculptify.auth.regWeeklyGoal
+import com.example.sculptify.auth.regWeight
+import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.layout.BottomBar
 import com.example.sculptify.layout.MeMBS
+import com.example.sculptify.layout.SignUpBottomBar
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
@@ -34,6 +48,7 @@ import com.example.sculptify.pages.StatisticsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlin.math.roundToInt
 
 const val AUTHENTICATION_ROUTE = "authentication"
 // -------------------------------------SignUp--------------------------------------------
@@ -84,13 +99,113 @@ fun MainScaffoldView() {
         bottomBar = {
             val currentBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = currentBackStackEntry?.destination?.route
+            val authVM: AuthenticationViewModel = viewModel()
 
             if (currentRoute != MY_PROFILE_ROUTE
                 && currentRoute != MY_FAVORITE_MY_HISTORY_ROUTE
                 && currentRoute != AUTHENTICATION_ROUTE
                 && currentRoute != SIGN_UP_ROUTE
+                && currentRoute != EMAIL_AND_PASSWORD
+                && currentRoute != NAME_AND_YOB
+                && currentRoute != HEIGHT_AND_WEIGHT
+                && currentRoute != GENDER_SELECTION
+                && currentRoute != WEEKLY_GOAL
+                && currentRoute != CONFIRM_REGISTRATION
                 ) {
                 BottomBar(navController)
+            } else {
+                SignUpBottomBar(
+                    backText = if (currentRoute == SIGN_UP_ROUTE) "LOG IN" else "BACK",
+                    backOnClick = {
+                        when (currentRoute) {
+                            SIGN_UP_ROUTE -> {
+                                authVM.errorMessage.value = ""
+                                navController.navigate(AUTHENTICATION_ROUTE)
+                            }
+                            EMAIL_AND_PASSWORD -> { navController.navigate(SIGN_UP_ROUTE) }
+                            NAME_AND_YOB -> { navController.navigate(EMAIL_AND_PASSWORD) }
+                            HEIGHT_AND_WEIGHT -> { navController.navigate(NAME_AND_YOB) }
+                            GENDER_SELECTION -> { navController.navigate(HEIGHT_AND_WEIGHT) }
+                            WEEKLY_GOAL -> { navController.navigate(GENDER_SELECTION) }
+                            CONFIRM_REGISTRATION -> { navController.navigate(WEEKLY_GOAL) }
+                        }
+                    },
+                    nextText =
+                        when (currentRoute) {
+                            SIGN_UP_ROUTE -> "I'M READY"
+                            CONFIRM_REGISTRATION -> "CREATE AN ACCOUNT"
+                            else -> "NEXT"
+                        },
+                    nextBgColor =
+                        if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                            Color(0xff0060FE)
+                        } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
+                            Color(0xff0060FE)
+                        } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty()) {
+                            Color(0xff0060FE)
+                        } else if (regGender.isNotEmpty()) {
+                            Color(0xff0060FE)
+                        } else if (currentRoute == SIGN_UP_ROUTE) {
+                            Color(0xff0060FE)
+                        } else if (currentRoute == WEEKLY_GOAL) {
+                            Color(0xff0060FE)
+                        } else {
+                            Color(0xff0060FE).copy(alpha = 0.2f)
+                        },
+                    nextOnClick = {
+                        when (currentRoute) {
+                            SIGN_UP_ROUTE -> { navController.navigate(EMAIL_AND_PASSWORD) }
+                            EMAIL_AND_PASSWORD -> {
+                                if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                                    navController.navigate(NAME_AND_YOB)
+                                }
+                            }
+                            NAME_AND_YOB -> {
+                                if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
+                                    navController.navigate(HEIGHT_AND_WEIGHT)
+                                }
+                            }
+                            HEIGHT_AND_WEIGHT -> {
+                                if (regHeight.isNotEmpty() && regWeight.isNotEmpty()) {
+                                    navController.navigate(GENDER_SELECTION)
+                                }
+                            }
+                            GENDER_SELECTION -> {
+                                if (regGender.isNotEmpty()) {
+                                    navController.navigate(WEEKLY_GOAL)
+                                }
+                            }
+                            WEEKLY_GOAL -> { navController.navigate(CONFIRM_REGISTRATION) }
+                            CONFIRM_REGISTRATION -> {
+                                if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
+                                    authVM.signUpUser(
+                                        regEmail,
+                                        regPw,
+                                        regFirstName,
+                                        regIsAdmin,
+                                        regCbs,
+                                        regRbe,
+                                        regDayStreak,
+                                        regWeeklyGoal.roundToInt(),
+                                        regGender,
+                                        regHeight.toInt(),
+                                        regWeight.toInt(),
+                                        regYearOfBirth.toInt(),
+                                        navController
+                                    )
+
+                                    regEmail = ""
+                                    regPw = ""
+                                    regFirstName = ""
+                                    regGender = ""
+                                    regHeight = ""
+                                    regWeight = ""
+                                    regYearOfBirth = ""
+                                }
+                            }
+                        }
+                    }
+                )
             }
         }
     )

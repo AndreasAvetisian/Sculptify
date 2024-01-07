@@ -10,18 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 
 @Composable
 fun SignUpBottomBar(
-    navController: NavHostController,
+    backText: String,
     backOnClick: () -> Unit,
-    nextOnClick: () -> Unit,
-    nextBgColor: Color
+    nextText: String,
+    nextBgColor: Color,
+    nextOnClick: () -> Unit
 ) {
-    Row {
+    Row (
+        modifier = Modifier
+            .padding(15.675.dp)
+    ) {
         RegConfirmButton(
-            text = "LOG IN",
+            text = backText,
             bgColor = Color(0xff1C1C1E),
             modifier = Modifier
                 .width(100.dp)
@@ -32,7 +35,7 @@ fun SignUpBottomBar(
                 },
         )
         RegConfirmButton(
-            text = "NEXT",
+            text = nextText,
             bgColor = nextBgColor,
             modifier = Modifier
                 .fillMaxWidth()

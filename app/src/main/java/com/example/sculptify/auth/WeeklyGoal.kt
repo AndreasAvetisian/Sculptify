@@ -1,7 +1,6 @@
 package com.example.sculptify.auth
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,10 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.CONFIRM_REGISTRATION
-import com.example.sculptify.GENDER_SELECTION
 import com.example.sculptify.R
-import com.example.sculptify.layout.RegConfirmButton
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,32 +149,6 @@ fun WeeklyGoal(navController: NavHostController) {
                         textAlign = TextAlign.Center
                     )
                 }
-            }
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                RegConfirmButton(
-                    text = "BACK",
-                    bgColor = Color(0xff1C1C1E),
-                    modifier = Modifier
-                        .width(100.dp)
-                        .padding(end = 10.dp)
-                        .height(60.dp)
-                        .clickable {
-                            navController.navigate(GENDER_SELECTION)
-                        },
-                )
-                RegConfirmButton(
-                    text = "NEXT",
-                    bgColor = Color(0xff0060FE),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .clickable {
-                            navController.navigate(CONFIRM_REGISTRATION)
-                        }
-                )
             }
         }
     }

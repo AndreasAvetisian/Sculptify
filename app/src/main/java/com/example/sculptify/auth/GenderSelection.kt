@@ -32,10 +32,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.HEIGHT_AND_WEIGHT
 import com.example.sculptify.R
-import com.example.sculptify.WEEKLY_GOAL
-import com.example.sculptify.layout.RegConfirmButton
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -124,36 +121,6 @@ fun GenderSelection(navController: NavHostController) {
                     tint = Color(0xffFFC0CB),
                     iconModifier = Modifier.size(0.dp),
                     selected = selectedButton == GenderButton.Others
-                )
-            }
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                RegConfirmButton(
-                    text = "BACK",
-                    bgColor = Color(0xff1C1C1E),
-                    modifier = Modifier
-                        .width(100.dp)
-                        .padding(end = 10.dp)
-                        .height(60.dp)
-                        .clickable {
-                            navController.navigate(HEIGHT_AND_WEIGHT)
-                        },
-                )
-                RegConfirmButton(
-                    text = "NEXT",
-                    bgColor =  if (regGender.isNotEmpty()) {
-                        Color(0xff0060FE)
-                    } else Color(0xff0060FE).copy(alpha = 0.2f),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .clickable {
-                            if (regGender.isNotEmpty()) {
-                                navController.navigate(WEEKLY_GOAL)
-                            }
-                        }
                 )
             }
         }
