@@ -16,8 +16,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,20 +33,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
 import com.example.sculptify.layout.DeleteUserButton
 import com.example.sculptify.layout.SignOutButton
+import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 
 @Composable
 fun MyProfileView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
+
+    var user_email = remember { mutableStateOf("") }
+    var user_name = remember { mutableStateOf("") }
+    var user_gender = remember { mutableStateOf("") }
+    var user_yob = remember { mutableStateOf("") }
+    var user_height = remember { mutableStateOf("") }
+    var user_weight = remember { mutableStateOf("") }
 
     LaunchedEffect(true) {
         userVM.getUserData()
@@ -111,50 +121,46 @@ fun MyProfileView(navController: NavHostController) {
                 .background(Color(0xff1C1C1E)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {}
+//            Spacer(modifier = Modifier.width(15.675.dp))
             Column (
                 modifier = Modifier
-                    .fillMaxWidth(0.92361f)
+                    .padding(15.675.dp, 0.dp, 0.dp, 0.dp)
+                    .fillMaxWidth()
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceAround
             ) {
                 UserInput(
-                    text = "Email",
-                    input = Firebase.auth.currentUser?.email.toString(),
+                    title = "Email",
+                    value = user_email,
                     onClick = {}
                 )
                 UserInput(
-                    text = "Modify Password",
-                    input = "********",
+                    title = "Name",
+                    value = user_name,
                     onClick = {}
                 )
                 UserInput(
-                    text = "Name",
-                    input = userVM.userdata.value["firstName"].toString(),
+                    title = "Gender",
+                    value = user_gender,
                     onClick = {}
                 )
                 UserInput(
-                    text = "Gender",
-                    input = userVM.userdata.value["gender"].toString(),
+                    title = "Year of Birth",
+                    value = user_yob,
                     onClick = {}
                 )
                 UserInput(
-                    text = "Year of Birth",
-                    input = userVM.userdata.value["yearOfBirth"].toString(),
+                    title = "Height",
+                    value = user_height,
                     onClick = {}
                 )
                 UserInput(
-                    text = "Height",
-                    input = userVM.userdata.value["height"].toString(),
-                    onClick = {}
-                )
-                UserInput(
-                    text = "Weight",
-                    input = userVM.userdata.value["weight"].toString(),
+                    title = "Weight",
+                    value = user_weight,
                     onClick = {}
                 )
             }
-            Column {}
+//            Spacer(modifier = Modifier.width(15.675.dp))
         }
         Column (
             modifier = Modifier
@@ -179,8 +185,8 @@ fun MyProfileView(navController: NavHostController) {
 
 @Composable
 fun UserInput(
-    text: String,
-    input: String,
+    title: String,
+    value: MutableState<String>,
     onClick: () -> Unit
 ) {
     Row (
@@ -193,9 +199,12 @@ fun UserInput(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(0.45f)
+        ) {
             Text(
-                text = text,
+                text = title,
                 fontSize = 20.sp,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -203,24 +212,44 @@ fun UserInput(
             )
         }
         Row (
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.DarkGray),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            TextField(
+                value = value.value,
+                onValueChange = { value.value = it },
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    cursorColor = Color.White,
+                    focusedContainerColor = Color(0xFF0B0BE9),
+                    unfocusedContainerColor = Color(0xFF0D0DD5),
+                    disabledContainerColor = Color(0xFF0808E2),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.White,
+                    disabledLabelColor = Color.White,
+                ),
                 modifier = Modifier
-                    .padding(0.dp, 0.dp, 15.675.dp, 0.dp),
-                text = input,
-                fontSize = 20.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xff909090)
-            )
-            Icon(
-                modifier = Modifier
-                    .scale(scaleX = -1f, scaleY = 1f)
-                    .padding(0.dp, 3.dp, 0.dp, 0.dp),
-                painter = painterResource(id = R.drawable.arrow),
-                contentDescription = "arrow",
-                tint = Color.White
+                    .fillMaxWidth()
+                    .height(26.79.dp),
+                trailingIcon = {
+                    if (title == "Email") {
+                        Spacer(modifier = Modifier.width(0.dp))
+                    } else {
+                        Icon(
+                            modifier = Modifier
+                                .scale(scaleX = -1f, scaleY = 1f)
+                                .padding(0.dp, 3.dp, 0.dp, 0.dp),
+                            painter = painterResource(id = R.drawable.arrow),
+                            contentDescription = "arrow",
+                            tint = Color.White
+                        )
+                    }
+                }
             )
         }
     }

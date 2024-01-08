@@ -32,10 +32,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.ACHIEVEMENTS_ROUTE
-import com.example.sculptify.MAIN_ROUTE
+import com.example.sculptify.main.ACHIEVEMENTS_ROUTE
+import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.R
-import com.example.sculptify.STATISTICS_ROUTE
+import com.example.sculptify.main.STATISTICS_ROUTE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

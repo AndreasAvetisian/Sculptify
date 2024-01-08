@@ -29,12 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.MY_FAVORITE_MY_HISTORY_ROUTE
-import com.example.sculptify.MY_PROFILE_ROUTE
-import com.example.sculptify.VERSION
+import com.example.sculptify.R
+import com.example.sculptify.main.MY_FAVORITE_MY_HISTORY_ROUTE
+import com.example.sculptify.main.MY_PROFILE_ROUTE
+import com.example.sculptify.main.VERSION
 import com.example.sculptify.ui.theme.balooFontFamily
 import kotlinx.coroutines.CoroutineScope
-import com.example.sculptify.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

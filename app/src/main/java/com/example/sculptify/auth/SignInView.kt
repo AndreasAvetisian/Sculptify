@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
-import com.example.sculptify.SIGN_UP_ROUTE
 import com.example.sculptify.layout.ErrorMessage
 import com.example.sculptify.layout.InputField
+import com.example.sculptify.main.SIGN_UP_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 

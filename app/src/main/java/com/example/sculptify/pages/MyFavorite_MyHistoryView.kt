@@ -41,8 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.MAIN_ROUTE
 import com.example.sculptify.R
+import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalFoundationApi::class)

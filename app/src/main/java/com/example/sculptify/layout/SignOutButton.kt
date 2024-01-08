@@ -37,7 +37,7 @@ fun SignOutButton(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.675.dp, 10.dp, 15.675.dp, 10.dp),
+                .padding(15.675.dp, 10.dp, 17.675.dp, 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
