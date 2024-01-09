@@ -45,6 +45,27 @@ class UserViewModel: ViewModel() {
         }
     }
 
+    fun modifyUser(userName:String){
+        if (userName.isNotEmpty()){
+            var tempUserdata = userdata.value.toMutableMap()
+            if (userName.isNotEmpty()){
+                tempUserdata["firstName"] = userName
+            }
+            fireStore
+                .collection("users")
+                .document(fAuth.currentUser!!.uid)
+                .set(tempUserdata)
+                .addOnSuccessListener {
+                    Log.d("********", "Profile data updated successfully")
+
+                }
+                .addOnFailureListener { error ->
+                    Log.d("********", error.message.toString())
+                }
+
+        }
+    }
+
     fun modifyPassword(pw:String){
         if (pw.isNotEmpty()) {
             fAuth.currentUser?.updatePassword(pw)

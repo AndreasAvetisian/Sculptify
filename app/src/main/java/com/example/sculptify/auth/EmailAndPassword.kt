@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.layout.InputField
+import com.example.sculptify.layout.AuthField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 var weakPwError by mutableStateOf("")
@@ -64,7 +64,7 @@ fun EmailAndPassword() {
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold
                 )
-                InputField(
+                AuthField(
                     value = regEmail,
                     onValueChange = { regEmail = it},
                     label = "",
@@ -88,7 +88,7 @@ fun EmailAndPassword() {
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold
                 )
-                InputField(
+                AuthField(
                     value = regPw,
                     onValueChange = { regPw = it},
                     label = "",

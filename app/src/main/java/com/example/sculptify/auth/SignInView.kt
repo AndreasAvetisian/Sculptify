@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
+import com.example.sculptify.layout.AuthField
 import com.example.sculptify.layout.ErrorMessage
-import com.example.sculptify.layout.InputField
 import com.example.sculptify.main.SIGN_UP_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
@@ -51,7 +51,6 @@ fun AuthenticationView(
     authVM: AuthenticationViewModel
 ) {
     val heightAnimation = remember { Animatable(1f) }
-    val cornerRadiusAnimation = remember { Animatable(40.dp.value) }
     LaunchedEffect(true) {
         heightAnimation.animateTo(
             targetValue = 0f,
@@ -61,6 +60,8 @@ fun AuthenticationView(
             )
         )
     }
+
+    val cornerRadiusAnimation = remember { Animatable(40.dp.value) }
     LaunchedEffect(true) {
         cornerRadiusAnimation.animateTo(
             targetValue = 0.dp.value,
@@ -122,9 +123,9 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(0.dp, 0.dp, 0.dp, 50.dp)
                 )
-                InputField(
+                AuthField(
                     value = email,
-                    onValueChange = { email = it},
+                    onValueChange = { email = it },
                     label = "Email",
                     keyboardType = KeyboardType.Email,
                     visualTransformation = VisualTransformation.None,
@@ -139,7 +140,7 @@ fun AuthenticationView(
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth()
                 )
-                InputField(
+                AuthField(
                     value = pw,
                     onValueChange = { pw = it},
                     label = "Password",

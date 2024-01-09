@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sculptify.layout.InputField
+import com.example.sculptify.layout.AuthField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -50,7 +50,7 @@ fun NameAndYOB() {
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold
                 )
-                InputField(
+                AuthField(
                     value = regFirstName,
                     onValueChange = { regFirstName = it },
                     label = "",
@@ -73,7 +73,7 @@ fun NameAndYOB() {
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold
                 )
-                InputField(
+                AuthField(
                     value = regYearOfBirth,
                     onValueChange = {
                         if (it.length <= 4) regYearOfBirth = it

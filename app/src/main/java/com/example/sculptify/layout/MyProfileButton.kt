@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,19 +16,24 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun DeleteUserButton(
-    onClick: () -> Unit
+fun MyProfileButton(
+    onClick: () -> Unit,
+    text: String,
+    textColor: Color,
+    height: Dp
 ) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xff1C1C1E))
+            .height(height)
             .clickable {
                 onClick()
             },
@@ -42,11 +48,11 @@ fun DeleteUserButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Delete account",
+                text = text,
                 fontSize = 20.sp,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,
-                color = Color.Red
+                color = textColor
             )
             Icon(
                 modifier = Modifier

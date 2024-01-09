@@ -20,7 +20,7 @@ import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun InputField(
+fun AuthField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,

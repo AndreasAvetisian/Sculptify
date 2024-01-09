@@ -1,5 +1,8 @@
 package com.example.sculptify.pages
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -20,42 +24,81 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
-import com.example.sculptify.layout.DeleteUserButton
-import com.example.sculptify.layout.SignOutButton
+import com.example.sculptify.layout.MyProfileButton
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun MyProfileView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
 
-    var user_email = remember { mutableStateOf("") }
-    var user_name = remember { mutableStateOf("") }
-    var user_gender = remember { mutableStateOf("") }
-    var user_yob = remember { mutableStateOf("") }
-    var user_height = remember { mutableStateOf("") }
-    var user_weight = remember { mutableStateOf("") }
+    var isOpen by remember { mutableStateOf(false) }
+
+    val animation = remember { Animatable(0.dp.value) }
+
+    // Use a set to keep track of modified inputs
+    val modifiedInputs = remember { mutableSetOf<String>() }
+
+    // Function to update the modifiedInputs set
+    fun updateModifiedInputs(key: String) {
+        modifiedInputs.add(key)
+    }
+
+    // LaunchedEffect to start the animation when any input is modified
+    LaunchedEffect(modifiedInputs.toList()) {
+        if (modifiedInputs.isNotEmpty()) {
+            animation.animateTo(
+                targetValue = 60.dp.value,
+                animationSpec = tween(
+                    durationMillis = 1000,
+                    easing = LinearEasing
+                )
+            )
+        }
+    }
+
 
     LaunchedEffect(true) {
         userVM.getUserData()
     }
+
+    val userEmail = Firebase.auth.currentUser?.email.toString()
+    val userFirstName = userVM.userdata.value["firstName"].toString()
+    val userGender = userVM.userdata.value["gender"].toString()
+    val userYOB = userVM.userdata.value["yearOfBirth"].toString()
+    val userHeight = userVM.userdata.value["height"].toString() + " cm"
+    val userWeight = userVM.userdata.value["weight"].toString() + " kg"
+
+
+    var pwValue by remember { mutableStateOf("") }
+    var firstNameValue by remember { mutableStateOf("") }
+    var genderValue by remember { mutableStateOf("") }
+    var yobValue by remember { mutableStateOf("") }
+    var heightValue by remember { mutableStateOf("") }
+    var weightValue by remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -117,11 +160,10 @@ fun MyProfileView(navController: NavHostController) {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(365.37.dp)
-                .background(Color(0xff1C1C1E)),
+                .height(392.dp)
+                .background(Color(0xFF1C1C1C)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-//            Spacer(modifier = Modifier.width(15.675.dp))
             Column (
                 modifier = Modifier
                     .padding(15.675.dp, 0.dp, 0.dp, 0.dp)
@@ -131,36 +173,85 @@ fun MyProfileView(navController: NavHostController) {
             ) {
                 UserInput(
                     title = "Email",
-                    value = user_email,
-                    onClick = {}
+                    value = userEmail,
+                    onValueChange = {},
+                    placeholder = userEmail,
+                    readOnly = true,
+                    keyboardType = KeyboardType.Email
+                )
+                UserInput(
+                    title = "Modify Password",
+                    value = pwValue,
+                    onValueChange = {
+                        pwValue = it
+                        isOpen = true
+                        updateModifiedInputs("pwValue")
+                    },
+                    placeholder = "********",
+                    readOnly = false,
+                    keyboardType = KeyboardType.Password
                 )
                 UserInput(
                     title = "Name",
-                    value = user_name,
-                    onClick = {}
+                    value = firstNameValue,
+                    onValueChange = {
+                        firstNameValue = it
+                        isOpen = true
+                        updateModifiedInputs("firstNameValue")
+                    },
+                    placeholder = userFirstName,
+                    readOnly = false,
+                    keyboardType = KeyboardType.Text
                 )
                 UserInput(
                     title = "Gender",
-                    value = user_gender,
-                    onClick = {}
+                    value = genderValue,
+                    onValueChange = {
+                        genderValue = it
+                        isOpen = true
+                        updateModifiedInputs("genderValue")
+                    },
+                    placeholder = userGender,
+                    readOnly = false,
+                    keyboardType = KeyboardType.Text
                 )
                 UserInput(
                     title = "Year of Birth",
-                    value = user_yob,
-                    onClick = {}
+                    value = yobValue,
+                    onValueChange = {
+                        yobValue = it
+                        isOpen = true
+                        updateModifiedInputs("yobValue")
+                    },
+                    placeholder = userYOB,
+                    readOnly = false,
+                    keyboardType = KeyboardType.Number
                 )
                 UserInput(
                     title = "Height",
-                    value = user_height,
-                    onClick = {}
+                    value = heightValue,
+                    onValueChange = {
+                        heightValue = it
+                        isOpen = true
+                        updateModifiedInputs("heightValue")
+                    },
+                    placeholder = userHeight,
+                    readOnly = false,
+                    keyboardType = KeyboardType.Number
                 )
                 UserInput(
                     title = "Weight",
-                    value = user_weight,
-                    onClick = {}
+                    value = weightValue,
+                    onValueChange = {
+                        weightValue = it
+                        isOpen = true
+                        updateModifiedInputs("weightValue")
+                    },
+                    placeholder = userWeight,
+                    readOnly = false,
+                    keyboardType = KeyboardType.Number
                 )
             }
-//            Spacer(modifier = Modifier.width(15.675.dp))
         }
         Column (
             modifier = Modifier
@@ -168,16 +259,29 @@ fun MyProfileView(navController: NavHostController) {
                 .padding(top = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SignOutButton(
-                onClick = {
-                    authVM.signOut(navController)
-                }
+            MyProfileButton(
+                onClick = {},
+                text = "Save",
+                textColor = Color.Blue,
+                height = animation.value.dp
             )
             Spacer(modifier = Modifier.height(10.dp))
-            DeleteUserButton(
+            MyProfileButton(
+                onClick = {
+                    authVM.signOut(navController)
+                },
+                text = "Sign out",
+                textColor = Color.White,
+                height = 56.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            MyProfileButton(
                 onClick = {
                     authVM.deleteUser(navController)
-                }
+                },
+                text = "Delete account",
+                textColor = Color.Red,
+                height = 56.dp
             )
         }
     }
@@ -186,16 +290,16 @@ fun MyProfileView(navController: NavHostController) {
 @Composable
 fun UserInput(
     title: String,
-    value: MutableState<String>,
-    onClick: () -> Unit
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    readOnly: Boolean,
+    keyboardType: KeyboardType
 ) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .height(26.79.dp)
-            .clickable {
-                onClick()
-            },
+            .height(56.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -214,18 +318,33 @@ fun UserInput(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.DarkGray),
+                .background(Color.Red),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextField(
-                value = value.value,
-                onValueChange = { value.value = it },
+                value = value,
+                onValueChange = onValueChange,
+                placeholder = {
+                    Text(
+                        text = placeholder,
+                        fontFamily = balooFontFamily,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
                 singleLine = true,
+                readOnly = readOnly,
+                shape = RoundedCornerShape(0.dp),
                 colors = TextFieldDefaults.colors(
                     cursorColor = Color.White,
-                    focusedContainerColor = Color(0xFF0B0BE9),
-                    unfocusedContainerColor = Color(0xFF0D0DD5),
-                    disabledContainerColor = Color(0xFF0808E2),
+                    focusedTextColor = Color(0xFF909090),
+                    unfocusedTextColor = Color(0xFF909090),
+                    disabledTextColor = Color(0xFF909090),
+                    focusedPlaceholderColor = Color(0xFF909090),
+                    unfocusedPlaceholderColor = Color(0xFF909090),
+                    disabledPlaceholderColor = Color(0xFF909090),
+                    focusedContainerColor = Color(0xFF1C1C1C),
+                    unfocusedContainerColor = Color(0xFF1C1C1C),
+                    disabledContainerColor = Color(0xFF1C1C1C),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
@@ -234,12 +353,9 @@ fun UserInput(
                     disabledLabelColor = Color.White,
                 ),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(26.79.dp),
+                    .height(56.dp),
                 trailingIcon = {
-                    if (title == "Email") {
-                        Spacer(modifier = Modifier.width(0.dp))
-                    } else {
+                    if (title != "Email") {
                         Icon(
                             modifier = Modifier
                                 .scale(scaleX = -1f, scaleY = 1f)
@@ -249,7 +365,15 @@ fun UserInput(
                             tint = Color.White
                         )
                     }
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = keyboardType,
+                    imeAction = ImeAction.Done
+                ),
+                textStyle = TextStyle(
+                    fontFamily = balooFontFamily,
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
     }
