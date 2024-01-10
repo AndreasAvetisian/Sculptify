@@ -48,16 +48,16 @@ class UserViewModel: ViewModel() {
     fun modifyUser(
         firstNameValue: String,
         genderValue: String,
-//        yobValue: Int?,
-//        heightValue: Int?,
-//        weightValue: Float?
+        yobValue: String,
+        heightValue: String,
+        weightValue: String
     ){
         if (
             firstNameValue.isNotEmpty() ||
-            genderValue.isNotEmpty()
-//            yobValue !== null  ||
-//            heightValue !== null ||
-//            weightValue !== null
+            genderValue.isNotEmpty() ||
+            yobValue.isNotEmpty()  ||
+            heightValue.isNotEmpty() ||
+            weightValue.isNotEmpty()
         ) {
             val tempUserdata = userdata.value.toMutableMap()
 
@@ -69,9 +69,30 @@ class UserViewModel: ViewModel() {
                 tempUserdata["gender"] = genderValue
             }
 
-//            yobValue?.let { tempUserdata["yearOfBirth"] = it }
-//            heightValue?.let { tempUserdata["height"] = it }
-//            weightValue?.let { tempUserdata["weight"] = it }
+            if (yobValue.isNotEmpty()) {
+                try {
+                    tempUserdata["yearOfBirth"] = yobValue.toInt()
+                } catch (e: NumberFormatException) {
+                    Log.d("********", "Error converting height: ${e.message}")
+                    // Handle the error, e.g., show a message to the user
+                }
+            }
+
+            if (heightValue.isNotEmpty()) {
+                try {
+                    tempUserdata["height"] = heightValue.toInt()
+                } catch (e: NumberFormatException) {
+                    Log.d("********", "Error converting height: ${e.message}")
+                }
+            }
+
+            if (weightValue.isNotEmpty()) {
+                try {
+                    tempUserdata["weight"] = weightValue.toFloat()
+                } catch (e: NumberFormatException) {
+                    Log.d("********", "Error converting weight: ${e.message}")
+                }
+            }
 
             fireStore
                 .collection("users")

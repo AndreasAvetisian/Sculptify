@@ -39,7 +39,7 @@ import com.example.sculptify.auth.regWeeklyGoal
 import com.example.sculptify.auth.regWeight
 import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.auth.weakPwError
-import com.example.sculptify.layout.BottomBar
+import com.example.sculptify.layout.mainBottomBar.BottomBar
 import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.pages.AchievementsView

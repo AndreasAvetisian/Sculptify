@@ -64,7 +64,8 @@ fun NameAndYOB() {
                         fontWeight = FontWeight.Normal
                     ),
                     modifier = Modifier
-                        .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                        .padding(40.dp, 10.dp, 40.dp, 10.dp),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 Text(
                     text = "and you were born in",
@@ -89,7 +90,8 @@ fun NameAndYOB() {
                         fontWeight = FontWeight.Normal
                     ),
                     modifier = Modifier
-                        .padding(40.dp, 10.dp, 40.dp, 10.dp)
+                        .padding(40.dp, 10.dp, 40.dp, 10.dp),
+                    containerColor = Color(0xff1C1C1E)
                 )
             }
         }

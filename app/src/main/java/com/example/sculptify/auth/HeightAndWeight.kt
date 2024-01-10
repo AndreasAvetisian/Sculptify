@@ -84,7 +84,8 @@ fun HeightAndWeight() {
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .width(200.dp)
+                        .width(200.dp),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 Text(
                     text = "and weight is",
@@ -121,7 +122,8 @@ fun HeightAndWeight() {
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .width(200.dp)
+                        .width(200.dp),
+                    containerColor = Color(0xff1C1C1E)
                 )
             }
         }

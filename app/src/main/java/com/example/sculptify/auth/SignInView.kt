@@ -138,7 +138,8 @@ fun AuthenticationView(
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 AuthField(
                     value = pw,
@@ -166,7 +167,8 @@ fun AuthenticationView(
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 Card (
                     colors = CardDefaults.cardColors(

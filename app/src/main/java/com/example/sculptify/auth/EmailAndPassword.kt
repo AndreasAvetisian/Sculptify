@@ -79,7 +79,8 @@ fun EmailAndPassword() {
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 Text(
                     text = "Password:",
@@ -114,7 +115,8 @@ fun EmailAndPassword() {
                     ),
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    containerColor = Color(0xff1C1C1E)
                 )
                 if (regPw.isEmpty()) {
                     weakPwError = ""

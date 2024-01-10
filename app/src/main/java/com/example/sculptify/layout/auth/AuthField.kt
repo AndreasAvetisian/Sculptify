@@ -28,9 +28,9 @@ fun AuthField(
     visualTransformation: VisualTransformation,
     trailingIcon: @Composable (() -> Unit)?,
     textStyle: TextStyle,
-    modifier: Modifier
+    modifier: Modifier,
+    containerColor: Color
 ) {
-    val containerColor = Color(0xff1C1C1E)
     val keyboardController = LocalSoftwareKeyboardController.current
 
     TextField(
