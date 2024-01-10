@@ -12,10 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,13 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
+import com.example.sculptify.enumClasses.GenderButton
+import com.example.sculptify.layout.auth.GenderSelectionButton
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -74,7 +70,7 @@ fun GenderSelection() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    GenderButton(
+                    GenderSelectionButton(
                         text = "Male",
                         textSize = 30.sp,
                         modifier = Modifier
@@ -89,7 +85,7 @@ fun GenderSelection() {
                         iconModifier = Modifier.size(50.dp),
                         selected = selectedButton == GenderButton.Male
                     )
-                    GenderButton(
+                    GenderSelectionButton(
                         text = "Female",
                         textSize = 30.sp,
                         modifier = Modifier
@@ -105,7 +101,7 @@ fun GenderSelection() {
                         selected = selectedButton == GenderButton.Female
                     )
                 }
-                GenderButton(
+                GenderSelectionButton(
                     text = "Others / I'd rather not say",
                     textSize = 20.sp,
                     modifier = Modifier
@@ -122,56 +118,6 @@ fun GenderSelection() {
                     selected = selectedButton == GenderButton.Others
                 )
             }
-        }
-    }
-}
-
-enum class GenderButton {
-    Male,
-    Female,
-    Others
-}
-
-@Composable
-fun GenderButton(
-    text: String,
-    textSize: TextUnit,
-    modifier: Modifier,
-    iconId: Int,
-    iconModifier: Modifier,
-    tint: Color,
-    selected: Boolean
-) {
-
-    val buttonColor = if (selected) Color(0xff0000ff) else Color(0xff1C1C1E)
-
-    Card (
-        colors = CardDefaults.cardColors(buttonColor),
-        shape = MaterialTheme.shapes.extraLarge,
-        modifier = modifier
-    ) {
-        Column (
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                modifier = iconModifier,
-                painter = painterResource(id = iconId),
-                contentDescription = "",
-                tint = tint
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = text,
-                color = Color.White,
-                fontSize = textSize,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
         }
     }
 }

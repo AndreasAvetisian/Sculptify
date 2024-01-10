@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.sp
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun RegConfirmButton(
+fun ConfirmButton(
     text: String,
     bgColor: Color,
+    textColor: Color,
     modifier: Modifier
 ) {
     Card (
@@ -34,7 +35,7 @@ fun RegConfirmButton(
         ) {
             Text(
                 text = text,
-                color = Color.White,
+                color = textColor,
                 fontSize = 20.sp,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,

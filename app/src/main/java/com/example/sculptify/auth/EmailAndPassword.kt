@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.layout.AuthField
+import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 var weakPwError by mutableStateOf("")

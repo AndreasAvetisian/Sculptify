@@ -45,24 +45,44 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    fun modifyUser(userName:String){
-        if (userName.isNotEmpty()){
-            var tempUserdata = userdata.value.toMutableMap()
-            if (userName.isNotEmpty()){
-                tempUserdata["firstName"] = userName
+    fun modifyUser(
+        firstNameValue: String,
+        genderValue: String,
+//        yobValue: Int?,
+//        heightValue: Int?,
+//        weightValue: Float?
+    ){
+        if (
+            firstNameValue.isNotEmpty() ||
+            genderValue.isNotEmpty()
+//            yobValue !== null  ||
+//            heightValue !== null ||
+//            weightValue !== null
+        ) {
+            val tempUserdata = userdata.value.toMutableMap()
+
+            if (firstNameValue.isNotEmpty()){
+                tempUserdata["firstName"] = firstNameValue
             }
+
+            if (genderValue.isNotEmpty() ){
+                tempUserdata["gender"] = genderValue
+            }
+
+//            yobValue?.let { tempUserdata["yearOfBirth"] = it }
+//            heightValue?.let { tempUserdata["height"] = it }
+//            weightValue?.let { tempUserdata["weight"] = it }
+
             fireStore
                 .collection("users")
                 .document(fAuth.currentUser!!.uid)
                 .set(tempUserdata)
                 .addOnSuccessListener {
                     Log.d("********", "Profile data updated successfully")
-
                 }
                 .addOnFailureListener { error ->
                     Log.d("********", error.message.toString())
                 }
-
         }
     }
 

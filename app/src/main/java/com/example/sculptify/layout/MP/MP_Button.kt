@@ -1,4 +1,4 @@
-package com.example.sculptify.layout
+package com.example.sculptify.layout.MP
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +23,7 @@ import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MyProfileButton(
+fun MP_Button(
     onClick: () -> Unit,
     text: String,
     textColor: Color,
@@ -31,6 +31,7 @@ fun MyProfileButton(
 ) {
     Row (
         modifier = Modifier
+            .padding(top = 10.dp)
             .fillMaxWidth()
             .background(Color(0xff1C1C1E))
             .height(height)

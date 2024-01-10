@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sculptify.layout.AuthField
+import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable

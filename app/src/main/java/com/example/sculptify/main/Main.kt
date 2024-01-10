@@ -41,7 +41,7 @@ import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.auth.weakPwError
 import com.example.sculptify.layout.BottomBar
 import com.example.sculptify.layout.MeMBS
-import com.example.sculptify.layout.SignUpBottomBar
+import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
