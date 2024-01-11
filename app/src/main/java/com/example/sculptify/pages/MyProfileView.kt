@@ -90,6 +90,8 @@ fun MyProfileView(navController: NavHostController) {
     var heightValue by remember { mutableStateOf("") }
     var weightValue by remember { mutableStateOf("") }
 
+    var isDeleteOpen by remember { mutableStateOf(false) }
+
 
     LazyColumn (
         modifier = Modifier
@@ -233,29 +235,37 @@ fun MyProfileView(navController: NavHostController) {
                                     .padding(start = 15.675.dp, end = 15.675.dp, top = 10.dp)
                                     .clickable {
                                         if (pwValue != confirmPwValue) {
-                                            Toast.makeText(
-                                                context,
-                                                "Passwords are not matching",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                        if (pwValue == confirmPwValue && pwValue.length >= 6) {
+                                            Toast
+                                                .makeText(
+                                                    context,
+                                                    "Passwords are not matching",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                .show()
+                                        } else if (pwValue.length >= 6) {
                                             userVM.modifyPassword(confirmPwValue)
-                                            Toast.makeText(
-                                                context,
-                                                "Password modified successfully",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            Toast
+                                                .makeText(
+                                                    context,
+                                                    "Password modified successfully",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                .show()
+                                            isPwOpen = false
+                                            pwValue = ""
+                                            confirmPwValue = ""
                                         } else {
-                                            Toast.makeText(
-                                                context,
-                                                "Error modifying password",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            Toast
+                                                .makeText(
+                                                    context,
+                                                    "Error modifying password",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                .show()
+                                            isPwOpen = false
+                                            pwValue = ""
+                                            confirmPwValue = ""
                                         }
-                                        isPwOpen = false
-                                        pwValue = ""
-                                        confirmPwValue = ""
                                     }
                             )
                         }
@@ -374,16 +384,18 @@ fun MyProfileView(navController: NavHostController) {
                         authVM.signOut(navController)
                     },
                     text = "Sign out",
-                    textColor = Color.White,
-                    height = 56.dp
+                    isOpenable = false,
+                    deleteOnClick = {}
                 )
                 MP_Button(
                     onClick = {
-                        authVM.deleteUser(navController)
+                        isDeleteOpen = !isDeleteOpen
                     },
                     text = "Delete account",
-                    textColor = Color.Red,
-                    height = 56.dp
+                    isOpenable = true,
+                    deleteOnClick = {
+                        authVM.deleteUser(navController)
+                    }
                 )
             }
         }

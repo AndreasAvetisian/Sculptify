@@ -89,10 +89,7 @@ fun MP_ModifyPassword(
                 )
                 Icon(
                     modifier = Modifier
-                        .scale(
-                            scaleX = if (isPwOpen) 1f else -1f,
-                            scaleY = 1f,
-                        )
+                        .scale(scaleX = -1f, scaleY = 1f)
                         .rotate(if (isPwOpen) -90f else 0f)
                         .padding(0.dp, 3.dp, 0.dp, 0.dp),
                     painter = painterResource(id = R.drawable.arrow),
