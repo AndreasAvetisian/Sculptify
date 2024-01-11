@@ -1,7 +1,6 @@
 package com.example.sculptify.main
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -224,7 +223,6 @@ fun MainScaffoldView() {
 fun MainContentView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
-    Log.d("SSSSSSSSSSSSSSSSSSSSSSSSSSSS", isAuthorized.toString())
 
     NavHost(
         navController = navController,

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
+import com.example.sculptify.data.MyFavMyHisTabItem
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
@@ -52,16 +53,16 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
     val deviceWidthDp = LocalConfiguration.current.screenWidthDp
     val deviceHeightDp = LocalConfiguration.current.screenHeightDp
 
-    val tabItems = listOf(
-        TabItem(title = "History"),
-        TabItem(title = "Favorite")
+    val myFavMyHisTabItems = listOf(
+        MyFavMyHisTabItem(title = "History"),
+        MyFavMyHisTabItem(title = "Favorite")
     )
 
     var selectedTabIndex by remember {
         mutableIntStateOf(0)
     }
 
-    val pagerState = rememberPagerState { tabItems.size }
+    val pagerState = rememberPagerState { myFavMyHisTabItems.size }
 
     LaunchedEffect(selectedTabIndex) {
         pagerState.animateScrollToPage(selectedTabIndex)
@@ -157,7 +158,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                     )
                 },
             ) {
-                tabItems.forEachIndexed { index, item ->
+                myFavMyHisTabItems.forEachIndexed { index, item ->
                     Tab(
                         selected = index == selectedTabIndex,
                         onClick = {
@@ -188,7 +189,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                         .fillMaxSize()
                 ) {
                     Text(
-                        text = tabItems[index].title,
+                        text = myFavMyHisTabItems[index].title,
                         fontSize = 20.sp,
                         fontFamily = balooFontFamily,
                         fontWeight = FontWeight.Bold,
@@ -199,9 +200,3 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
         }
     }
 }
-
-data class TabItem (
-    val title: String,
-    val unselectedItem: Color = Color(0xff909090),
-    val selectedItem: Color = Color(0xffFCFCFC)
-)

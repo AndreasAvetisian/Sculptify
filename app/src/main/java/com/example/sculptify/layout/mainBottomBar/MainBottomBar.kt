@@ -63,7 +63,7 @@ fun BottomBar(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 BottomBarButton(
-                    iconId = painterResource(id = R.drawable.main_page_icon),
+                    iconId = painterResource(id = R.drawable.history_of_workouts),
                     text = "Main",
                     iconDescription = "main page icon",
                     modifier = Modifier,
