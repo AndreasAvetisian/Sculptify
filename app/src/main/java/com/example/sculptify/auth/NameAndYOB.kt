@@ -1,6 +1,5 @@
 package com.example.sculptify.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,7 +25,6 @@ fun NameAndYOB() {
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
         Column (
             modifier = Modifier

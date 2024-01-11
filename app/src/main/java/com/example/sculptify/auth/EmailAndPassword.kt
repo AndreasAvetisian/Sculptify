@@ -1,6 +1,5 @@
 package com.example.sculptify.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,7 +39,6 @@ fun EmailAndPassword() {
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
         Column (
             modifier = Modifier

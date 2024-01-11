@@ -22,7 +22,7 @@ fun MeMBS(
             onDismiss()
         },
         sheetState = sheetState,
-        containerColor = Color(0xFF000000)
+        containerColor = Color(0xFF1C1C1E)
     ) {
         MeView(
             scope = scope,

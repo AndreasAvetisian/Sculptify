@@ -49,7 +49,7 @@ fun MeView(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(Color(0xff1C1C1E))
             .height(400.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

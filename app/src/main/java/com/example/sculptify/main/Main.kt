@@ -5,12 +5,14 @@ import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -39,9 +41,9 @@ import com.example.sculptify.auth.regWeeklyGoal
 import com.example.sculptify.auth.regWeight
 import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.auth.weakPwError
-import com.example.sculptify.layout.mainBottomBar.BottomBar
 import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.layout.auth.SignUpBottomBar
+import com.example.sculptify.layout.mainBottomBar.BottomBar
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
@@ -226,7 +228,8 @@ fun MainContentView(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE
+        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE,
+        modifier = Modifier.background(Color.Black)
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
         // -------------------------------------SignUp--------------------------------------------
