@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.MP
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MP_ModifyInput(
+fun MPV_ModifyInput(
     title: String,
     value: String,
     onValueChange: (String) -> Unit,

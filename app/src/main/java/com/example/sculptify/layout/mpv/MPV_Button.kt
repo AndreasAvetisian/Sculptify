@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.MP
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +31,7 @@ import com.example.sculptify.layout.ConfirmButton
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MP_Button(
+fun MPV_Button(
     onClick: () -> Unit,
     deleteOnClick: () -> Unit,
     text: String,
@@ -53,6 +53,7 @@ fun MP_Button(
                 .height(56.dp)
                 .clickable {
                     isDeleteOpen = !isDeleteOpen
+                    if (!isDeleteOpen) checkedState.value = false
                     onClick()
                 },
             verticalAlignment = Alignment.CenterVertically,

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.example.sculptify.data.User
+import com.example.sculptify.data.user.User
 import com.example.sculptify.main.AUTHENTICATION_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.google.firebase.Firebase

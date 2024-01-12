@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.MP
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MP_ModifyPassword(
+fun MPV_ModifyPassword(
     pwValue: String,
     pwOnValueChange: (String) -> Unit,
     confirmPwValue: String,

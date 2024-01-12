@@ -7,15 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,23 +23,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.sculptify.R
 import com.example.sculptify.enumClasses.GenderButton
 import com.example.sculptify.layout.ConfirmButton
-import com.example.sculptify.layout.MP.MP_Button
-import com.example.sculptify.layout.MP.MP_ModifyGender
-import com.example.sculptify.layout.MP.MP_ModifyInput
-import com.example.sculptify.layout.MP.MP_ModifyPassword
+import com.example.sculptify.layout.TopBarView
+import com.example.sculptify.layout.mpv.MPV_Button
+import com.example.sculptify.layout.mpv.MPV_ModifyGender
+import com.example.sculptify.layout.mpv.MPV_ModifyInput
+import com.example.sculptify.layout.mpv.MPV_ModifyPassword
 import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
@@ -95,62 +88,16 @@ fun MyProfileView(navController: NavHostController) {
 
     LazyColumn (
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .background(Color.Black)
+            .fillMaxSize()
     ) {
         item {
-            // Top Bar
-            Row (
-                modifier = Modifier
-                    .padding(15.675.dp, 22.8.dp, 15.675.dp, 22.8.dp)
-                    .fillMaxWidth()
-                    .height(31.35.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Card (
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(30.dp)
-                        .clickable {
-                            navController.popBackStack()
-                            navController.navigate(MAIN_ROUTE)
-                        },
-                    shape = RoundedCornerShape(15.dp),
-                    colors = CardDefaults.cardColors(Color(0xff1C1C1E))
-                ) {
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .width(16.dp)
-                                .height(16.dp),
-                            painter = painterResource(id = R.drawable.arrow),
-                            contentDescription = "arrow",
-                            tint = Color.White
-                        )
-                    }
+            TopBarView(
+                title = "My Profile",
+                onClick = {
+                    navController.popBackStack()
+                    navController.navigate(MAIN_ROUTE)
                 }
-                Text(
-                    text = "My Profile",
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xffFCFCFC)
-                )
-                Card (
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(30.dp),
-                    colors = CardDefaults.cardColors(Color.Transparent)
-                ) {}
-            } // Top Bar ending
+            )
             Row (
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,7 +111,7 @@ fun MyProfileView(navController: NavHostController) {
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceAround
                 ) {
-                    MP_ModifyInput(
+                    MPV_ModifyInput(
                         title = "Email",
                         value = userEmail,
                         onValueChange = {},
@@ -172,7 +119,7 @@ fun MyProfileView(navController: NavHostController) {
                         readOnly = true,
                         keyboardType = KeyboardType.Email
                     )
-                    MP_ModifyPassword(
+                    MPV_ModifyPassword(
                         pwValue = pwValue,
                         pwOnValueChange = { pwValue = it },
                         confirmPwValue = confirmPwValue,
@@ -270,7 +217,7 @@ fun MyProfileView(navController: NavHostController) {
                             )
                         }
                     }
-                    MP_ModifyInput(
+                    MPV_ModifyInput(
                         title = "Name",
                         value = firstNameValue,
                         onValueChange = {
@@ -280,7 +227,7 @@ fun MyProfileView(navController: NavHostController) {
                         readOnly = false,
                         keyboardType = KeyboardType.Text
                     )
-                    MP_ModifyGender(
+                    MPV_ModifyGender(
                         onClickM = {
                             selectedGenderButton = GenderButton.Male
                             genderValue = "Male"
@@ -297,7 +244,7 @@ fun MyProfileView(navController: NavHostController) {
                         selectedF = selectedGenderButton == GenderButton.Female,
                         selectedO = selectedGenderButton == GenderButton.Others
                     )
-                    MP_ModifyInput(
+                    MPV_ModifyInput(
                         title = "Year of Birth",
                         value = yobValue,
                         onValueChange = {
@@ -307,7 +254,7 @@ fun MyProfileView(navController: NavHostController) {
                         readOnly = false,
                         keyboardType = KeyboardType.Number
                     )
-                    MP_ModifyInput(
+                    MPV_ModifyInput(
                         title = "Height",
                         value = heightValue,
                         onValueChange = {
@@ -317,7 +264,7 @@ fun MyProfileView(navController: NavHostController) {
                         readOnly = false,
                         keyboardType = KeyboardType.Number
                     )
-                    MP_ModifyInput(
+                    MPV_ModifyInput(
                         title = "Weight",
                         value = weightValue,
                         onValueChange = {
@@ -379,7 +326,7 @@ fun MyProfileView(navController: NavHostController) {
 
                         },
                 )
-                MP_Button(
+                MPV_Button(
                     onClick = {
                         authVM.signOut(navController)
                     },
@@ -387,7 +334,7 @@ fun MyProfileView(navController: NavHostController) {
                     isOpenable = false,
                     deleteOnClick = {}
                 )
-                MP_Button(
+                MPV_Button(
                     onClick = {
                         isDeleteOpen = !isDeleteOpen
                     },

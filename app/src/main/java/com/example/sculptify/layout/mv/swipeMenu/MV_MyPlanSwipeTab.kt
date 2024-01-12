@@ -6,5 +6,5 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun MV_MyPlanSwipeTab() {
-    Text(text = MV_TabItems[1].title, color = Color.White)
+    Text(text = MV_SwipeMenuTabItems[1].title, color = Color.White)
 }

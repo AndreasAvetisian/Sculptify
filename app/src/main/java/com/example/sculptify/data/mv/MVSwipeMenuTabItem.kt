@@ -1,17 +1,11 @@
-package com.example.sculptify.data
+package com.example.sculptify.data.mv
 
 import androidx.compose.ui.graphics.Color
 
-data class MVTabItem (
+data class MVSwipeMenuTabItem (
     val title: String,
     val description: String,
-    val data: List<DataItem>,
+    val swipeMenuContent: List<MVSwipeMenuContentItem>,
     val unselectedItem: Color = Color(0xff909090),
     val selectedItem: Color = Color(0xffFCFCFC)
-)
-
-data class DataItem(
-    val iconId: Int,
-    val dataTitle: String,
-    val dataDate: String
 )

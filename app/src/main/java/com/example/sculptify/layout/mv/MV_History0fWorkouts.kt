@@ -29,7 +29,7 @@ fun MV_HistoryOfWorkouts() {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 15.675.dp)
+            .padding(top = 15.675.dp, bottom = 20.dp)
     ) {
         Card (
             colors = CardDefaults.cardColors(Color(0xff1C1C1E)),

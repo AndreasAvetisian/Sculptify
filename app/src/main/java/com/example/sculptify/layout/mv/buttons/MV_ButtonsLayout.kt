@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.mv
+package com.example.sculptify.layout.mv.buttons
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,11 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
-fun MV_TopButtonsLayout() {
+fun MV_ButtonsLayout(navController: NavHostController) {
     val userVM: UserViewModel = viewModel()
 
     LaunchedEffect(true) {
@@ -27,6 +28,7 @@ fun MV_TopButtonsLayout() {
             .fillMaxWidth()
     ) {
         MV_Button(
+            navController = navController,
             data = dayStreakValue,
             iconId = R.drawable.day_streak_main_icon,
             iconColor = Color(0xffff4e28),
@@ -34,10 +36,10 @@ fun MV_TopButtonsLayout() {
             stat = "Personal best: 0",
             width = 0.5f,
             paddingStart = 0.dp,
-            paddingEnd = 10.dp,
-            onClick = {}
+            paddingEnd = 10.dp
         )
         MV_Button(
+            navController = navController,
             data = "0/$weeklyGoalValue",
             iconId = R.drawable.active_days_main_icon,
             iconColor = Color(0xff0060FE),
@@ -45,8 +47,7 @@ fun MV_TopButtonsLayout() {
             stat = "in Total: 0",
             width = 1f,
             paddingStart = 10.dp,
-            paddingEnd = 0.dp,
-            onClick = {}
+            paddingEnd = 0.dp
         )
     }
 }

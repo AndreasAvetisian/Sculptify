@@ -1,9 +1,6 @@
 package com.example.sculptify.main
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -44,6 +41,7 @@ import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.layout.mainBottomBar.BottomBar
 import com.example.sculptify.pages.AchievementsView
+import com.example.sculptify.pages.DayStreak_ActiveDaysView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
@@ -64,6 +62,7 @@ const val WEEKLY_GOAL = "weekly goal"
 const val CONFIRM_REGISTRATION = "confirm registration"
 // ---------------------------------------------------------------------------------------
 const val MAIN_ROUTE = "main"
+const val DAY_STREAK_ACTIVE_DAYS_ROUTE = "day streak and active days"
 const val STATISTICS_ROUTE = "statistics"
 const val ACHIEVEMENTS_ROUTE = "achievements"
 const val ME_ROUTE = "me"
@@ -239,21 +238,12 @@ fun MainContentView(navController: NavHostController) {
         composable( route = WEEKLY_GOAL ) { WeeklyGoal() }
         composable( route = CONFIRM_REGISTRATION ) { ConfirmRegistration() }
         // ---------------------------------------------------------------------------------------
-        composable( route = MAIN_ROUTE ){ MainView() }
+        composable( route = MAIN_ROUTE ){ MainView(navController) }
+        composable( route = DAY_STREAK_ACTIVE_DAYS_ROUTE ){ DayStreak_ActiveDaysView(navController) }
         composable( route = STATISTICS_ROUTE ){ StatisticsView() }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
         composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
-        composable(
-            route = MY_PROFILE_ROUTE,
-            enterTransition = {
-                fadeIn(animationSpec = tween(500))
-            },
-            exitTransition = {
-                fadeOut(animationSpec = tween(500))
-            },
-        ) {
-            MyProfileView(navController)
-        }
+        composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
     }
 }

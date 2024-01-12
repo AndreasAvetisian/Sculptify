@@ -33,37 +33,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.data.DataItem
-import com.example.sculptify.data.MVTabItem
+import com.example.sculptify.data.mv.MVSwipeMenuContentItem
+import com.example.sculptify.data.mv.MVSwipeMenuTabItem
 import com.example.sculptify.ui.theme.balooFontFamily
 
 
-val MV_TabItems = listOf(
-    MVTabItem(
+val MV_SwipeMenuTabItems = listOf(
+    MVSwipeMenuTabItem(
         title = "Recent",
         description = "Lately enjoyed. Keep on!",
-        data = listOf(
-            DataItem(
-                iconId = R.drawable.day_streak_main_icon,
-                dataTitle = "Abs Intermediate",
-                dataDate = "Nov 18 - First time"
+        swipeMenuContent = listOf(
+            MVSwipeMenuContentItem(
+                contentIconId = R.drawable.day_streak_main_icon,
+                contentTitle = "Abs Intermediate",
+                contentDate = "Nov 18 - First time"
             ),
-            DataItem(
-                iconId = R.drawable.password_hidden,
-                dataTitle = "Abs Beginner",
-                dataDate = "Nov 15 - First time"
+            MVSwipeMenuContentItem(
+                contentIconId = R.drawable.password_hidden,
+                contentTitle = "Abs Beginner",
+                contentDate = "Nov 15 - First time"
             )
         )
 
     ),
-    MVTabItem(
+    MVSwipeMenuTabItem(
         title = "My Plan",
         description = "Lately enjoyed. Keep on!",
-        data = listOf(
-            DataItem(
-                iconId = R.drawable.day_streak_main_icon,
-                dataTitle = "Abs Intermediate",
-                dataDate = "Nov 17 - First time"
+        swipeMenuContent = listOf(
+            MVSwipeMenuContentItem(
+                contentIconId = R.drawable.day_streak_main_icon,
+                contentTitle = "Abs Intermediate",
+                contentDate = "Nov 17 - First time"
             )
         )
     )
@@ -80,15 +80,15 @@ fun MV_SwipeMenu() {
         mutableIntStateOf(0)
     }
 
-    val pagerState = rememberPagerState { MV_TabItems.size }
+    val mvSwipeMenuPagerState = rememberPagerState { MV_SwipeMenuTabItems.size }
 
     LaunchedEffect(selectedTabIndex) {
-        pagerState.animateScrollToPage(selectedTabIndex)
+        mvSwipeMenuPagerState.animateScrollToPage(selectedTabIndex)
     }
 
-    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
-        if (!pagerState.isScrollInProgress) {
-            selectedTabIndex = pagerState.currentPage
+    LaunchedEffect(mvSwipeMenuPagerState.currentPage, mvSwipeMenuPagerState.isScrollInProgress) {
+        if (!mvSwipeMenuPagerState.isScrollInProgress) {
+            selectedTabIndex = mvSwipeMenuPagerState.currentPage
         }
     }
 
@@ -120,7 +120,7 @@ fun MV_SwipeMenu() {
             )
         },
     ) {
-        MV_TabItems.forEachIndexed { index, item ->
+        MV_SwipeMenuTabItems.forEachIndexed { index, item ->
             Tab(
                 selected = index == selectedTabIndex,
                 onClick = {
@@ -141,7 +141,7 @@ fun MV_SwipeMenu() {
         }
     }
     HorizontalPager(
-        state = pagerState,
+        state = mvSwipeMenuPagerState,
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)

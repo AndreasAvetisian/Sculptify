@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.mv
+package com.example.sculptify.layout.mv.buttons
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,16 +23,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
 fun MV_Button(
+    navController: NavHostController,
     data: String,
     iconId: Int,
     iconColor: Color,
     title: String,
     stat: String,
-    onClick: () -> Unit,
     width: Float,
     paddingStart: Dp,
     paddingEnd: Dp,
@@ -45,7 +47,7 @@ fun MV_Button(
             .height(140.dp)
             .padding(start = paddingStart, end = paddingEnd)
             .clickable {
-                onClick()
+                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
             }
     ) {
         Column (

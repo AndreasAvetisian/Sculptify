@@ -29,14 +29,14 @@ fun MV_RecentSwipeTab() {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = MV_TabItems[0].title.uppercase(Locale.ROOT),
+            text = MV_SwipeMenuTabItems[0].title.uppercase(Locale.ROOT),
             fontSize = 26.sp,
             fontFamily = balooFontFamily,
             fontWeight = FontWeight.Bold,
             color = Color(0xffFCFCFC)
         )
         Text(
-            text = MV_TabItems[0].description,
+            text = MV_SwipeMenuTabItems[0].description,
             fontSize = 14.sp,
             fontFamily = balooFontFamily,
             fontWeight = FontWeight.Bold,
@@ -63,7 +63,7 @@ fun MV_RecentSwipeTab() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painter = painterResource(id = MV_TabItems[0].data[0].iconId),
+                    painter = painterResource(id = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentIconId),
                     contentDescription = "",
                     tint = Color.Red
                 )
@@ -74,14 +74,14 @@ fun MV_RecentSwipeTab() {
                     .padding(start = 15.675.dp)
             ) {
                 Text(
-                    text = MV_TabItems[0].data[0].dataTitle,
+                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentTitle,
                     fontSize = 20.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xffFCFCFC)
                 )
                 Text(
-                    text = MV_TabItems[0].data[0].dataDate,
+                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentDate,
                     fontSize = 14.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,
@@ -103,7 +103,7 @@ fun MV_RecentSwipeTab() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painter = painterResource(id = MV_TabItems[0].data[1].iconId),
+                    painter = painterResource(id = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentIconId),
                     contentDescription = "",
                     tint = Color.Red
                 )
@@ -114,14 +114,14 @@ fun MV_RecentSwipeTab() {
                     .padding(start = 15.675.dp)
             ) {
                 Text(
-                    text = MV_TabItems[0].data[1].dataTitle,
+                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentTitle,
                     fontSize = 20.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xffFCFCFC)
                 )
                 Text(
-                    text = MV_TabItems[0].data[1].dataDate,
+                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentDate,
                     fontSize = 14.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,

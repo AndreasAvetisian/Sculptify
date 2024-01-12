@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.MP
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MP_ModifyGender(
+fun MPV_ModifyGender(
     onClickM: () -> Unit,
     onClickF: () -> Unit,
     onClickO: () -> Unit,
@@ -39,21 +39,21 @@ fun MP_ModifyGender(
             fontWeight = FontWeight.Bold,
             color = Color(0xffffffff)
         )
-        MP_ModifyGenderButton(
+        MPV_ModifyGenderButton(
             text = "Male",
             onClick = {
                 onClickM()
             },
             selected = selectedM
         )
-        MP_ModifyGenderButton(
+        MPV_ModifyGenderButton(
             text = "Female",
             onClick = {
                 onClickF()
             },
             selected = selectedF
         )
-        MP_ModifyGenderButton(
+        MPV_ModifyGenderButton(
             text = "Others",
             onClick = {
                 onClickO()

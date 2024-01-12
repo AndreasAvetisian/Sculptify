@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.MP
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MP_ModifyGenderButton(
+fun MPV_ModifyGenderButton(
     text: String,
     onClick: () -> Unit,
     selected: Boolean

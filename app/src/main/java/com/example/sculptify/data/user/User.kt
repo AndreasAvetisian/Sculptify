@@ -1,4 +1,4 @@
-package com.example.sculptify.data
+package com.example.sculptify.data.user
 
 data class User(
     val firstName: String = "",
