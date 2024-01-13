@@ -4,13 +4,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
+import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.viewModels.UserViewModel
+
+
+var selectedTabIndexForDSAD by mutableIntStateOf(0)
 
 @Composable
 fun MV_ButtonsLayout(navController: NavHostController) {
@@ -28,7 +35,10 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             .fillMaxWidth()
     ) {
         MV_Button(
-            navController = navController,
+            onClick = {
+                selectedTabIndexForDSAD = 0
+                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
+            },
             data = dayStreakValue,
             iconId = R.drawable.day_streak_main_icon,
             iconColor = Color(0xffff4e28),
@@ -39,7 +49,10 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             paddingEnd = 10.dp
         )
         MV_Button(
-            navController = navController,
+            onClick = {
+                selectedTabIndexForDSAD = 1
+                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
+            },
             data = "0/$weeklyGoalValue",
             iconId = R.drawable.active_days_main_icon,
             iconColor = Color(0xff0060FE),

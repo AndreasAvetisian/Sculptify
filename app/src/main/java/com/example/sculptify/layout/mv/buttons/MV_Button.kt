@@ -23,13 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
 fun MV_Button(
-    navController: NavHostController,
+    onClick: () -> Unit,
     data: String,
     iconId: Int,
     iconColor: Color,
@@ -37,7 +35,7 @@ fun MV_Button(
     stat: String,
     width: Float,
     paddingStart: Dp,
-    paddingEnd: Dp,
+    paddingEnd: Dp
 ) {
     Card (
         colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
@@ -47,7 +45,7 @@ fun MV_Button(
             .height(140.dp)
             .padding(start = paddingStart, end = paddingEnd)
             .clickable {
-                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
+                onClick()
             }
     ) {
         Column (
