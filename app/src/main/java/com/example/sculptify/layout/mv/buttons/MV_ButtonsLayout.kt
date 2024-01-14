@@ -27,8 +27,8 @@ fun MV_ButtonsLayout(navController: NavHostController) {
         userVM.getUserData()
     }
 
-    val dayStreakValue = userVM.userdata.value["dayStreak"].toString()
-    val weeklyGoalValue = userVM.userdata.value["weeklyGoal"].toString()
+    val dayStreakValue = userVM.userdata.value["dayStreak"] ?: 0
+    val weeklyGoalValue = userVM.userdata.value["weeklyGoal"] ?: 0
 
     Row (
         modifier = Modifier
@@ -39,7 +39,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
                 selectedTabIndexForDSAD = 0
                 navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
             },
-            data = dayStreakValue,
+            data = dayStreakValue.toString(),
             iconId = R.drawable.day_streak_main_icon,
             iconColor = Color(0xffff4e28),
             title = "Day Streak",

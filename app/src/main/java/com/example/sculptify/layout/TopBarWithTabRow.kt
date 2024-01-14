@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.pages.DayStreak_ActiveDays_TabItems
+import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable

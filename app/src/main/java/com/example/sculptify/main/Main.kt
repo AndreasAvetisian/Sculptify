@@ -37,11 +37,11 @@ import com.example.sculptify.auth.regWeeklyGoal
 import com.example.sculptify.auth.regWeight
 import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.auth.weakPwError
-import com.example.sculptify.layout.MeMBS
 import com.example.sculptify.layout.auth.SignUpBottomBar
+import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDaysView
 import com.example.sculptify.layout.mainBottomBar.BottomBar
+import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.pages.AchievementsView
-import com.example.sculptify.pages.DayStreak_ActiveDaysView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
@@ -79,7 +79,7 @@ fun MeMBS_NavControllerHandler(
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
-    MeMBS(
+    MBS(
         sheetState = sheetState,
         scope = scope,
         onDismiss = {

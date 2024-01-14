@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.enumClasses.BottomBarButton
-import com.example.sculptify.layout.MeMBS
+import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.main.ACHIEVEMENTS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
@@ -111,7 +111,7 @@ fun BottomBar(navController: NavHostController) {
                 )
 
                 if (showBottomSheet) {
-                    MeMBS(
+                    MBS(
                         sheetState = sheetState,
                         scope = scope,
                         onDismiss = onBottomSheetDismiss,

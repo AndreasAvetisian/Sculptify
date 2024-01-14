@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.dayStreakActiveDaysView
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,17 +25,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
+import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun DSADBottomBar() {
+fun DSADBottomBar(
+    navController: NavHostController
+) {
     Column (
         modifier = Modifier
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Work out every day to create a winning streak!",
+            text = if (selectedTabIndexForDSAD == 0) {
+                "Work out every day to create a winning streak!"
+            } else {
+                "Get on with your weekly goals!"
+            },
             color = Color.White,
             fontSize = 14.sp,
             fontFamily = balooFontFamily,
@@ -50,6 +60,9 @@ fun DSADBottomBar() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
+                .clickable {
+                    navController.navigate(MAIN_ROUTE)
+                }
         ) {
             Row (
                 modifier = Modifier
