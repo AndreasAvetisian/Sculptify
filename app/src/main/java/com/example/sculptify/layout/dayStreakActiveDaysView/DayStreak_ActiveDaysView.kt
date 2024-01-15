@@ -25,10 +25,12 @@ import com.example.sculptify.pages.DayStreakView
 
 val DayStreak_ActiveDays_TabItems = listOf(
     DayStreakActiveDaysTabItem(
-        title = "Streak"
+        title = "Streak",
+        defaultDescription = "Work out every day to create a winning streak!"
     ),
     DayStreakActiveDaysTabItem(
-        title = "Active Days"
+        title = "Active Days",
+        defaultDescription = "Get on with your weekly goals!"
     )
 )
 

@@ -39,7 +39,9 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
+import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
@@ -52,8 +54,6 @@ fun ActiveDaysView(navController: NavHostController) {
     }
 
     val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString() ?: 0
-
-    val currentDate = LocalDate.now()
 
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -106,29 +106,30 @@ fun ActiveDaysView(navController: NavHostController) {
                     .size(16.dp)
             )
         }
-        Row (
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            val daysOfWeek = (0..6).map { currentDate.plusDays(it.toLong()) }
-            daysOfWeek.forEach { date ->
-                val isCurrentDate = date == currentDate
-                //val textColor = if (isCurrentDate) Color.Blue else Color.White
+            val startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+            val daysOfWeek = (0 until 7).map { startOfWeek.plusDays(it.toLong()) }
 
-                Column (
+            daysOfWeek.forEach { date ->
+                val isCurrentDate = date == LocalDate.now()
+
+                Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Card (
+                    Card(
                         colors = CardDefaults.cardColors(Color(0xff3D3D3D)),
                         shape = MaterialTheme.shapes.extraLarge,
                         modifier = Modifier
                             .size(35.dp)
                     ) {
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.Center,

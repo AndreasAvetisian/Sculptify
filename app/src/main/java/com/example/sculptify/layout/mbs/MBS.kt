@@ -43,8 +43,7 @@ fun MBS(
             ADV_ModifyWeeklyGoal(
                 scope = scope,
                 sheetState = sheetState,
-                onDismiss = onDismiss,
-                navController = navController
+                onDismiss = onDismiss
             )
         }
     }

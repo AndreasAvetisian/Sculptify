@@ -122,4 +122,19 @@ class UserViewModel: ViewModel() {
                 }
         }
     }
+
+    fun modifyWeeklyGoal(weeklyGoal:Int) {
+        if (weeklyGoal != 0) {
+            fireStore
+                .collection("users")
+                .document(fAuth.currentUser!!.uid)
+                .update("weeklyGoal", weeklyGoal)
+                .addOnSuccessListener {
+                    Log.d("********", "WeeklyGoal updated successfully")
+                }
+                .addOnFailureListener { error ->
+                    Log.d("********", error.message.toString())
+                }
+        }
+    }
 }

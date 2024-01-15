@@ -73,7 +73,7 @@ fun WeeklyGoal() {
                         1f -> Color(0xff0000FF)
                         2f -> Color(0xffFFFF00)
                         3f -> Color(0xffFFA500)
-                        4f -> Color(0xffFF0000 )
+                        4f -> Color(0xffFF0000)
                         else -> Color.Blue
                     },
                     modifier = Modifier

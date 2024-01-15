@@ -41,9 +41,9 @@ fun DSADBottomBar(
     ) {
         Text(
             text = if (selectedTabIndexForDSAD == 0) {
-                "Work out every day to create a winning streak!"
+                DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].defaultDescription
             } else {
-                "Get on with your weekly goals!"
+                DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].defaultDescription
             },
             color = Color.White,
             fontSize = 14.sp,
@@ -75,16 +75,32 @@ fun DSADBottomBar(
                     contentDescription = "",
                     tint = Color.White,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(
+                            if (!DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].isActivatedButton) {
+                                50.dp
+                            } else {
+                                0.dp
+                            }
+                        )
                 )
                 Text(
-                    text = "Start now",
+                    text = if (selectedTabIndexForDSAD == 0) {
+                        DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].notActivatedButtonText
+                    } else {
+                        DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].notActivatedButtonText
+                    },
                     color = Color.White,
                     fontSize = 20.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.size(50.dp))
+                Spacer(modifier = Modifier.size(
+                    if (!DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].isActivatedButton) {
+                        50.dp
+                    } else {
+                        0.dp
+                    }
+                ))
             }
         }
     }
