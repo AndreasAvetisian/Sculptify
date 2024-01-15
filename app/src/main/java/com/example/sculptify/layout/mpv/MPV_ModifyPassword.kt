@@ -15,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
@@ -32,7 +31,6 @@ import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.ui.theme.balooFontFamily
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MPV_ModifyPassword(
     pwValue: String,
@@ -61,7 +59,7 @@ fun MPV_ModifyPassword(
         ) {
             Row (
                 modifier = Modifier
-                    .fillMaxWidth(0.45f)
+                    .fillMaxWidth(0.60f)
             ) {
                 Text(
                     text = "Modify Password",

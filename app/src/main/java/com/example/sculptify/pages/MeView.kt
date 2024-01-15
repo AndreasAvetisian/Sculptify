@@ -27,6 +27,7 @@ import com.example.sculptify.layout.mbs.MBSButton
 import com.example.sculptify.main.MY_FAVORITE_MY_HISTORY_ROUTE
 import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.main.VERSION
+import com.example.sculptify.main.WORKOUT_SETTINGS_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -138,6 +139,7 @@ fun MeView(
                                 onDismiss()
                             }
                         }
+                        navController.navigate(WORKOUT_SETTINGS_ROUTE)
                     }
                 ) // Workout Settings ending
                 Row (

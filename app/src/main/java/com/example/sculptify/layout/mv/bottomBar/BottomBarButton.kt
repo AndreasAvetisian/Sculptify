@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.mainBottomBar
+package com.example.sculptify.layout.mv.bottomBar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

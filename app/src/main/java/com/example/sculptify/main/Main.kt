@@ -39,13 +39,14 @@ import com.example.sculptify.auth.regYearOfBirth
 import com.example.sculptify.auth.weakPwError
 import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDaysView
-import com.example.sculptify.layout.mainBottomBar.BottomBar
 import com.example.sculptify.layout.mbs.MBS
+import com.example.sculptify.layout.mv.bottomBar.BottomBar
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.StatisticsView
+import com.example.sculptify.pages.WorkoutSettingsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -68,6 +69,7 @@ const val ACHIEVEMENTS_ROUTE = "achievements"
 const val ME_ROUTE = "me"
 const val MY_PROFILE_ROUTE = "my profile"
 const val MY_FAVORITE_MY_HISTORY_ROUTE = "my favorite and my history"
+const val WORKOUT_SETTINGS_ROUTE = "workout settings"
 const val VERSION = "1.0.0"
 
 
@@ -92,15 +94,14 @@ fun MeMBS_NavControllerHandler(
 @Composable
 fun MainScaffoldView() {
     val navController = rememberNavController()
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
 
     Scaffold(
-
         content = {
             MainContentView(navController)
         },
         bottomBar = {
-            val currentBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = currentBackStackEntry?.destination?.route
             val authVM: AuthenticationViewModel = viewModel()
 
             if (
@@ -245,5 +246,6 @@ fun MainContentView(navController: NavHostController) {
         composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
         composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
+        composable( route = WORKOUT_SETTINGS_ROUTE ) { WorkoutSettingsView(navController) }
     }
 }

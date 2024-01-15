@@ -1,10 +1,12 @@
 package com.example.sculptify.layout.dayStreakActiveDaysView.adv
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,9 +19,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,8 +33,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sculptify.R
 import com.example.sculptify.layout.ConfirmButton
+import com.example.sculptify.layout.dayStreakActiveDaysView.adv.counterButton.CounterButton
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -41,12 +45,22 @@ import kotlinx.coroutines.launch
 fun ADV_ModifyWeeklyGoal(
     scope: CoroutineScope,
     sheetState: SheetState,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    animationDuration: Int = 50,
+    scaleDown: Float = 0.9f
 ) {
     val userVM: UserViewModel = viewModel()
 
     LaunchedEffect(true) {
         userVM.getUserData()
+    }
+
+    val interactionSource = MutableInteractionSource()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val scale = remember {
+        Animatable(1f)
     }
 
     val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString()?.toInt() ?: 0
@@ -59,7 +73,7 @@ fun ADV_ModifyWeeklyGoal(
 
 
     val spanStyle = SpanStyle(
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontFamily = balooFontFamily,
         fontWeight = FontWeight.Bold,
         color = Color.White,
@@ -111,44 +125,21 @@ fun ADV_ModifyWeeklyGoal(
                 text = text
             )
         }
-        Row (
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            ADV_CircleButton(
-                onClick = {
-                    isButtonEnabled--
-                    if (currentWeeklyGoalValue > 1) currentWeeklyGoalValue--
-                },
-                iconId = R.drawable.minus,
-                bgColor = if (currentWeeklyGoalValue != 1) {
-                    Color(0xff0060FE)
-                } else {
-                    Color(0xff0060FE).copy(0.2f)
-                }
-            )
-            Text(
-                text = currentWeeklyGoalValue.toString() + if (currentWeeklyGoalValue == 1) " day" else " days",
-                fontSize = 22.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xffffffff)
-            )
-            ADV_CircleButton(
-                onClick = {
+        CounterButton(
+            value = currentWeeklyGoalValue.toString(),
+            onValueIncreaseClick = {
+                if (currentWeeklyGoalValue < 7) {
                     isButtonEnabled++
-                    if (currentWeeklyGoalValue < 7) currentWeeklyGoalValue++
-                },
-                iconId = R.drawable.plus,
-                bgColor = if (currentWeeklyGoalValue != 7) {
-                    Color(0xff0060FE)
-                } else {
-                    Color(0xff0060FE).copy(0.2f)
+                    currentWeeklyGoalValue++
                 }
-            )
-        }
+            },
+            onValueDecreaseClick = {
+                if (currentWeeklyGoalValue > 1) {
+                    isButtonEnabled--
+                    currentWeeklyGoalValue--
+                }
+            }
+        )
         Column (
             modifier =  Modifier
                 .fillMaxWidth()
@@ -158,24 +149,37 @@ fun ADV_ModifyWeeklyGoal(
                 bgColor = if (isButtonEnabled != 0) Color(0xff0060FE) else Color(0xff0060FE).copy(0.2f),
                 textColor = Color.White,
                 modifier = Modifier
+                    .scale(scale = scale.value)
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable {
-                        if (isButtonEnabled != 0) {
-                            userVM.modifyWeeklyGoal(currentWeeklyGoalValue)
-                            isButtonEnabled = 0
+                    .clickable (
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                        coroutineScope.launch {
+                            scale.animateTo(
+                                scaleDown,
+                                animationSpec = tween(animationDuration),
+                            )
+                            scale.animateTo(
+                                1f,
+                                animationSpec = tween(animationDuration),
+                            )
+                            if (isButtonEnabled != 0) {
+                                userVM.modifyWeeklyGoal(currentWeeklyGoalValue)
+                                isButtonEnabled = 0
 
-                            isPageRefreshed = true
+                                isPageRefreshed = true
 
-                            scope
-                                .launch {
-                                    sheetState.hide()
-                                }
-                                .invokeOnCompletion {
-                                    if (!sheetState.isVisible) {
-                                        onDismiss()
+                                scope.launch {
+                                        sheetState.hide()
                                     }
-                                }
+                                    .invokeOnCompletion {
+                                        if (!sheetState.isVisible) {
+                                            onDismiss()
+                                        }
+                                    }
+                            }
                         }
                     }
             )

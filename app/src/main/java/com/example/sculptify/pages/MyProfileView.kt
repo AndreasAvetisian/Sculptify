@@ -1,8 +1,11 @@
 package com.example.sculptify.pages
 
 import android.widget.Toast
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,9 +21,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,19 +36,25 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.enumClasses.GenderButton
 import com.example.sculptify.layout.ConfirmButton
+import com.example.sculptify.layout.OpenableLineButton
 import com.example.sculptify.layout.TopBarView
-import com.example.sculptify.layout.mpv.MPV_Button
 import com.example.sculptify.layout.mpv.MPV_ModifyGender
 import com.example.sculptify.layout.mpv.MPV_ModifyInput
 import com.example.sculptify.layout.mpv.MPV_ModifyPassword
 import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.launch
 
 @Composable
-fun MyProfileView(navController: NavHostController) {
+fun MyProfileView(
+    navController: NavHostController,
+    animationDuration: Int = 50,
+    scaleDown: Float = 0.9f
+) {
     val authVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
     val context = LocalContext.current
@@ -69,6 +80,14 @@ fun MyProfileView(navController: NavHostController) {
                 else -> GenderButton.None
             }
         }
+    }
+
+    val interactionSource = MutableInteractionSource()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val scale = remember {
+        Animatable(1f)
     }
 
 
@@ -178,40 +197,55 @@ fun MyProfileView(navController: NavHostController) {
                                 },
                                 textColor = Color.White,
                                 modifier = Modifier
+                                    .scale(scale = scale.value)
                                     .fillMaxWidth(0.6f)
                                     .padding(start = 15.675.dp, end = 15.675.dp, top = 10.dp)
-                                    .clickable {
-                                        if (pwValue != confirmPwValue) {
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "Passwords are not matching",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
-                                        } else if (pwValue.length >= 6) {
-                                            userVM.modifyPassword(confirmPwValue)
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "Password modified successfully",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
-                                            isPwOpen = false
-                                            pwValue = ""
-                                            confirmPwValue = ""
-                                        } else {
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "Error modifying password",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
-                                            isPwOpen = false
-                                            pwValue = ""
-                                            confirmPwValue = ""
+                                    .clickable (
+                                        interactionSource = interactionSource,
+                                        indication = null
+                                    ) {
+                                        coroutineScope.launch {
+                                            scale.animateTo(
+                                                scaleDown,
+                                                animationSpec = tween(animationDuration),
+                                            )
+                                            scale.animateTo(
+                                                1f,
+                                                animationSpec = tween(animationDuration),
+                                            )
+                                            if (pwValue != confirmPwValue) {
+                                                Toast
+                                                    .makeText(
+                                                        context,
+                                                        "Passwords are not matching",
+                                                        Toast.LENGTH_SHORT
+                                                    )
+                                                    .show()
+                                                confirmPwValue = ""
+                                            } else if (pwValue.length >= 6) {
+                                                userVM.modifyPassword(confirmPwValue)
+                                                Toast
+                                                    .makeText(
+                                                        context,
+                                                        "Password modified successfully",
+                                                        Toast.LENGTH_SHORT
+                                                    )
+                                                    .show()
+                                                isPwOpen = false
+                                                pwValue = ""
+                                                confirmPwValue = ""
+                                            } else {
+                                                Toast
+                                                    .makeText(
+                                                        context,
+                                                        "Error modifying password",
+                                                        Toast.LENGTH_SHORT
+                                                    )
+                                                    .show()
+                                                isPwOpen = false
+                                                pwValue = ""
+                                                confirmPwValue = ""
+                                            }
                                         }
                                     }
                             )
@@ -297,52 +331,70 @@ fun MyProfileView(navController: NavHostController) {
                             Color(0xff0060FE).copy(alpha = 0.2f)
                         },
                     modifier = Modifier
+                        .scale(scale = scale.value)
                         .fillMaxWidth(0.5f)
                         .padding(start = 15.675.dp, end = 15.675.dp)
-                        .clickable {
-                            if (
-                                firstNameValue.isNotEmpty() ||
-                                genderValue.isNotEmpty() ||
-                                yobValue.isNotEmpty() ||
-                                heightValue.isNotEmpty() ||
-                                weightValue.isNotEmpty()
-                            ) {
-                                userVM.modifyUser(
-                                    firstNameValue = firstNameValue,
-                                    genderValue = genderValue,
-                                    yobValue = yobValue,
-                                    heightValue = heightValue,
-                                    weightValue = weightValue
+                        .clickable (
+                            interactionSource = interactionSource,
+                            indication = null
+                        ) {
+                            coroutineScope.launch {
+                                scale.animateTo(
+                                    scaleDown,
+                                    animationSpec = tween(animationDuration),
                                 )
-                                userVM.getUserData()
+                                scale.animateTo(
+                                    1f,
+                                    animationSpec = tween(100),
+                                )
+                                if (
+                                    firstNameValue.isNotEmpty() ||
+                                    genderValue.isNotEmpty() ||
+                                    yobValue.isNotEmpty() ||
+                                    heightValue.isNotEmpty() ||
+                                    weightValue.isNotEmpty()
+                                ) {
+                                    userVM.modifyUser(
+                                        firstNameValue = firstNameValue,
+                                        genderValue = genderValue,
+                                        yobValue = yobValue,
+                                        heightValue = heightValue,
+                                        weightValue = weightValue
+                                    )
+                                    userVM.getUserData()
 
-                                firstNameValue = ""
-                                genderValue = ""
-                                yobValue = ""
-                                heightValue = ""
-                                weightValue = ""
+                                    firstNameValue = ""
+                                    genderValue = ""
+                                    yobValue = ""
+                                    heightValue = ""
+                                    weightValue = ""
+                                }
                             }
-
-
-                        },
+                        }
                 )
-                MPV_Button(
+                OpenableLineButton(
                     onClick = {
                         authVM.signOut(navController)
                     },
                     text = "Sign out",
+                    textColor = Color.White,
                     isOpenable = false,
-                    deleteOnClick = {}
+                    openOnClick = {},
+                    isDeleteView = false,
+                    route = MY_PROFILE_ROUTE
                 )
-                MPV_Button(
+                OpenableLineButton(
                     onClick = {
                         isDeleteOpen = !isDeleteOpen
                     },
                     text = "Delete account",
+                    textColor = Color.White,
                     isOpenable = true,
-                    deleteOnClick = {
+                    openOnClick = {
                         authVM.deleteUser(navController)
-                    }
+                    },
+                    isDeleteView = true,
+                    route = MY_PROFILE_ROUTE
                 )
             }
         }

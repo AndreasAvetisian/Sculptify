@@ -45,7 +45,7 @@ fun MPV_ModifyInput(
     ) {
         Row (
             modifier = Modifier
-                .fillMaxWidth(0.45f)
+                .fillMaxWidth(0.6f)
         ) {
             Text(
                 text = title,

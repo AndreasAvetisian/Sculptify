@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.mpv
+package com.example.sculptify.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,18 +25,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.layout.ConfirmButton
+import com.example.sculptify.layout.mpv.ConfirmDeletion
+import com.example.sculptify.layout.settings.workout.WS_OpenedMenu
+import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
-fun MPV_Button(
+fun OpenableLineButton(
     onClick: () -> Unit,
-    deleteOnClick: () -> Unit,
+    openOnClick: () -> Unit,
     text: String,
-    isOpenable: Boolean
+    textColor: Color,
+    isOpenable: Boolean,
+    isDeleteView: Boolean,
+    route: String
 ) {
-    var isDeleteOpen by remember { mutableStateOf(false) }
+    var isOpen by remember { mutableStateOf(false) }
     val checkedState = remember { mutableStateOf(false) }
+
+    
+//    val navController = rememberNavController()
+//    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+//    val currentRoute = currentBackStackEntry?.destination?.route
 
     Column (
         modifier = Modifier
@@ -52,8 +60,8 @@ fun MPV_Button(
                 .background(Color(0xff1C1C1E))
                 .height(56.dp)
                 .clickable {
-                    isDeleteOpen = !isDeleteOpen
-                    if (!isDeleteOpen) checkedState.value = false
+                    isOpen = !isOpen
+                    if (!isOpen) checkedState.value = false
                     onClick()
                 },
             verticalAlignment = Alignment.CenterVertically,
@@ -71,12 +79,12 @@ fun MPV_Button(
                     fontSize = 20.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = textColor
                 )
                 Icon(
                     modifier = Modifier
                         .scale(scaleX = -1f, scaleY = 1f)
-                        .rotate(if (isDeleteOpen) -90f else 0f)
+                        .rotate(if (isOpen) -90f else 0f)
                         .padding(0.dp, 3.dp, 0.dp, 0.dp),
                     painter = painterResource(id = R.drawable.arrow),
                     contentDescription = "arrow",
@@ -85,49 +93,19 @@ fun MPV_Button(
             }
         }
         if (isOpenable) {
-            if (isDeleteOpen) {
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xff1C1C1E)),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(15.675.dp, 0.dp, 15.675.dp, 10.dp)
-                            .height(56.dp)
-                            .background(Color(0xff1C1C1E)),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "Confirm account deletion",
-                            fontSize = 20.sp,
-                            fontFamily = balooFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                        )
-                        Checkbox(
-                            checked = checkedState.value,
-                            onCheckedChange = { checkedState.value = it },
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = Color(0xff0000ff),
-                                uncheckedColor = Color.White,
-                                checkmarkColor = Color.White
-                            )
-                        )
-                        ConfirmButton(
-                            text = "Delete",
-                            bgColor = if (checkedState.value) Color.Red else Color.Red.copy(0.2f),
-                            textColor = Color.White,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(30.dp)
-                                .clickable {
-                                    deleteOnClick()
-                                }
-                        )
-                    }
+            if (isOpen) {
+                if (isDeleteView) {
+                    ConfirmDeletion(
+                        onClick = {
+                            openOnClick()
+                        },
+                        text = when (route) {
+                            MY_PROFILE_ROUTE -> "Confirm account deletion"
+                            else -> "Confirm deletion"
+                        }
+                    )
+                } else {
+                    WS_OpenedMenu()
                 }
             }
         }
