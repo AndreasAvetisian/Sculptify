@@ -59,7 +59,7 @@ fun MPV_ModifyPassword(
         ) {
             Row (
                 modifier = Modifier
-                    .fillMaxWidth(0.60f)
+                    .fillMaxWidth(0.6f)
             ) {
                 Text(
                     text = "Modify Password",
@@ -72,7 +72,7 @@ fun MPV_ModifyPassword(
             Row (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.675.dp, 0.dp, 18.dp, 0.dp),
+                    .padding(15.675.dp, 0.dp, 0.dp, 0.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

@@ -1,4 +1,4 @@
-package com.example.sculptify.layout
+package com.example.sculptify.layout.general.buttons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

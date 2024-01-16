@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.dayStreakActiveDaysView.adv.counterButton
+package com.example.sculptify.layout.general.counterButton
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity

@@ -1,4 +1,4 @@
-package com.example.sculptify.layout
+package com.example.sculptify.layout.general.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,11 +25,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
-import com.example.sculptify.layout.mpv.ConfirmDeletion
-import com.example.sculptify.layout.settings.workout.WS_OpenedMenu
+import com.example.sculptify.layout.settings.workout.WS_TimerSettings
 import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
 fun OpenableLineButton(
@@ -40,13 +42,14 @@ fun OpenableLineButton(
     isDeleteView: Boolean,
     route: String
 ) {
+    val userVM: UserViewModel = viewModel()
+
+    LaunchedEffect(true) {
+        userVM.getUserData()
+    }
+
     var isOpen by remember { mutableStateOf(false) }
     val checkedState = remember { mutableStateOf(false) }
-
-    
-//    val navController = rememberNavController()
-//    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-//    val currentRoute = currentBackStackEntry?.destination?.route
 
     Column (
         modifier = Modifier
@@ -105,7 +108,7 @@ fun OpenableLineButton(
                         }
                     )
                 } else {
-                    WS_OpenedMenu()
+                    WS_TimerSettings()
                 }
             }
         }

@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,9 +36,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.enumClasses.GenderButton
-import com.example.sculptify.layout.ConfirmButton
-import com.example.sculptify.layout.OpenableLineButton
-import com.example.sculptify.layout.TopBarView
+import com.example.sculptify.layout.general.buttons.ConfirmButton
+import com.example.sculptify.layout.general.buttons.CounterInput
+import com.example.sculptify.layout.general.buttons.OpenableLineButton
+import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.mpv.MPV_ModifyGender
 import com.example.sculptify.layout.mpv.MPV_ModifyInput
 import com.example.sculptify.layout.mpv.MPV_ModifyPassword
@@ -55,21 +57,25 @@ fun MyProfileView(
     animationDuration: Int = 50,
     scaleDown: Float = 0.9f
 ) {
-    val authVM: AuthenticationViewModel = viewModel()
     val userVM: UserViewModel = viewModel()
-    val context = LocalContext.current
 
-    LaunchedEffect(userVM.userdata.value) {
+    LaunchedEffect(true) {
         userVM.getUserData()
     }
+
+    val authVM: AuthenticationViewModel = viewModel()
+    val context = LocalContext.current
+
 
     val userEmail = Firebase.auth.currentUser?.email.toString()
     val userFirstName = userVM.userdata.value["firstName"].toString()
     val userYOB = userVM.userdata.value["yearOfBirth"].toString()
-    val userHeight = userVM.userdata.value["height"].toString() + " cm"
+    val userHeight = userVM.userdata.value["height"]?.toString()?.toInt() ?: 0
     val userWeight = "%.1f".format(userVM.userdata.value["weight"]) + " kg"
 
     var selectedGenderButton by remember { mutableStateOf(GenderButton.None) }
+
+    var isPageRefreshed by remember { mutableStateOf(false) }
 
     LaunchedEffect(userVM.userdata.value) {
         userVM.userdata.value.let {
@@ -83,7 +89,6 @@ fun MyProfileView(
     }
 
     val interactionSource = MutableInteractionSource()
-
     val coroutineScope = rememberCoroutineScope()
 
     val scale = remember {
@@ -99,11 +104,10 @@ fun MyProfileView(
     var firstNameValue by remember { mutableStateOf("") }
     var genderValue by remember { mutableStateOf("") }
     var yobValue by remember { mutableStateOf("") }
-    var heightValue by remember { mutableStateOf("") }
+    var heightValue by remember{ mutableIntStateOf(userHeight) }
     var weightValue by remember { mutableStateOf("") }
 
     var isDeleteOpen by remember { mutableStateOf(false) }
-
 
     LazyColumn (
         modifier = Modifier
@@ -125,7 +129,7 @@ fun MyProfileView(
             ) {
                 Column (
                     modifier = Modifier
-                        .padding(15.675.dp, 0.dp, 0.dp, 0.dp)
+                        .padding(15.675.dp, 0.dp, 15.675.dp, 0.dp)
                         .fillMaxWidth()
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceAround
@@ -200,7 +204,7 @@ fun MyProfileView(
                                     .scale(scale = scale.value)
                                     .fillMaxWidth(0.6f)
                                     .padding(start = 15.675.dp, end = 15.675.dp, top = 10.dp)
-                                    .clickable (
+                                    .clickable(
                                         interactionSource = interactionSource,
                                         indication = null
                                     ) {
@@ -288,15 +292,23 @@ fun MyProfileView(
                         readOnly = false,
                         keyboardType = KeyboardType.Number
                     )
-                    MPV_ModifyInput(
+                    CounterInput(
                         title = "Height",
-                        value = heightValue,
-                        onValueChange = {
-                            if (it.length <= 3) heightValue = it
+                        titleFontSize = 20.sp,
+                        value = "$heightValue cm",
+                        onValueIncreaseClick = {
+                            if (heightValue < 250) {
+                                heightValue++
+                            }
                         },
-                        placeholder = userHeight,
-                        readOnly = false,
-                        keyboardType = KeyboardType.Number
+                        onValueDecreaseClick = {
+                            if (heightValue > 100) {
+                                heightValue--
+                            }
+                        },
+                        paddingBottom = 0.dp,
+                        buttonWidth = 200.dp,
+                        circleSize = 90.dp
                     )
                     MPV_ModifyInput(
                         title = "Weight",
@@ -323,7 +335,7 @@ fun MyProfileView(
                         firstNameValue.isNotEmpty() ||
                         genderValue.isNotEmpty() ||
                         yobValue.isNotEmpty() ||
-                        heightValue.isNotEmpty() ||
+                        userHeight != heightValue ||
                         weightValue.isNotEmpty()
                         ) {
                             Color(0xff0000ff)
@@ -334,7 +346,7 @@ fun MyProfileView(
                         .scale(scale = scale.value)
                         .fillMaxWidth(0.5f)
                         .padding(start = 15.675.dp, end = 15.675.dp)
-                        .clickable (
+                        .clickable(
                             interactionSource = interactionSource,
                             indication = null
                         ) {
@@ -351,22 +363,22 @@ fun MyProfileView(
                                     firstNameValue.isNotEmpty() ||
                                     genderValue.isNotEmpty() ||
                                     yobValue.isNotEmpty() ||
-                                    heightValue.isNotEmpty() ||
+                                    userHeight != heightValue ||
                                     weightValue.isNotEmpty()
                                 ) {
                                     userVM.modifyUser(
                                         firstNameValue = firstNameValue,
                                         genderValue = genderValue,
                                         yobValue = yobValue,
-                                        heightValue = heightValue,
+                                        heightValue = heightValue.toString(),
                                         weightValue = weightValue
                                     )
                                     userVM.getUserData()
+                                    isPageRefreshed = true
 
                                     firstNameValue = ""
                                     genderValue = ""
                                     yobValue = ""
-                                    heightValue = ""
                                     weightValue = ""
                                 }
                             }
@@ -398,5 +410,11 @@ fun MyProfileView(
                 )
             }
         }
+    }
+    if (isPageRefreshed) {
+        LaunchedEffect(true) {
+            userVM.getUserData()
+        }
+        isPageRefreshed = false
     }
 }

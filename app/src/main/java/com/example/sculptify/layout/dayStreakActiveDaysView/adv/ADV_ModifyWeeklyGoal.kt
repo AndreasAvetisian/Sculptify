@@ -33,8 +33,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sculptify.layout.ConfirmButton
-import com.example.sculptify.layout.dayStreakActiveDaysView.adv.counterButton.CounterButton
+import com.example.sculptify.layout.general.buttons.ConfirmButton
+import com.example.sculptify.layout.general.counterButton.CounterButton
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -66,8 +66,6 @@ fun ADV_ModifyWeeklyGoal(
     val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString()?.toInt() ?: 0
 
     var currentWeeklyGoalValue by remember{ mutableIntStateOf(weeklyGoalValue) }
-
-    var isButtonEnabled by remember{ mutableIntStateOf(0) }
 
     var isPageRefreshed by remember { mutableStateOf(false) }
 
@@ -129,16 +127,18 @@ fun ADV_ModifyWeeklyGoal(
             value = currentWeeklyGoalValue.toString(),
             onValueIncreaseClick = {
                 if (currentWeeklyGoalValue < 7) {
-                    isButtonEnabled++
                     currentWeeklyGoalValue++
                 }
             },
             onValueDecreaseClick = {
                 if (currentWeeklyGoalValue > 1) {
-                    isButtonEnabled--
                     currentWeeklyGoalValue--
                 }
-            }
+            },
+            width = 200.dp,
+            height = 60.dp,
+            circleSize = 60.dp,
+            fontSize = 32.sp
         )
         Column (
             modifier =  Modifier
@@ -146,7 +146,11 @@ fun ADV_ModifyWeeklyGoal(
         ) {
             ConfirmButton(
                 text = "SAVE",
-                bgColor = if (isButtonEnabled != 0) Color(0xff0060FE) else Color(0xff0060FE).copy(0.2f),
+                bgColor = if (currentWeeklyGoalValue != weeklyGoalValue) {
+                    Color(0xff0060FE)
+                } else {
+                    Color(0xff0060FE).copy(0.2f)
+                },
                 textColor = Color.White,
                 modifier = Modifier
                     .scale(scale = scale.value)
@@ -165,9 +169,8 @@ fun ADV_ModifyWeeklyGoal(
                                 1f,
                                 animationSpec = tween(animationDuration),
                             )
-                            if (isButtonEnabled != 0) {
+                            if (currentWeeklyGoalValue != weeklyGoalValue) {
                                 userVM.modifyWeeklyGoal(currentWeeklyGoalValue)
-                                isButtonEnabled = 0
 
                                 isPageRefreshed = true
 

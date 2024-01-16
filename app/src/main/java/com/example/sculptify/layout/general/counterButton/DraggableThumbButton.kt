@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.dayStreakActiveDaysView.adv.counterButton
+package com.example.sculptify.layout.general.counterButton
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -25,7 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.enumClasses.DragDirection
 import kotlinx.coroutines.Job
@@ -48,7 +50,9 @@ fun DraggableThumbButton(
     thumbOffsetY: Animatable<Float, AnimationVector1D>,
     onValueDecreaseClick: () -> Unit,
     onValueIncreaseClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    size: Dp,
+    fontSize: TextUnit
 ) {
     val dragLimitHorizontalPx = DRAG_LIMIT_HORIZONTAL_DP.dp.dpToPx()
     val startDragThreshold = START_DRAG_THRESHOLD_DP.dp.dpToPx()
@@ -68,7 +72,7 @@ fun DraggableThumbButton(
                 )
             }
             .shadow(8.dp, shape = CircleShape)
-            .size(60.dp)
+            .size(size)
             .clip(CircleShape)
             .background(Color(0xff0060FE))
             .pointerInput(Unit) {
@@ -113,10 +117,8 @@ fun DraggableThumbButton(
 
                                         // calculate the drag factor so the more the thumb
                                         // is closer to the border, the more effort it takes to drag it
-                                        val dragFactor =
-                                            2 - (thumbOffsetX.value / dragLimitHorizontalPx).absoluteValue
-                                        val delta =
-                                            pointerInputChange.positionChange().x * dragFactor
+                                        val dragFactor = 2 - (thumbOffsetX.value / dragLimitHorizontalPx).absoluteValue
+                                        val delta = pointerInputChange.positionChange().x * dragFactor
 
                                         val targetValue = thumbOffsetX.value + delta
                                         val targetValueWithinBounds =
@@ -162,6 +164,7 @@ fun DraggableThumbButton(
             color = Color.White,
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
+            fontSize = fontSize
         )
     }
 }

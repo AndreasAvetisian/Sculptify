@@ -1,4 +1,4 @@
-package com.example.sculptify.layout
+package com.example.sculptify.layout.general.topBars
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 
 class UserViewModel: ViewModel() {
@@ -17,6 +18,15 @@ class UserViewModel: ViewModel() {
     var userdata = mutableStateOf(mapOf<String,Any>())
     var isLoading by mutableStateOf(false)
     var isError by mutableStateOf(false)
+
+    companion object {
+        private const val getUserData_TAG = "GetUserData"
+        private const val modifyUser_TAG = "ModifyUser"
+        private const val modifyPassword_TAG = "ModifyPassword"
+        private const val modifyWeeklyGoal_TAG = "ModifyWeeklyGoal"
+        private const val modifyTimerSettings_TAG = "ModifyTimerSettings"
+        private const val deleteUserData_TAG = "DeleteUserData"
+    }
 
     fun getUserData(){
         isLoading = true
@@ -30,17 +40,17 @@ class UserViewModel: ViewModel() {
                     isLoading = false
                     if (documentSnapshot.exists()) {
                         val userDataMap = documentSnapshot.data ?: emptyMap()
-                        Log.d("UserViewModel", "Retrieved user data: $userDataMap")
+                        Log.d(getUserData_TAG, "Retrieved user data: $userDataMap")
                         userdata.value = documentSnapshot.data ?: emptyMap()
                     } else {
-                        Log.d("UserViewModel", "User document does not exist.")
+                        Log.d(getUserData_TAG, "User document does not exist.")
                         userdata.value = emptyMap()
                     }
                 }
                 .addOnFailureListener { exception ->
                     isLoading = false
                     isError = true
-                    Log.e("UserViewModel", "Error retrieving user data", exception)
+                    Log.e(getUserData_TAG, "Error retrieving user data", exception)
                 }
         }
     }
@@ -73,7 +83,7 @@ class UserViewModel: ViewModel() {
                 try {
                     tempUserdata["yearOfBirth"] = yobValue.toInt()
                 } catch (e: NumberFormatException) {
-                    Log.d("********", "Error converting height: ${e.message}")
+                    Log.d(modifyUser_TAG, "Error converting height: ${e.message}")
                     // Handle the error, e.g., show a message to the user
                 }
             }
@@ -82,7 +92,7 @@ class UserViewModel: ViewModel() {
                 try {
                     tempUserdata["height"] = heightValue.toInt()
                 } catch (e: NumberFormatException) {
-                    Log.d("********", "Error converting height: ${e.message}")
+                    Log.d(modifyUser_TAG, "Error converting height: ${e.message}")
                 }
             }
 
@@ -90,7 +100,7 @@ class UserViewModel: ViewModel() {
                 try {
                     tempUserdata["weight"] = weightValue.toFloat()
                 } catch (e: NumberFormatException) {
-                    Log.d("********", "Error converting weight: ${e.message}")
+                    Log.d(modifyUser_TAG, "Error converting weight: ${e.message}")
                 }
             }
 
@@ -99,10 +109,10 @@ class UserViewModel: ViewModel() {
                 .document(fAuth.currentUser!!.uid)
                 .set(tempUserdata)
                 .addOnSuccessListener {
-                    Log.d("********", "Profile data updated successfully")
+                    Log.d(modifyUser_TAG, "Profile data updated successfully")
                 }
                 .addOnFailureListener { error ->
-                    Log.d("********", error.message.toString())
+                    Log.d(modifyUser_TAG, error.message.toString())
                 }
         }
     }
@@ -111,12 +121,12 @@ class UserViewModel: ViewModel() {
         if (pw.isNotEmpty()) {
             fAuth.currentUser?.updatePassword(pw)
                 ?.addOnSuccessListener {
-                    Log.d("********", "Password modified successfully")
+                    Log.d(modifyPassword_TAG, "Password modified successfully")
                     successMessage.value = "Password modified successfully"
                     errorMessage.value = ""
                 }
                 ?.addOnFailureListener { exception ->
-                    Log.e("********", "Error modifying password", exception)
+                    Log.e(modifyPassword_TAG, "Error modifying password", exception)
                     errorMessage.value = "Error modifying password"
                     successMessage.value = ""
                 }
@@ -130,11 +140,64 @@ class UserViewModel: ViewModel() {
                 .document(fAuth.currentUser!!.uid)
                 .update("weeklyGoal", weeklyGoal)
                 .addOnSuccessListener {
-                    Log.d("********", "WeeklyGoal updated successfully")
+                    Log.d(modifyWeeklyGoal_TAG, "WeeklyGoal updated successfully")
                 }
                 .addOnFailureListener { error ->
-                    Log.d("********", error.message.toString())
+                    Log.d(modifyWeeklyGoal_TAG, error.message.toString())
                 }
+        }
+    }
+
+    fun modifyTimerSettings(
+        rbeValue: Int,
+        cbsValue: Int,
+    ){
+        try {
+            val dataToUpdate = mapOf(
+                "rbe" to rbeValue,
+                "cbs" to cbsValue
+            )
+            if (rbeValue != 0 || cbsValue != 0) {
+                FirebaseFirestore
+                    .getInstance()
+                    .collection("users")
+                    .document(fAuth.currentUser!!.uid)
+                    .update(dataToUpdate)
+                    .addOnSuccessListener {
+                        Log.d(modifyTimerSettings_TAG, "Timer Settings updated successfully")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.d(modifyTimerSettings_TAG, e.message.toString())
+                    }
+            }
+        } catch (e: Exception) {
+            Log.d(modifyTimerSettings_TAG, e.message.toString())
+        }
+    }
+
+    fun deleteUserData() {
+        try {
+            val dataToUpdate = mapOf(
+                "rbe" to 30,
+                "cbs" to 15,
+                "weeklyGoal" to 4,
+                "dayStreak" to 0
+            )
+
+            FirebaseFirestore
+                .getInstance()
+                .collection("users")
+                .document(fAuth.currentUser!!.uid)
+                .update(dataToUpdate)
+                .addOnSuccessListener {
+                    Log.d(deleteUserData_TAG, "Data deleted successfully")
+                }
+                .addOnFailureListener { e ->
+                    Log.d(deleteUserData_TAG, e.message.toString())
+                }
+
+        } catch (e: Exception) {
+            Log.d(deleteUserData_TAG, e.message.toString())
         }
     }
 }

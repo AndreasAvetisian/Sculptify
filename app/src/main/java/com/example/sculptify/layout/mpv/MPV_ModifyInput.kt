@@ -99,7 +99,7 @@ fun MPV_ModifyInput(
                         Icon(
                             modifier = Modifier
                                 .scale(scaleX = -1f, scaleY = 1f)
-                                .padding(0.dp, 3.dp, 0.dp, 0.dp),
+                                .padding(0.dp, 3.dp, 40.dp, 0.dp),
                             painter = painterResource(id = R.drawable.arrow),
                             contentDescription = "arrow",
                             tint = Color.White

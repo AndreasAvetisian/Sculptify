@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.dayStreakActiveDayV.DayStreakActiveDaysTabItem
-import com.example.sculptify.layout.TopBarWithTabRow
+import com.example.sculptify.layout.general.topBars.TopBarWithTabRow
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.pages.ActiveDaysView

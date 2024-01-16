@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.dayStreakActiveDaysView.adv.counterButton
+package com.example.sculptify.layout.general.counterButton
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
