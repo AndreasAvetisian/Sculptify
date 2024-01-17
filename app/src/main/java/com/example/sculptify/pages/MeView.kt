@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.mbs.MBSButton
+import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
 import com.example.sculptify.main.MY_FAVORITE_MY_HISTORY_ROUTE
 import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.main.VERSION
@@ -162,6 +163,7 @@ fun MeView(
                                 onDismiss()
                             }
                         }
+                        navController.navigate(GENERAL_SETTINGS_ROUTE)
                     }
                 )
                 // General Settings ending

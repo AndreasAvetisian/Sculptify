@@ -58,16 +58,12 @@ class UserViewModel: ViewModel() {
     fun modifyUser(
         firstNameValue: String,
         genderValue: String,
-        yobValue: String,
-        heightValue: String,
-        weightValue: String
+        yobValue: String
     ){
         if (
             firstNameValue.isNotEmpty() ||
             genderValue.isNotEmpty() ||
-            yobValue.isNotEmpty()  ||
-            heightValue.isNotEmpty() ||
-            weightValue.isNotEmpty()
+            yobValue.isNotEmpty()
         ) {
             val tempUserdata = userdata.value.toMutableMap()
 
@@ -85,22 +81,6 @@ class UserViewModel: ViewModel() {
                 } catch (e: NumberFormatException) {
                     Log.d(modifyUser_TAG, "Error converting height: ${e.message}")
                     // Handle the error, e.g., show a message to the user
-                }
-            }
-
-            if (heightValue.isNotEmpty()) {
-                try {
-                    tempUserdata["height"] = heightValue.toInt()
-                } catch (e: NumberFormatException) {
-                    Log.d(modifyUser_TAG, "Error converting height: ${e.message}")
-                }
-            }
-
-            if (weightValue.isNotEmpty()) {
-                try {
-                    tempUserdata["weight"] = weightValue.toFloat()
-                } catch (e: NumberFormatException) {
-                    Log.d(modifyUser_TAG, "Error converting weight: ${e.message}")
                 }
             }
 
@@ -158,6 +138,33 @@ class UserViewModel: ViewModel() {
                 "cbs" to cbsValue
             )
             if (rbeValue != 0 || cbsValue != 0) {
+                FirebaseFirestore
+                    .getInstance()
+                    .collection("users")
+                    .document(fAuth.currentUser!!.uid)
+                    .update(dataToUpdate)
+                    .addOnSuccessListener {
+                        Log.d(modifyTimerSettings_TAG, "Timer Settings updated successfully")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.d(modifyTimerSettings_TAG, e.message.toString())
+                    }
+            }
+        } catch (e: Exception) {
+            Log.d(modifyTimerSettings_TAG, e.message.toString())
+        }
+    }
+
+    fun modifyHeightAndWeight(
+        userHeight: Int,
+        userWeight: Float,
+    ){
+        try {
+            val dataToUpdate = mapOf(
+                "height" to userHeight,
+                "weight" to userWeight
+            )
+            if (userHeight != 0 || userWeight.toInt() != 0) {
                 FirebaseFirestore
                     .getInstance()
                     .collection("users")

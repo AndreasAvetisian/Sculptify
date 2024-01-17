@@ -45,9 +45,12 @@ import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
+import com.example.sculptify.pages.ReminderView
 import com.example.sculptify.pages.StatisticsView
-import com.example.sculptify.pages.WorkoutSettingsView
+import com.example.sculptify.pages.settings.GeneralSettingsView
+import com.example.sculptify.pages.settings.WorkoutSettingsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
+import com.example.sculptify.viewModels.TimeViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlin.math.roundToInt
@@ -70,6 +73,8 @@ const val ME_ROUTE = "me"
 const val MY_PROFILE_ROUTE = "my profile"
 const val MY_FAVORITE_MY_HISTORY_ROUTE = "my favorite and my history"
 const val WORKOUT_SETTINGS_ROUTE = "workout settings"
+const val GENERAL_SETTINGS_ROUTE = "general settings"
+const val REMINDER_ROUTE = "reminder"
 const val VERSION = "1.0.0"
 
 
@@ -97,13 +102,13 @@ fun MainScaffoldView() {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
+    val authVM: AuthenticationViewModel = viewModel()
+
     Scaffold(
         content = {
             MainContentView(navController)
         },
         bottomBar = {
-            val authVM: AuthenticationViewModel = viewModel()
-
             if (
                 currentRoute == MAIN_ROUTE ||
                 currentRoute == STATISTICS_ROUTE ||
@@ -222,11 +227,12 @@ fun MainScaffoldView() {
 @Composable
 fun MainContentView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
+    val timeVM: TimeViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
 
     NavHost(
         navController = navController,
-        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE,
+        startDestination = if (isAuthorized) REMINDER_ROUTE else AUTHENTICATION_ROUTE,
         modifier = Modifier.background(Color.Black)
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
@@ -247,5 +253,7 @@ fun MainContentView(navController: NavHostController) {
         composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
         composable( route = WORKOUT_SETTINGS_ROUTE ) { WorkoutSettingsView(navController) }
+        composable( route = GENERAL_SETTINGS_ROUTE ) { GeneralSettingsView(navController) }
+        composable( route = REMINDER_ROUTE ) { ReminderView(navController, timeVM) }
     }
 }

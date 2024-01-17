@@ -27,20 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
+import com.example.sculptify.layout.mpv.MPV_BodyParameters
+import com.example.sculptify.layout.settings.general.GS_ReadMe
 import com.example.sculptify.layout.settings.workout.WS_TimerSettings
-import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
 fun OpenableLineButton(
-    onClick: () -> Unit,
-    openOnClick: () -> Unit,
     text: String,
-    textColor: Color,
-    isOpenable: Boolean,
-    isDeleteView: Boolean,
-    route: String
+    isProfileView: Boolean,
+    isTimerSettingsView: Boolean,
+    isReadMeView: Boolean
 ) {
     val userVM: UserViewModel = viewModel()
 
@@ -49,7 +47,6 @@ fun OpenableLineButton(
     }
 
     var isOpen by remember { mutableStateOf(false) }
-    val checkedState = remember { mutableStateOf(false) }
 
     Column (
         modifier = Modifier
@@ -58,14 +55,11 @@ fun OpenableLineButton(
     ) {
         Row (
             modifier = Modifier
-                .padding(top = 10.dp)
                 .fillMaxWidth()
                 .background(Color(0xff1C1C1E))
                 .height(56.dp)
                 .clickable {
                     isOpen = !isOpen
-                    if (!isOpen) checkedState.value = false
-                    onClick()
                 },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -82,7 +76,7 @@ fun OpenableLineButton(
                     fontSize = 20.sp,
                     fontFamily = balooFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = textColor
+                    color = Color.White
                 )
                 Icon(
                     modifier = Modifier
@@ -95,20 +89,21 @@ fun OpenableLineButton(
                 )
             }
         }
-        if (isOpenable) {
-            if (isOpen) {
-                if (isDeleteView) {
-                    ConfirmDeletion(
-                        onClick = {
-                            openOnClick()
-                        },
-                        text = when (route) {
-                            MY_PROFILE_ROUTE -> "Confirm account deletion"
-                            else -> "Confirm deletion"
-                        }
-                    )
-                } else {
+        if (isOpen) {
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xff1C1C1E)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (isProfileView) {
+                    MPV_BodyParameters()
+                }
+                if (isTimerSettingsView) {
                     WS_TimerSettings()
+                }
+                if (isReadMeView) {
+                    GS_ReadMe()
                 }
             }
         }

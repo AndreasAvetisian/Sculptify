@@ -1,10 +1,6 @@
 package com.example.sculptify.layout.dayStreakActiveDaysView.adv
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -45,22 +39,12 @@ import kotlinx.coroutines.launch
 fun ADV_ModifyWeeklyGoal(
     scope: CoroutineScope,
     sheetState: SheetState,
-    onDismiss: () -> Unit,
-    animationDuration: Int = 50,
-    scaleDown: Float = 0.9f
+    onDismiss: () -> Unit
 ) {
     val userVM: UserViewModel = viewModel()
 
     LaunchedEffect(true) {
         userVM.getUserData()
-    }
-
-    val interactionSource = MutableInteractionSource()
-
-    val coroutineScope = rememberCoroutineScope()
-
-    val scale = remember {
-        Animatable(1f)
     }
 
     val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString()?.toInt() ?: 0
@@ -152,39 +136,25 @@ fun ADV_ModifyWeeklyGoal(
                     Color(0xff0060FE).copy(0.2f)
                 },
                 textColor = Color.White,
+                onClick = {
+                    if (currentWeeklyGoalValue != weeklyGoalValue) {
+                        userVM.modifyWeeklyGoal(currentWeeklyGoalValue)
+
+                        isPageRefreshed = true
+
+                        scope.launch {
+                            sheetState.hide()
+                        }
+                            .invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    onDismiss()
+                                }
+                            }
+                    }
+                },
                 modifier = Modifier
-                    .scale(scale = scale.value)
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) {
-                        coroutineScope.launch {
-                            scale.animateTo(
-                                scaleDown,
-                                animationSpec = tween(animationDuration),
-                            )
-                            scale.animateTo(
-                                1f,
-                                animationSpec = tween(animationDuration),
-                            )
-                            if (currentWeeklyGoalValue != weeklyGoalValue) {
-                                userVM.modifyWeeklyGoal(currentWeeklyGoalValue)
-
-                                isPageRefreshed = true
-
-                                scope.launch {
-                                        sheetState.hide()
-                                    }
-                                    .invokeOnCompletion {
-                                        if (!sheetState.isVisible) {
-                                            onDismiss()
-                                        }
-                                    }
-                            }
-                        }
-                    }
             )
         }
     }

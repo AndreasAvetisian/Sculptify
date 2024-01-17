@@ -1,6 +1,5 @@
 package com.example.sculptify.layout.auth
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,24 +27,24 @@ fun SignUpBottomBar(
             text = backText,
             textColor = Color.White,
             bgColor = Color(0xff1C1C1E),
+            onClick = {
+                backOnClick()
+            },
             modifier = Modifier
                 .width(100.dp)
                 .padding(end = 10.dp)
                 .height(60.dp)
-                .clickable {
-                    backOnClick()
-                },
         )
         ConfirmButton(
             text = nextText,
             textColor = Color.White,
             bgColor = nextBgColor,
+            onClick = {
+                nextOnClick()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .clickable {
-                    nextOnClick()
-                }
         )
     }
 }

@@ -25,13 +25,14 @@ fun CounterInput(
     onValueIncreaseClick: () -> Unit,
     onValueDecreaseClick: () -> Unit,
     paddingBottom: Dp,
+    paddingTop: Dp,
     buttonWidth: Dp,
     circleSize: Dp
 ) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = paddingBottom),
+            .padding(bottom = paddingBottom, top = paddingTop),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

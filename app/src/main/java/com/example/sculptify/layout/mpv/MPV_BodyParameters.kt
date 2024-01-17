@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.settings.workout
+package com.example.sculptify.layout.mpv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +8,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,14 +24,14 @@ import com.example.sculptify.layout.general.buttons.CounterInput
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
-fun WS_TimerSettings() {
+fun MPV_BodyParameters() {
     val userVM: UserViewModel = viewModel()
 
-    val rbeValue = userVM.userdata.value["rbe"]?.toString()?.toInt() ?: 0
-    val cbsValue = userVM.userdata.value["cbs"]?.toString()?.toInt() ?: 0
+    val userHeight = userVM.userdata.value["height"]?.toString()?.toInt() ?: 0
+    val userWeight = userVM.userdata.value["weight"]?.toString()?.toFloat() ?: 0f
 
-    var currentRBEValue by remember{ mutableIntStateOf(rbeValue) }
-    var currentCBSValue by remember{ mutableIntStateOf(cbsValue) }
+    var currentHeightValue by remember{ mutableIntStateOf(userHeight) }
+    var currentWeightValue by remember{ mutableFloatStateOf(userWeight) }
 
     var isPageRefreshed by remember { mutableStateOf(false) }
 
@@ -48,52 +49,52 @@ fun WS_TimerSettings() {
             color = Color(0xff909090)
         )
         CounterInput(
-            title = "Rest Before Exercise",
-            titleFontSize = 16.sp,
-            value = "$currentRBEValue s",
+            title = "Height",
+            titleFontSize = 20.sp,
+            value = "$currentHeightValue cm",
             onValueIncreaseClick = {
-                if (currentRBEValue < 60) {
-                    currentRBEValue++
+                if (currentHeightValue < 250) {
+                    currentHeightValue++
                 }
             },
             onValueDecreaseClick = {
-                if (currentRBEValue > 5) {
-                    currentRBEValue--
+                if (currentHeightValue > 100) {
+                    currentHeightValue--
                 }
             },
             paddingBottom = 5.dp,
             paddingTop = 10.dp,
-            buttonWidth = 180.dp,
-            circleSize = 60.dp
+            buttonWidth = 240.dp,
+            circleSize = 110.dp
         )
         CounterInput(
-            title = "Countdown Before Start",
-            titleFontSize = 16.sp,
-            value = "$currentCBSValue s",
+            title = "Weight",
+            titleFontSize = 20.sp,
+            value = "$currentWeightValue kg",
             onValueIncreaseClick = {
-                if (currentCBSValue < 15) {
-                    currentCBSValue++
+                if (currentWeightValue < 250) {
+                    currentWeightValue += 0.5f
                 }
             },
             onValueDecreaseClick = {
-                if (currentCBSValue > 10) {
-                    currentCBSValue--
+                if (currentWeightValue > 30) {
+                    currentWeightValue -= 0.5f
                 }
             },
-            paddingBottom = 5.dp,
+            paddingBottom = 10.dp,
             paddingTop = 10.dp,
-            buttonWidth = 180.dp,
-            circleSize = 60.dp
+            buttonWidth = 240.dp,
+            circleSize = 110.dp
         )
         ConfirmOpenableLineButton(
-            bgColor = if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {
+            bgColor = if (currentHeightValue != userHeight || currentWeightValue != userWeight) {
                 Color(0xff0000ff)
             } else {
                 Color(0xff0000ff).copy(0.2f)
             },
             onClick = {
-                if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {
-                    userVM.modifyTimerSettings(currentRBEValue, currentCBSValue)
+                if (currentHeightValue != userHeight || currentWeightValue != userWeight) {
+                    userVM.modifyHeightAndWeight(currentHeightValue, currentWeightValue)
                     isPageRefreshed = true
                 }
             }

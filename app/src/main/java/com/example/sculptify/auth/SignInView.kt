@@ -13,12 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +38,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.auth.ErrorMessage
+import com.example.sculptify.layout.auth.SignInButton
 import com.example.sculptify.main.SIGN_UP_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
@@ -170,28 +168,15 @@ fun AuthenticationView(
                         .fillMaxWidth(),
                     containerColor = Color(0xff1C1C1E)
                 )
-                Card (
-                    colors = CardDefaults.cardColors(
-                        if (email.isNotEmpty() && pw.isNotEmpty())
-                            Color(0xff0060FE)
-                        else
-                            Color(0xff0060FE).copy(alpha = 0.2f)
-                    ),
-                    shape = MaterialTheme.shapes.extraLarge,
-                    modifier = Modifier
-                        .padding(0.dp, 10.dp)
-                        .clickable {
-                            authVM.logInUser(email, pw, navController)
-                        },
-                ) {
-                    Icon(
-                        Icons.Filled.ArrowForward,
-                        contentDescription = "log in",
-                        modifier = Modifier
-                            .padding(50.dp, 10.dp),
-                        tint = Color.White
-                    )
-                }
+                SignInButton(
+                    bgColor = if (email.isNotEmpty() && pw.isNotEmpty())
+                        Color(0xff0060FE)
+                    else
+                        Color(0xff0060FE).copy(alpha = 0.2f),
+                    onClick = {
+                        authVM.logInUser(email, pw, navController)
+                    }
+                )
                 Row {
                     Text(
                         text = "Don't have an account?",
