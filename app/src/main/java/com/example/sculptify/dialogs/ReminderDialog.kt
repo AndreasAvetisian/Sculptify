@@ -3,6 +3,7 @@ package com.example.sculptify.dialogs
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,14 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimeInput
-import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,15 +30,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.sculptify.layout.general.buttons.ConfirmButton
+import com.example.sculptify.layout.settings.general.reminder.TimePicker
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeDialog(
+fun ReminderDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
     val timeState = rememberTimePickerState()
+    val listOfDays = listOf("Every day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
     Dialog(
         onDismissRequest = {
@@ -69,86 +72,42 @@ fun TimeDialog(
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TimeInput(
-                    state = timeState,
-                    colors = TimePickerDefaults.colors(
-                        clockDialColor = Color.Red,
-                        clockDialSelectedContentColor = Color.Red,
-                        clockDialUnselectedContentColor = Color.Red,
-                        selectorColor = Color.Red,
-                        containerColor = Color.Red,
-                        periodSelectorBorderColor =   Color(0xff1C1C1E),
-                        periodSelectorSelectedContainerColor = Color(0xff0060FE),
-                        periodSelectorUnselectedContainerColor = Color(0xff909090),
-                        periodSelectorSelectedContentColor = Color.White,
-                        periodSelectorUnselectedContentColor = Color.Black,
-                        timeSelectorSelectedContainerColor = Color(0xff0060FE),
-                        timeSelectorUnselectedContainerColor = Color(0xff909090),
-                        timeSelectorSelectedContentColor = Color.White,
-                        timeSelectorUnselectedContentColor = Color.Black,
-                    )
-                )
+                TimePicker()
                 Row (
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Column {
-                        Card (
-                            colors = CardDefaults.cardColors(Color(0xFF2020CF)),
-                            shape = MaterialTheme.shapes.large,
-                            modifier = Modifier
-                                .size(80.dp, 40.dp)
-                                .padding(bottom = 10.dp)
-                        ) {
-                            Column (
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "Every day",
-                                    fontSize = 14.sp,
-                                    fontFamily = balooFontFamily,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                            }
-                        }
-                    }
-                    Column {
-                        Text(
-                            text = "OR",
-                            fontSize = 14.sp,
-                            fontFamily = balooFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-                    Column {
-                        repeat(7) {
-                            Card (
-                                colors = CardDefaults.cardColors(Color(0xFF2020CF)),
-                                shape = MaterialTheme.shapes.large,
-                                modifier = Modifier
-                                    .size(80.dp, 40.dp)
-                                    .padding(bottom = 10.dp)
-                            ) {
-                                Column (
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(15.675.dp, 0.dp),
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                    ) {
+                        listOfDays.forEach {item ->
+                            item {
+                                Card (
+                                    colors = CardDefaults.cardColors(Color(0xFF2020CF)),
+                                    shape = MaterialTheme.shapes.large,
                                     modifier = Modifier
-                                        .fillMaxSize(),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                        .size(80.dp, 40.dp)
+                                        .padding(bottom = 10.dp)
                                 ) {
-                                    Text(
-                                        text = "Monday",
-                                        fontSize = 14.sp,
-                                        fontFamily = balooFontFamily,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White
-                                    )
+                                    Column (
+                                        modifier = Modifier
+                                            .fillMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(
+                                            text = item,
+                                            fontSize = 14.sp,
+                                            fontFamily = balooFontFamily,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.White
+                                        )
+                                    }
                                 }
                             }
                         }
