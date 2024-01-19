@@ -1,9 +1,10 @@
 package com.example.sculptify.dialogs
 
-import androidx.compose.foundation.border
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,16 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,17 +30,35 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.sculptify.layout.general.buttons.ConfirmButton
-import com.example.sculptify.layout.settings.general.reminder.TimePicker
+import com.example.sculptify.layout.settings.general.reminder.timePicker.TimePicker
 import com.example.sculptify.ui.theme.balooFontFamily
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReminderDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    val timeState = rememberTimePickerState()
-    val listOfDays = listOf("Every day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+//    val timeState = rememberTimePickerState()
+    val daysOfWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    var selectedDaysOfWeek by remember {
+        mutableStateOf(emptyList<String>())
+    }
+
+    val everyDay = listOf("Every day")
+
+
+
+    var hour by remember {
+        mutableStateOf("7")
+    }
+
+    var minute by remember {
+        mutableStateOf("30")
+    }
+
+    var amOrPm by remember {
+        mutableStateOf("PM")
+    }
 
     Dialog(
         onDismissRequest = {
@@ -53,17 +71,17 @@ fun ReminderDialog(
         Card (
             colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 5.dp
+                defaultElevation = 10.dp
             ),
             shape = MaterialTheme.shapes.extraLarge,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.95f)
                 .padding(horizontal = 15.675.dp)
-                .border(
-                    width = 1.dp,
-                    color = Color.Black,
-                    shape = RoundedCornerShape(15.dp)
-                )
+//                .border(
+//                    width = 2.dp,
+//                    color = Color.Black,
+//                    shape = RoundedCornerShape(15.dp)
+//                )
         ) {
             Column (
                 modifier = Modifier
@@ -72,48 +90,83 @@ fun ReminderDialog(
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TimePicker()
+                TimePicker(
+                    hoursList = (1..12).toList(),
+                    onHoursChanged = {
+                        hour = it.toString()
+                        Log.d("**********************", "$hour:$minute $amOrPm")
+                    },
+                    minutesList = (0..59).toList(),
+                    onMinutesChanged = {
+                        minute = it.toString()
+                        Log.d("**********************", "$hour:$minute $amOrPm")
+                    },
+                    amOrPmList = listOf("AM", "PM"),
+                    onAmOrPmChanged = {
+                        amOrPm = it
+                        Log.d("**********************", "$hour:$minute $amOrPm")
+                    }
+                )
+                Spacer(modifier = Modifier.height(40.dp))
                 Row (
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(15.675.dp, 0.dp),
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                    ) {
-                        listOfDays.forEach {item ->
-                            item {
-                                Card (
-                                    colors = CardDefaults.cardColors(Color(0xFF2020CF)),
-                                    shape = MaterialTheme.shapes.large,
-                                    modifier = Modifier
-                                        .size(80.dp, 40.dp)
-                                        .padding(bottom = 10.dp)
-                                ) {
-                                    Column (
-                                        modifier = Modifier
-                                            .fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        Text(
-                                            text = item,
-                                            fontSize = 14.sp,
-                                            fontFamily = balooFontFamily,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.White
-                                        )
-                                    }
+                    daysOfWeek.forEach { item ->
+                        var isSelected by remember { mutableStateOf(false) }
+                        Card (
+                            colors = CardDefaults.cardColors(
+                                if (isSelected) {
+                                    Color(0xff0060FE)
+                                } else {
+                                    Color(0xff1C1C1E)
                                 }
+                            ),
+                            shape = MaterialTheme.shapes.extraLarge,
+                            border = BorderStroke(
+                                width = 2.dp,
+                                color = if (isSelected) {
+                                    Color.Transparent
+                                } else {
+                                    Color(0xff0060FE)
+                                }
+                            ),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable {
+                                    if (selectedDaysOfWeek.contains(item)) {
+                                        selectedDaysOfWeek = selectedDaysOfWeek.filter { it != item }
+                                        isSelected = false
+                                    } else {
+                                        selectedDaysOfWeek += item
+                                        isSelected = true
+                                    }
+
+                                    selectedDaysOfWeek = selectedDaysOfWeek.sortedBy { daysOfWeek.indexOf(it) }
+
+                                    Log.d("************************", selectedDaysOfWeek.toString())
+                                }
+                        ) {
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = item.first().toString(),
+                                    fontSize = 25.sp,
+                                    fontFamily = balooFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                )
                             }
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Row (
                    modifier = Modifier
                        .fillMaxWidth(),
@@ -142,6 +195,10 @@ fun ReminderDialog(
                             .padding(start = 7.5.dp),
                         onClick = {
                             onConfirm()
+                            Log.d("**********************", selectedDaysOfWeek.toString())
+                            Log.d("*********************8", "Time: $hour:$minute $amOrPm and ${
+                                if (selectedDaysOfWeek.size == 7) everyDay else emptyList()
+                            }")
                         }
                     )
                 }
