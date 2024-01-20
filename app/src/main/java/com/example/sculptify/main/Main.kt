@@ -50,7 +50,7 @@ import com.example.sculptify.pages.StatisticsView
 import com.example.sculptify.pages.settings.GeneralSettingsView
 import com.example.sculptify.pages.settings.WorkoutSettingsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
-import com.example.sculptify.viewModels.TimeViewModel
+import com.example.sculptify.viewModels.ReminderViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlin.math.roundToInt
@@ -227,12 +227,12 @@ fun MainScaffoldView() {
 @Composable
 fun MainContentView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
-    val timeVM: TimeViewModel = viewModel()
+    val reminderVM: ReminderViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
 
     NavHost(
         navController = navController,
-        startDestination = if (isAuthorized) REMINDER_ROUTE else AUTHENTICATION_ROUTE,
+        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE,
         modifier = Modifier.background(Color.Black)
     ){
         composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
@@ -254,6 +254,6 @@ fun MainContentView(navController: NavHostController) {
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
         composable( route = WORKOUT_SETTINGS_ROUTE ) { WorkoutSettingsView(navController) }
         composable( route = GENERAL_SETTINGS_ROUTE ) { GeneralSettingsView(navController) }
-        composable( route = REMINDER_ROUTE ) { ReminderView(navController, timeVM) }
+        composable( route = REMINDER_ROUTE ) { ReminderView(navController, reminderVM) }
     }
 }

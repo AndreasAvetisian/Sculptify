@@ -115,7 +115,8 @@ class AuthenticationViewModel: ViewModel() {
             regGender,
             regHeight,
             regWeight,
-            regYearOfBirth
+            regYearOfBirth,
+
         )
 
         fireStore.collection("users").document(userId)

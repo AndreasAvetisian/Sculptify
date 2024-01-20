@@ -1,5 +1,7 @@
 package com.example.sculptify.data.user
 
+import com.example.sculptify.data.settings.general.reminder.Reminder
+
 data class User(
     val firstName: String = "",
     val isAdmin: Boolean = false,
@@ -10,5 +12,6 @@ data class User(
     val gender: String = "",
     val height: Int = 0,
     val weight: Float = 0f,
-    val yearOfBirth: Int = 0
+    val yearOfBirth: Int = 0,
+    val reminders: List<Reminder> = emptyList()
 )

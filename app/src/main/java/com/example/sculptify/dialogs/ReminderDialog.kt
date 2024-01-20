@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,13 +33,14 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.settings.general.reminder.timePicker.TimePicker
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.ReminderViewModel
 
 @Composable
 fun ReminderDialog(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
+    onCancel: () -> Unit,
+    onAdd: () -> Unit,
+    reminderVM: ReminderViewModel
 ) {
-//    val timeState = rememberTimePickerState()
     val daysOfWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     var selectedDaysOfWeek by remember {
         mutableStateOf(emptyList<String>())
@@ -49,11 +51,11 @@ fun ReminderDialog(
 
 
     var hour by remember {
-        mutableStateOf("7")
+        mutableIntStateOf(7)
     }
 
     var minute by remember {
-        mutableStateOf("30")
+        mutableIntStateOf(30)
     }
 
     var amOrPm by remember {
@@ -62,7 +64,7 @@ fun ReminderDialog(
 
     Dialog(
         onDismissRequest = {
-            onDismiss()
+            onCancel()
         },
         properties = DialogProperties(
             usePlatformDefaultWidth = false
@@ -93,12 +95,12 @@ fun ReminderDialog(
                 TimePicker(
                     hoursList = (1..12).toList(),
                     onHoursChanged = {
-                        hour = it.toString()
+                        hour = it
                         Log.d("**********************", "$hour:$minute $amOrPm")
                     },
                     minutesList = (0..59).toList(),
                     onMinutesChanged = {
-                        minute = it.toString()
+                        minute = it
                         Log.d("**********************", "$hour:$minute $amOrPm")
                     },
                     amOrPmList = listOf("AM", "PM"),
@@ -182,7 +184,7 @@ fun ReminderDialog(
                             .height(40.dp)
                             .padding(end = 7.5.dp),
                         onClick = {
-                            onDismiss()
+                            onCancel()
                         }
                     )
                     ConfirmButton(
@@ -194,11 +196,15 @@ fun ReminderDialog(
                             .height(40.dp)
                             .padding(start = 7.5.dp),
                         onClick = {
-                            onConfirm()
-                            Log.d("**********************", selectedDaysOfWeek.toString())
-                            Log.d("*********************8", "Time: $hour:$minute $amOrPm and ${
-                                if (selectedDaysOfWeek.size == 7) everyDay else emptyList()
-                            }")
+                            onAdd()
+                            reminderVM.addReminder(
+                                hourValue = hour,
+                                minuteValue = minute,
+                                amOrPm = amOrPm,
+                                isActive = true,
+                                daysOfWeek = if (selectedDaysOfWeek.size == 7) everyDay else selectedDaysOfWeek,
+
+                            )
                         }
                     )
                 }

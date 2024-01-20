@@ -1,4 +1,4 @@
-package com.example.sculptify.data
+package com.example.sculptify.data.myFavoriteMyHistory
 
 import androidx.compose.ui.graphics.Color
 

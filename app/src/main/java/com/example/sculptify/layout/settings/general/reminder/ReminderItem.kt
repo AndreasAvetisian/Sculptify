@@ -13,10 +13,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,10 +24,10 @@ import com.example.sculptify.ui.theme.balooFontFamily
 @Composable
 fun ReminderItem(
     time: String,
-    days: List<String>
+    days: List<String>,
+    isSwitchActive: Boolean,
+    onSwitchChanged: ((Boolean) -> Unit)
 ) {
-    var checked by remember { mutableStateOf(false) }
-
     Card (
         colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
         shape = MaterialTheme.shapes.large,
@@ -57,10 +53,8 @@ fun ReminderItem(
                     color = Color.White
                 )
                 Switch(
-                    checked = checked,
-                    onCheckedChange = {
-                        checked = it
-                    },
+                    checked = isSwitchActive,
+                    onCheckedChange = onSwitchChanged,
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
                         checkedTrackColor = Color(0xff0060FE),

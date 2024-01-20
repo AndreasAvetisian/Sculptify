@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.sculptify.data.MyFavMyHisTabItem
+import com.example.sculptify.data.myFavoriteMyHistory.MyFavMyHisTabItem
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
