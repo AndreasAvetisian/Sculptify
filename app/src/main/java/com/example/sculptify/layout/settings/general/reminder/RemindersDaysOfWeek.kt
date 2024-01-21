@@ -25,7 +25,10 @@ fun RemindersDaysOfWeek(
         colors = CardDefaults.cardColors(Color(0xFF2020CF)),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
-            .size(40.dp, 30.dp)
+            .size(
+                width = if (text == "Every day") 90.dp else 40.dp,
+                height = 30.dp
+            )
     ) {
         Column (
             modifier = Modifier
@@ -34,7 +37,7 @@ fun RemindersDaysOfWeek(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = text,
+                text = if (text == "Every day") text else text.take(3),
                 fontSize = 14.sp,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Bold,

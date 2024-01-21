@@ -42,8 +42,8 @@ fun TimePicker(
                 showAmount = 6
             )
             DraggablePicker(
-                list = minutesList,
-                onValueChanged = onMinutesChanged,
+                list = minutesList.map { it.toString().padStart(2, '0') },
+                onValueChanged = { onMinutesChanged(it.toInt()) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
