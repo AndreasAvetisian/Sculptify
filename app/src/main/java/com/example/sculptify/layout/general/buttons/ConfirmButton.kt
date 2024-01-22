@@ -74,7 +74,7 @@ fun ConfirmButton(
                 color = textColor,
                 fontSize = 20.sp,
                 fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         }
     }

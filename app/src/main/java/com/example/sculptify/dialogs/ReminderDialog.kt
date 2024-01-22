@@ -208,7 +208,6 @@ fun ReminderDialog(
                                     hourValue = hour,
                                     minuteValue = minute,
                                     amOrPm = amOrPm,
-                                    isActive = true,
                                     daysOfWeek = if (selectedDaysOfWeek.size == 7) everyDay else selectedDaysOfWeek
                                 )
                             }

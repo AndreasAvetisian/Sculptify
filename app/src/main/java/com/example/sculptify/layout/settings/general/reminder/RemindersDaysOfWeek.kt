@@ -22,7 +22,7 @@ fun RemindersDaysOfWeek(
     text: String
 ) {
     Card (
-        colors = CardDefaults.cardColors(Color(0xFF2020CF)),
+        colors = CardDefaults.cardColors(Color(0xff0060FE)),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .size(

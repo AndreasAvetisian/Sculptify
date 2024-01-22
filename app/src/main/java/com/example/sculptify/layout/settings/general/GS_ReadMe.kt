@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +25,12 @@ fun GS_ReadMe() {
         horizontalAlignment = Alignment.Start
     ) {
         item {
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                thickness = 1.dp,
+                color = Color(0xFF909090)
+            )
             Text(
                 text = "Looking to build muscle and lose weight? Introducing Sculptify, your perfect companion for achieving these goals from the comfort of your home! No equipment needed, easy to follow at home. Follow the tailored plans and expert guidance to meet a fitter, stronger you! Specially designed for all fitness levels, from beginners to experts, Sculptify offers a wide range of workouts and personalized plans to help you sculpt your body the way you desire. \n" +
                         "\n" +
