@@ -87,6 +87,9 @@ fun ReminderView(
                                 isPageRefreshed = true
                             },
                             isEditClicked = isEditClicked,
+                            onEditClicked = {
+                                reminderVM.onEditReminderClick(index)
+                            },
                             onDeletedClicked = {
                                 reminderVM.deleteReminder(index)
                                 isEditClicked = false
@@ -112,17 +115,25 @@ fun ReminderView(
             }
         )
     }
-    if (reminderVM.isDialogShown) {
+    if (reminderVM.isCreateDialogShown || reminderVM.isEditDialogShown) {
+        val initialSelectedDays = if (reminderVM.isEditDialogShown) {
+            val selectedIndex = reminderVM.editingReminderIndex
+            reminders.getOrNull(selectedIndex)?.get("daysOfWeek") as? List<String> ?: emptyList()
+        } else {
+            emptyList()
+        }
+
         ReminderDialog(
             onCancel = {
                 reminderVM.onDismissDialog()
                 isPageRefreshed = true
             },
-            onAdd = {
+            onConfirm = {
                 reminderVM.onDismissDialog()
                 isPageRefreshed = true
             },
-            reminderVM = reminderVM
+            reminderVM = reminderVM,
+            initialSelectedDays = initialSelectedDays
         )
     }
     if (isPageRefreshed) {

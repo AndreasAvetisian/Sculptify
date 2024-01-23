@@ -13,44 +13,29 @@ class ReminderViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
 
-    var  isDialogShown by mutableStateOf(false)
+    var isCreateDialogShown by mutableStateOf(false)
         private set
 
+    var isEditDialogShown by mutableStateOf(false)
+        private set
+
+    var editingReminderIndex by mutableStateOf(-1)
+
     fun onAddReminderClick() {
-        isDialogShown = true
+        isCreateDialogShown = true
+        isEditDialogShown = false
+    }
+
+    fun onEditReminderClick(index: Int) {
+        editingReminderIndex = index
+        isCreateDialogShown = false
+        isEditDialogShown = true
     }
 
     fun onDismissDialog() {
-        isDialogShown = false
+        isCreateDialogShown = false
+        isEditDialogShown = false
     }
-
-//    fun addReminder(
-//        hourValue: Int,
-//        minuteValue: Int,
-//        amOrPm: String,
-//        daysOfWeek: List<String>
-//    ) {
-//        val newReminder = Reminder(
-//            hourValue = hourValue,
-//            minuteValue = minuteValue,
-//            amOrPm = amOrPm,
-//            daysOfWeek = daysOfWeek
-//        )
-//
-//        fAuth.currentUser?.uid?.let { userId ->
-//            fireStore
-//                .collection("users")
-//                .document(userId)
-//                .update("reminders", FieldValue.arrayUnion(newReminder))
-//                .addOnSuccessListener {
-//                    Log.d("************************", "Reminder added")
-//                }
-//                .addOnFailureListener {
-//                    Log.d("************************", "Error with adding a reminder")
-//                }
-//        }
-//
-//    }
 
     fun addReminder(
         hourValue: Int,

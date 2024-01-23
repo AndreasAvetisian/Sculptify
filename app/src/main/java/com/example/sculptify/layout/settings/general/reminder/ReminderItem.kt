@@ -50,6 +50,7 @@ fun ReminderItem(
     isSwitchActive: Boolean,
     onSwitchChanged: ((Boolean) -> Unit),
     isEditClicked: Boolean,
+    onEditClicked: () -> Unit,
     onDeletedClicked: () -> Unit
 ) {
     val userVM: UserViewModel = viewModel()
@@ -84,6 +85,9 @@ fun ReminderItem(
         modifier = Modifier
             .height(160.dp)
             .padding(bottom = 15.675.dp)
+            .clickable {
+                onEditClicked()
+            }
     ) {
         Row (
             modifier = Modifier
