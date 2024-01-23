@@ -84,13 +84,13 @@ fun ReminderView(
                             onSwitchChanged = {
                                 currentSwitchState = it
                                 reminderVM.changeReminderState(index, currentSwitchState)
+                                isPageRefreshed = true
                             },
                             isEditClicked = isEditClicked,
                             onDeletedClicked = {
                                 reminderVM.deleteReminder(index)
-                                if (reminders.isEmpty()) {
-                                    isEditClicked = false
-                                }
+                                isEditClicked = false
+                                isPageRefreshed = true
                             }
                         )
                     }
@@ -108,6 +108,7 @@ fun ReminderView(
             },
             onEditClick = {
                 isEditClicked = !isEditClicked
+                isPageRefreshed = true
             }
         )
     }

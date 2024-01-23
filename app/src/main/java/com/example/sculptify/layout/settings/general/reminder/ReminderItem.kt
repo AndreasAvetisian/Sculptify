@@ -31,13 +31,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.coroutineScope
 
 @Composable
@@ -49,9 +52,17 @@ fun ReminderItem(
     isEditClicked: Boolean,
     onDeletedClicked: () -> Unit
 ) {
-    var isDeleteClicked by remember { mutableStateOf(false) }
-    val mainWidth = remember { Animatable(1f) }
+    val userVM: UserViewModel = viewModel()
 
+    LaunchedEffect(true) {
+        userVM.getUserData()
+    }
+
+    var isPageRefreshed by remember { mutableStateOf(false) }
+
+    var isDeleteClicked by remember { mutableStateOf(false) }
+
+    val mainWidth = remember { Animatable(1f) }
     LaunchedEffect(isDeleteClicked) {
         if (isDeleteClicked) {
             coroutineScope {
@@ -63,6 +74,7 @@ fun ReminderItem(
                     )
                 )
             }
+            isPageRefreshed = true
         }
     }
 
@@ -114,7 +126,9 @@ fun ReminderItem(
             }
             Column (
                 modifier = Modifier
-                    .fillMaxWidth(mainWidth.value)
+                    .fillMaxWidth(
+                        if (isEditClicked) 0.9f else mainWidth.value
+                    )
                     .fillMaxHeight()
                     .padding(horizontal = 15.675.dp),
             ) {
@@ -133,25 +147,26 @@ fun ReminderItem(
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
-                        Switch(
-                            checked = isSwitchActive,
-                            onCheckedChange = onSwitchChanged,
-                            colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.White,
-                                checkedTrackColor = Color(0xff0060FE),
-                                checkedBorderColor = Color(0xff0060FE),
-                                uncheckedThumbColor = Color(0xff909090),
-                                uncheckedTrackColor = Color(0xFFDFDFDF),
-                                uncheckedBorderColor = Color(0xFFDFDFDF)
+                        if (!isEditClicked) {
+                            Switch(
+                                checked = isSwitchActive,
+                                onCheckedChange = onSwitchChanged,
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xff0060FE),
+                                    checkedBorderColor = Color(0xff0060FE),
+                                    uncheckedThumbColor = Color(0xff909090),
+                                    uncheckedTrackColor = Color(0xFFDFDFDF),
+                                    uncheckedBorderColor = Color(0xFFDFDFDF)
+                                )
                             )
-                        )
+                        }
                     }
                     Divider(
                         thickness = 2.dp,
                         color = Color(0xff909090),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.Yellow)
                     )
                     Row (
                         modifier = Modifier
@@ -160,12 +175,53 @@ fun ReminderItem(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(11.dp)
                     ) {
-                        days.forEach { item ->
-                            RemindersDaysOfWeek(
-                                text = item
-                            )
+                        if (isEditClicked) {
+                            if (days.size == 6) {
+                                days.take(days.size - 2).forEach { item ->
+                                    RemindersDaysOfWeek(
+                                        text = item
+                                    )
+                                }
+                                Text(
+                                    text = "...",
+                                    fontSize = 30.sp,
+                                    fontFamily = balooFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            } else {
+                                days.forEach { item ->
+                                    RemindersDaysOfWeek(
+                                        text = item
+                                    )
+                                }
+                            }
+                        } else {
+                            days.forEach { item ->
+                                RemindersDaysOfWeek(
+                                    text = item
+                                )
+                            }
                         }
                     }
+                }
+            }
+            if (isEditClicked) {
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.arrow),
+                        contentDescription = "",
+                        tint = Color(0xff909090),
+                        modifier = Modifier
+                            .rotate(180f)
+                            .size(20.dp)
+                    )
                 }
             }
             if (isDeleteClicked) {
@@ -178,7 +234,7 @@ fun ReminderItem(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Delete",
+                        text = "Deleted",
                         fontSize = 20.sp,
                         fontFamily = balooFontFamily,
                         fontWeight = FontWeight.Bold,
@@ -187,6 +243,11 @@ fun ReminderItem(
                 }
             }
         }
-
+    }
+    if (isPageRefreshed) {
+        LaunchedEffect(true) {
+            userVM.getUserData()
+        }
+        isPageRefreshed = false
     }
 }

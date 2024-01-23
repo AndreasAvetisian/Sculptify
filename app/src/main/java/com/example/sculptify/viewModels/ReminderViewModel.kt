@@ -5,10 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.sculptify.data.settings.general.reminder.Reminder
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 
 class ReminderViewModel: ViewModel() {
@@ -26,91 +24,87 @@ class ReminderViewModel: ViewModel() {
         isDialogShown = false
     }
 
-    fun addReminder(
-        hourValue: Int,
-        minuteValue: Int,
-        amOrPm: String,
-        daysOfWeek: List<String>
-    ) {
-        val newReminder = Reminder(
-            hourValue = hourValue,
-            minuteValue = minuteValue,
-            amOrPm = amOrPm,
-            daysOfWeek = daysOfWeek
-        )
-
-        fAuth.currentUser?.uid?.let { userId ->
-            fireStore
-                .collection("users")
-                .document(userId)
-                .update("reminders", FieldValue.arrayUnion(newReminder))
-                .addOnSuccessListener {
-                    Log.d("************************", "Reminder added")
-                }
-                .addOnFailureListener {
-                    Log.d("************************", "Error with adding a reminder")
-                }
-        }
-
-    }
-
 //    fun addReminder(
 //        hourValue: Int,
 //        minuteValue: Int,
 //        amOrPm: String,
 //        daysOfWeek: List<String>
 //    ) {
-//        val newReminder = mapOf(
-//            "hourValue" to hourValue,
-//            "minuteValue" to minuteValue,
-//            "amOrPm" to amOrPm,
-//            "active" to true,  // as a default value
-//            "daysOfWeek" to daysOfWeek
+//        val newReminder = Reminder(
+//            hourValue = hourValue,
+//            minuteValue = minuteValue,
+//            amOrPm = amOrPm,
+//            daysOfWeek = daysOfWeek
 //        )
 //
 //        fAuth.currentUser?.uid?.let { userId ->
-//            // Fetch the current list of reminders from Firestore
 //            fireStore
 //                .collection("users")
 //                .document(userId)
-//                .get()
-//                .addOnSuccessListener { document ->
-//                    val currentReminders = document.get("reminders") as? List<Map<String, Any>> ?: emptyList()
-//
-//                    // Add the new reminder to the list
-//                    val updatedReminders = currentReminders.toMutableList()
-//                    updatedReminders.add(newReminder)
-//
-//                    // Sort the list by time
-//                    updatedReminders.sortBy { reminder ->
-//                        val hour = reminder["hourValue"] as? Int ?: 0
-//                        val minute = reminder["minuteValue"] as? Int ?: 0
-//                        val amOrPm = reminder["amOrPm"] as? String ?: "AM"
-//
-//                        // Convert time to a comparable value, e.g., minutes since midnight
-//                        val adjustedHour = if (amOrPm == "AM") {
-//                            hour
-//                        } else {
-//                            hour + 12
-//                        }
-//
-//                        adjustedHour * 60 + minute
-//                    }
-//
-//                    // Update the sorted list in Firestore
-//                    fireStore
-//                        .collection("users")
-//                        .document(userId)
-//                        .update("reminders", updatedReminders)
-//                        .addOnSuccessListener {
-//                            Log.d("************************", "GREAT SUCCESS")
-//                        }
-//                        .addOnFailureListener {
-//                            Log.d("************************", "INSIGNIFICANT FAILURE")
-//                        }
+//                .update("reminders", FieldValue.arrayUnion(newReminder))
+//                .addOnSuccessListener {
+//                    Log.d("************************", "Reminder added")
+//                }
+//                .addOnFailureListener {
+//                    Log.d("************************", "Error with adding a reminder")
 //                }
 //        }
+//
 //    }
+
+    fun addReminder(
+        hourValue: Int,
+        minuteValue: Int,
+        amOrPm: String,
+        daysOfWeek: List<String>
+    ) {
+        val newReminder = mapOf(
+            "hourValue" to hourValue,
+            "minuteValue" to minuteValue,
+            "amOrPm" to amOrPm,
+            "active" to true,
+            "daysOfWeek" to daysOfWeek
+        )
+
+        fAuth.currentUser?.uid?.let { userId ->
+            // Fetch the current list of reminders from Firestore
+            fireStore
+                .collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val currentReminders = document.get("reminders") as? List<Map<String, Any>> ?: emptyList()
+
+                    val updatedReminders = currentReminders.toMutableList()
+                    updatedReminders.add(newReminder)
+
+                    updatedReminders.sortBy { reminder ->
+                        val hour = reminder["hourValue"].toString().toInt()
+                        val minute = reminder["minuteValue"].toString().toInt()
+                        val amOrPm = reminder["amOrPm"].toString()
+
+                        // minutes since midnight
+                        val convertedValue = when (amOrPm) {
+                            "AM" -> hour * 60 + minute
+                            else -> (hour + 12) * 60 + minute
+                        }
+
+                        convertedValue
+                    }
+
+                    fireStore
+                        .collection("users")
+                        .document(userId)
+                        .update("reminders", updatedReminders)
+                        .addOnSuccessListener {
+                            Log.d("************************", "GREAT SUCCESS")
+                        }
+                        .addOnFailureListener {
+                            Log.d("************************", "INSIGNIFICANT FAILURE")
+                        }
+                }
+        }
+    }
 
     fun changeReminderState(
         reminderIndex: Int,
