@@ -44,7 +44,7 @@ fun ReminderDialog(
     onConfirm: () -> Unit,
     reminderVM: ReminderViewModel,
     initialSelectedDays: List<String>,
-    clickedReminderIndex: Int
+    clickedReminderId: String?
 ) {
     val userVM: UserViewModel = viewModel()
 
@@ -189,9 +189,9 @@ fun ReminderDialog(
                                         )
                                         onConfirm()
                                     } else {
-                                        if (clickedReminderIndex != -1) {
+                                        clickedReminderId?.let { reminderId ->
                                             reminderVM.modifyReminder(
-                                                reminderIndex = clickedReminderIndex,
+                                                reminderId = reminderId,
                                                 hourValue = hour,
                                                 minuteValue = minute,
                                                 amOrPmValue = amOrPm,

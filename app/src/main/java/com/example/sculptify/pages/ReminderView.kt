@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,11 +41,11 @@ fun ReminderView(
     }
 
     //val reminders = userVM.userdata.value["reminders"] as? List<Map<String, Any>> ?: emptyList()
-    val reminders = reminderVM.remindersList
+    val reminders by reminderVM.remindersList.collectAsState()
 
     var isEditClicked by remember { mutableStateOf(false) }
 
-    var clickedReminderIndex by remember { mutableIntStateOf(-1) }
+    var clickedReminderId by remember { mutableStateOf<String?>(null) }
 
 
     Column(
@@ -73,9 +73,12 @@ fun ReminderView(
             ) {
                 if (reminders.isNotEmpty()) {
                     items(reminders.size) { index ->
+                        val reminder = reminders[index]
+
                         val time = "${reminders[index]["hourValue"]}:${
                             reminders[index]["minuteValue"].toString().padStart(2, '0')
                         } ${reminders[index]["amOrPm"]}"
+
                         val days = reminders[index]["daysOfWeek"] as List<String>
 
                         val isSwitchActive = reminders[index]["active"] as Boolean
@@ -88,15 +91,17 @@ fun ReminderView(
                             isSwitchActive = currentSwitchState,
                             onSwitchChanged = {
                                 currentSwitchState = it
-                                reminderVM.changeReminderState(index, currentSwitchState)
+                                clickedReminderId = reminder["id"] as String
+                                reminderVM.changeReminderState(clickedReminderId!!, currentSwitchState)
                             },
                             isEditClicked = isEditClicked,
                             onEditClicked = {
-                                clickedReminderIndex = index
-                                reminderVM.onEditReminderClick(index)
+                                clickedReminderId = reminder["id"] as String
+                                reminderVM.onEditReminderClick(clickedReminderId!!)
                             },
                             onDeletedClicked = {
-                                reminderVM.deleteReminder(index)
+                                clickedReminderId = reminder["id"] as String
+                                reminderVM.deleteReminder(clickedReminderId!!)
                                 isEditClicked = false
                             }
                         )
@@ -119,8 +124,8 @@ fun ReminderView(
     }
     if (reminderVM.isCreateDialogShown || reminderVM.isEditDialogShown || reminderVM.doesReminderAlreadyExist) {
         val initialSelectedDays = if (reminderVM.isEditDialogShown) {
-            val selectedIndex = reminderVM.editingReminderIndex
-            reminders.getOrNull(selectedIndex)?.get("daysOfWeek") as? List<String> ?: emptyList()
+            val selectedReminderId = clickedReminderId ?: ""
+            reminders.find { it["id"] == selectedReminderId }?.get("daysOfWeek") as? List<String> ?: emptyList()
         } else {
             emptyList()
         }
@@ -134,7 +139,7 @@ fun ReminderView(
             },
             reminderVM = reminderVM,
             initialSelectedDays = initialSelectedDays,
-            clickedReminderIndex = clickedReminderIndex
+            clickedReminderId = clickedReminderId
         )
     }
 }

@@ -2,18 +2,20 @@ package com.example.sculptify.viewModels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.sculptify.data.settings.general.reminder.Reminder
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ReminderViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
-    var editingReminderIndex by mutableIntStateOf(-1)
 
     companion object {
         private const val addReminder_TAG = "AddReminder"
@@ -22,13 +24,20 @@ class ReminderViewModel: ViewModel() {
         private const val deleteReminder_TAG = "DeleteReminder"
     }
 
-    var remindersList by mutableStateOf<List<Map<String, Any>>>(emptyList())
-        private set
+    private val _remindersList = MutableStateFlow<List<Map<String, Any>>>(emptyList())
+    val remindersList: StateFlow<List<Map<String, Any>>> = _remindersList.asStateFlow()
+
+    private fun updateRemindersList(newList: List<Map<String, Any>>) {
+        _remindersList.value = newList
+    }
 
     var isCreateDialogShown by mutableStateOf(false)
         private set
 
     var isEditDialogShown by mutableStateOf(false)
+        private set
+
+    var editingReminderId by mutableStateOf<String?>(null)
         private set
 
     var doesReminderAlreadyExist by mutableStateOf(false)
@@ -38,8 +47,8 @@ class ReminderViewModel: ViewModel() {
         isEditDialogShown = false
     }
 
-    fun onEditReminderClick(index: Int) {
-        editingReminderIndex = index
+    fun onEditReminderClick(reminderId: String) {
+        editingReminderId = reminderId
         isCreateDialogShown = false
         isEditDialogShown = true
     }
@@ -55,12 +64,11 @@ class ReminderViewModel: ViewModel() {
         amOrPmValue: String,
         daysOfWeek: List<String>
     ) {
-        val newReminder = mapOf(
-            "hourValue" to hourValue,
-            "minuteValue" to minuteValue,
-            "amOrPm" to amOrPmValue,
-            "active" to true,
-            "daysOfWeek" to daysOfWeek
+        val newReminder = Reminder(
+            hourValue = hourValue,
+            minuteValue = minuteValue,
+            amOrPm = amOrPmValue,
+            daysOfWeek = daysOfWeek
         )
 
         fAuth.currentUser?.uid?.let { userId ->
@@ -78,16 +86,16 @@ class ReminderViewModel: ViewModel() {
                         val existingDaysOfWeek = existingReminder["daysOfWeek"] as List<String>
 
                         existingHour == hourValue &&
-                        existingMinute == minuteValue &&
-                        existingAmOrPm == amOrPmValue &&
-                        existingDaysOfWeek == daysOfWeek
+                                existingMinute == minuteValue &&
+                                existingAmOrPm == amOrPmValue &&
+                                existingDaysOfWeek == daysOfWeek
                     }
 
                     doesReminderAlreadyExist = doesReminderExist
 
                     if (!doesReminderExist) {
                         val updatedReminders = currentReminders.toMutableList()
-                        updatedReminders.add(newReminder)
+                        updatedReminders.add(newReminder.toMap())
 
                         updatedReminders.sortBy { reminder ->
                             val hour = reminder["hourValue"].toString().toInt()
@@ -108,7 +116,7 @@ class ReminderViewModel: ViewModel() {
                             .update("reminders", updatedReminders)
                             .addOnSuccessListener {
                                 Log.d(addReminder_TAG, "Reminder added successfully.")
-                                remindersList = updatedReminders
+                                updateRemindersList(updatedReminders)
                             }
                             .addOnFailureListener {
                                 Log.d(addReminder_TAG, "Failed to add reminder.")
@@ -119,7 +127,7 @@ class ReminderViewModel: ViewModel() {
     }
 
     fun modifyReminder(
-        reminderIndex: Int,
+        reminderId: String,
         hourValue: Int,
         minuteValue: Int,
         amOrPmValue: String,
@@ -133,9 +141,11 @@ class ReminderViewModel: ViewModel() {
                 .addOnSuccessListener { document ->
                     val currentReminders = document.get("reminders") as? List<Map<String, Any>> ?: emptyList()
 
-                    if (reminderIndex in currentReminders.indices) {
+                    val reminderIndex = currentReminders.indexOfFirst { it["id"] == reminderId }
+
+                    if (reminderIndex != -1) {
                         val updatedReminders = currentReminders.toMutableList()
-                        val modifiedReminder = updatedReminders[reminderIndex].toMutableMap().apply {
+                        val modifiedReminder = updatedReminders[reminderIndex].toMap().toMutableMap().apply {
                             this["hourValue"] = hourValue
                             this["minuteValue"] = minuteValue
                             this["amOrPm"] = amOrPmValue
@@ -163,7 +173,7 @@ class ReminderViewModel: ViewModel() {
                             .update("reminders", updatedReminders)
                             .addOnSuccessListener {
                                 Log.d(modifyReminder_TAG, "Reminder modified successfully.")
-                                remindersList = updatedReminders
+                                updateRemindersList(updatedReminders)
                             }
                             .addOnFailureListener {
                                 Log.d(modifyReminder_TAG, "Failed to modify reminder.")
@@ -174,7 +184,7 @@ class ReminderViewModel: ViewModel() {
     }
 
     fun changeReminderState(
-        reminderIndex: Int,
+        reminderId: String,
         state: Boolean
     ) {
         val userDocument = fireStore.collection("users").document(fAuth.currentUser!!.uid)
@@ -182,27 +192,31 @@ class ReminderViewModel: ViewModel() {
         userDocument.get()
             .addOnSuccessListener { documentSnapshot ->
                 val reminders = documentSnapshot.get("reminders") as? List<Map<String, Any>> ?: emptyList()
+                val reminderIndex = reminders.indexOfFirst { it["id"] == reminderId }
 
-                if (reminderIndex in reminders.indices) {
-                    val reminderItem = reminders[reminderIndex] as MutableMap<String, Any>
+                if (reminderIndex != -1) {
+                    val modifiedReminders = ArrayList(reminders)
+                    val reminderItem = modifiedReminders[reminderIndex] as MutableMap<String, Any>
                     reminderItem["active"] = state
-                }
 
-                userDocument.update("reminders", reminders)
-                    .addOnSuccessListener {
-                        Log.d(changeReminderState_TAG, "Reminder state modified")
-                        remindersList = reminders
-                    }
-                    .addOnFailureListener {
-                        Log.d(changeReminderState_TAG, "Error with modifying reminder state")
-                    }
+                    userDocument.update("reminders", modifiedReminders)
+                        .addOnSuccessListener {
+                            Log.d(changeReminderState_TAG, "Reminder state modified")
+                            updateRemindersList(modifiedReminders)
+                        }
+                        .addOnFailureListener {
+                            Log.d(changeReminderState_TAG, "Error with modifying reminder state")
+                        }
+                } else {
+                    Log.d(changeReminderState_TAG, "Reminder with ID $reminderId not found")
+                }
             }
             .addOnFailureListener {
                 Log.d(changeReminderState_TAG, "Failed to fetch document")
             }
     }
 
-    fun deleteReminder(reminderIndex: Int) {
+    fun deleteReminder(reminderId: String) {
         fAuth.currentUser?.uid?.let { userId ->
             val userDocumentRef = fireStore.collection("users").document(userId)
 
@@ -211,22 +225,24 @@ class ReminderViewModel: ViewModel() {
                 .addOnSuccessListener { documentSnapshot ->
                     val currentReminders = documentSnapshot.get("reminders") as? List<Map<String, Any>> ?: emptyList()
 
+                    val reminderIndex = currentReminders.indexOfFirst { it["id"] == reminderId }
+
                     // Remove the reminder at the specified index
-                    if (currentReminders.isNotEmpty() && reminderIndex >= 0 && reminderIndex < currentReminders.size) {
+                    if (reminderIndex != -1) {
                         val modifiedReminders = ArrayList(currentReminders)
                         modifiedReminders.removeAt(reminderIndex)
 
                         // Update the document with the modified reminders array
                         userDocumentRef.update("reminders", modifiedReminders)
                             .addOnSuccessListener {
-                                Log.d(deleteReminder_TAG, "Reminder deleted")
-                                remindersList = modifiedReminders
+                                Log.d(deleteReminder_TAG, "Reminder with ID $$reminderId was deleted")
+                                updateRemindersList(modifiedReminders)
                             }
                             .addOnFailureListener {
                                 Log.d(deleteReminder_TAG, "Error with deleting reminder")
                             }
                     } else {
-                        Log.d(deleteReminder_TAG, "Invalid index or empty reminders array")
+                        Log.d(deleteReminder_TAG, "Reminder with ID $reminderId not found")
                     }
                 }
                 .addOnFailureListener {
