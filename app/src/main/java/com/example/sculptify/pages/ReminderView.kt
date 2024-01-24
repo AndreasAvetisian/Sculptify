@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,11 +40,13 @@ fun ReminderView(
         userVM.getUserData()
     }
 
-    val reminders = userVM.userdata.value["reminders"] as? List<Map<String, Any>> ?: emptyList()
+    //val reminders = userVM.userdata.value["reminders"] as? List<Map<String, Any>> ?: emptyList()
+    val reminders = reminderVM.remindersList
 
-    var isEditClicked by remember { mutableStateOf(false)}
+    var isEditClicked by remember { mutableStateOf(false) }
 
-    var isPageRefreshed by remember { mutableStateOf(false) }
+    var clickedReminderIndex by remember { mutableIntStateOf(-1) }
+
 
     Column(
         modifier = Modifier
@@ -58,24 +61,26 @@ fun ReminderView(
                 isEditClicked = false
             }
         )
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(15.675.dp, 0.dp, 15.675.dp, 0.dp)
         ) {
-            LazyColumn (
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.875f),
             ) {
                 if (reminders.isNotEmpty()) {
                     items(reminders.size) { index ->
-                        val time = "${reminders[index]["hourValue"]}:${reminders[index]["minuteValue"].toString().padStart(2, '0')} ${reminders[index]["amOrPm"]}"
+                        val time = "${reminders[index]["hourValue"]}:${
+                            reminders[index]["minuteValue"].toString().padStart(2, '0')
+                        } ${reminders[index]["amOrPm"]}"
                         val days = reminders[index]["daysOfWeek"] as List<String>
 
                         val isSwitchActive = reminders[index]["active"] as Boolean
 
-                        var currentSwitchState by remember{ mutableStateOf(isSwitchActive) }
+                        var currentSwitchState by remember { mutableStateOf(isSwitchActive) }
 
                         ReminderItem(
                             time = time,
@@ -84,16 +89,15 @@ fun ReminderView(
                             onSwitchChanged = {
                                 currentSwitchState = it
                                 reminderVM.changeReminderState(index, currentSwitchState)
-                                isPageRefreshed = true
                             },
                             isEditClicked = isEditClicked,
                             onEditClicked = {
+                                clickedReminderIndex = index
                                 reminderVM.onEditReminderClick(index)
                             },
                             onDeletedClicked = {
                                 reminderVM.deleteReminder(index)
                                 isEditClicked = false
-                                isPageRefreshed = true
                             }
                         )
                     }
@@ -107,15 +111,13 @@ fun ReminderView(
         ReminderBottomBar(
             onAddClick = {
                 reminderVM.onAddReminderClick()
-                isPageRefreshed = true
             },
             onEditClick = {
                 isEditClicked = !isEditClicked
-                isPageRefreshed = true
             }
         )
     }
-    if (reminderVM.isCreateDialogShown || reminderVM.isEditDialogShown) {
+    if (reminderVM.isCreateDialogShown || reminderVM.isEditDialogShown || reminderVM.doesReminderAlreadyExist) {
         val initialSelectedDays = if (reminderVM.isEditDialogShown) {
             val selectedIndex = reminderVM.editingReminderIndex
             reminders.getOrNull(selectedIndex)?.get("daysOfWeek") as? List<String> ?: emptyList()
@@ -126,20 +128,13 @@ fun ReminderView(
         ReminderDialog(
             onCancel = {
                 reminderVM.onDismissDialog()
-                isPageRefreshed = true
             },
             onConfirm = {
                 reminderVM.onDismissDialog()
-                isPageRefreshed = true
             },
             reminderVM = reminderVM,
-            initialSelectedDays = initialSelectedDays
+            initialSelectedDays = initialSelectedDays,
+            clickedReminderIndex = clickedReminderIndex
         )
-    }
-    if (isPageRefreshed) {
-        LaunchedEffect(true) {
-            userVM.getUserData()
-        }
-        isPageRefreshed = false
     }
 }

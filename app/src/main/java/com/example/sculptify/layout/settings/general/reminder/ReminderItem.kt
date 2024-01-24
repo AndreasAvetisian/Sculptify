@@ -37,10 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
 import com.example.sculptify.ui.theme.balooFontFamily
-import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.coroutineScope
 
 @Composable
@@ -53,14 +51,6 @@ fun ReminderItem(
     onEditClicked: () -> Unit,
     onDeletedClicked: () -> Unit
 ) {
-    val userVM: UserViewModel = viewModel()
-
-    LaunchedEffect(true) {
-        userVM.getUserData()
-    }
-
-    var isPageRefreshed by remember { mutableStateOf(false) }
-
     var isDeleteClicked by remember { mutableStateOf(false) }
 
     val mainWidth = remember { Animatable(1f) }
@@ -75,7 +65,6 @@ fun ReminderItem(
                     )
                 )
             }
-            isPageRefreshed = true
         }
     }
 
@@ -247,11 +236,5 @@ fun ReminderItem(
                 }
             }
         }
-    }
-    if (isPageRefreshed) {
-        LaunchedEffect(true) {
-            userVM.getUserData()
-        }
-        isPageRefreshed = false
     }
 }

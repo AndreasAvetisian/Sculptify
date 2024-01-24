@@ -13,11 +13,19 @@ import com.google.firebase.firestore.firestore
 class UserViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
+
     var successMessage = mutableStateOf("")
+        private set
     var errorMessage = mutableStateOf("")
+        private set
+
+
     var userdata = mutableStateOf(mapOf<String,Any>())
+
     var isLoading by mutableStateOf(false)
+        private set
     var isError by mutableStateOf(false)
+        private set
 
     companion object {
         private const val getUserData_TAG = "GetUserData"
@@ -59,7 +67,7 @@ class UserViewModel: ViewModel() {
         firstNameValue: String,
         genderValue: String,
         yobValue: String
-    ){
+    ) {
         if (
             firstNameValue.isNotEmpty() ||
             genderValue.isNotEmpty() ||
@@ -67,11 +75,11 @@ class UserViewModel: ViewModel() {
         ) {
             val tempUserdata = userdata.value.toMutableMap()
 
-            if (firstNameValue.isNotEmpty()){
+            if (firstNameValue.isNotEmpty()) {
                 tempUserdata["firstName"] = firstNameValue
             }
 
-            if (genderValue.isNotEmpty() ){
+            if (genderValue.isNotEmpty()) {
                 tempUserdata["gender"] = genderValue
             }
 
@@ -79,7 +87,7 @@ class UserViewModel: ViewModel() {
                 try {
                     tempUserdata["yearOfBirth"] = yobValue.toInt()
                 } catch (e: NumberFormatException) {
-                    Log.d(modifyUser_TAG, "Error converting height: ${e.message}")
+                    Log.d(modifyUser_TAG, "Error converting year of birth: ${e.message}")
                     // Handle the error, e.g., show a message to the user
                 }
             }

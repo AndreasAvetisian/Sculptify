@@ -2,6 +2,7 @@ package com.example.sculptify.viewModels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,17 @@ import com.google.firebase.firestore.firestore
 class ReminderViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
+    var editingReminderIndex by mutableIntStateOf(-1)
+
+    companion object {
+        private const val addReminder_TAG = "AddReminder"
+        private const val modifyReminder_TAG = "ModifyReminder"
+        private const val changeReminderState_TAG = "ChangeReminderState"
+        private const val deleteReminder_TAG = "DeleteReminder"
+    }
+
+    var remindersList by mutableStateOf<List<Map<String, Any>>>(emptyList())
+        private set
 
     var isCreateDialogShown by mutableStateOf(false)
         private set
@@ -19,7 +31,7 @@ class ReminderViewModel: ViewModel() {
     var isEditDialogShown by mutableStateOf(false)
         private set
 
-    var editingReminderIndex by mutableStateOf(-1)
+    var doesReminderAlreadyExist by mutableStateOf(false)
 
     fun onAddReminderClick() {
         isCreateDialogShown = true
@@ -40,19 +52,18 @@ class ReminderViewModel: ViewModel() {
     fun addReminder(
         hourValue: Int,
         minuteValue: Int,
-        amOrPm: String,
+        amOrPmValue: String,
         daysOfWeek: List<String>
     ) {
         val newReminder = mapOf(
             "hourValue" to hourValue,
             "minuteValue" to minuteValue,
-            "amOrPm" to amOrPm,
+            "amOrPm" to amOrPmValue,
             "active" to true,
             "daysOfWeek" to daysOfWeek
         )
 
         fAuth.currentUser?.uid?.let { userId ->
-            // Fetch the current list of reminders from Firestore
             fireStore
                 .collection("users")
                 .document(userId)
@@ -60,33 +71,104 @@ class ReminderViewModel: ViewModel() {
                 .addOnSuccessListener { document ->
                     val currentReminders = document.get("reminders") as? List<Map<String, Any>> ?: emptyList()
 
-                    val updatedReminders = currentReminders.toMutableList()
-                    updatedReminders.add(newReminder)
+                    val doesReminderExist = currentReminders.any { existingReminder ->
+                        val existingHour = existingReminder["hourValue"].toString().toInt()
+                        val existingMinute = existingReminder["minuteValue"].toString().toInt()
+                        val existingAmOrPm = existingReminder["amOrPm"].toString()
+                        val existingDaysOfWeek = existingReminder["daysOfWeek"] as List<String>
 
-                    updatedReminders.sortBy { reminder ->
-                        val hour = reminder["hourValue"].toString().toInt()
-                        val minute = reminder["minuteValue"].toString().toInt()
-                        val amOrPm = reminder["amOrPm"].toString()
-
-                        // minutes since midnight
-                        val convertedValue = when (amOrPm) {
-                            "AM" -> hour * 60 + minute
-                            else -> (hour + 12) * 60 + minute
-                        }
-
-                        convertedValue
+                        existingHour == hourValue &&
+                        existingMinute == minuteValue &&
+                        existingAmOrPm == amOrPmValue &&
+                        existingDaysOfWeek == daysOfWeek
                     }
 
-                    fireStore
-                        .collection("users")
-                        .document(userId)
-                        .update("reminders", updatedReminders)
-                        .addOnSuccessListener {
-                            Log.d("************************", "GREAT SUCCESS")
+                    doesReminderAlreadyExist = doesReminderExist
+
+                    if (!doesReminderExist) {
+                        val updatedReminders = currentReminders.toMutableList()
+                        updatedReminders.add(newReminder)
+
+                        updatedReminders.sortBy { reminder ->
+                            val hour = reminder["hourValue"].toString().toInt()
+                            val minute = reminder["minuteValue"].toString().toInt()
+
+                            // minutes since midnight
+                            val convertedValue = when (reminder["amOrPm"].toString()) {
+                                "AM" -> hour * 60 + minute
+                                else -> (hour + 12) * 60 + minute
+                            }
+
+                            convertedValue
                         }
-                        .addOnFailureListener {
-                            Log.d("************************", "INSIGNIFICANT FAILURE")
+
+                        fireStore
+                            .collection("users")
+                            .document(userId)
+                            .update("reminders", updatedReminders)
+                            .addOnSuccessListener {
+                                Log.d(addReminder_TAG, "Reminder added successfully.")
+                                remindersList = updatedReminders
+                            }
+                            .addOnFailureListener {
+                                Log.d(addReminder_TAG, "Failed to add reminder.")
+                            }
+                    }
+                }
+        }
+    }
+
+    fun modifyReminder(
+        reminderIndex: Int,
+        hourValue: Int,
+        minuteValue: Int,
+        amOrPmValue: String,
+        daysOfWeek: List<String>
+    ) {
+        fAuth.currentUser?.uid?.let { userId ->
+            fireStore
+                .collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val currentReminders = document.get("reminders") as? List<Map<String, Any>> ?: emptyList()
+
+                    if (reminderIndex in currentReminders.indices) {
+                        val updatedReminders = currentReminders.toMutableList()
+                        val modifiedReminder = updatedReminders[reminderIndex].toMutableMap().apply {
+                            this["hourValue"] = hourValue
+                            this["minuteValue"] = minuteValue
+                            this["amOrPm"] = amOrPmValue
+                            this["daysOfWeek"] = daysOfWeek
                         }
+
+                        updatedReminders[reminderIndex] = modifiedReminder
+
+                        updatedReminders.sortBy { reminder ->
+                            val hour = reminder["hourValue"].toString().toInt()
+                            val minute = reminder["minuteValue"].toString().toInt()
+
+                            // minutes since midnight
+                            val convertedValue = when (reminder["amOrPm"].toString()) {
+                                "AM" -> hour * 60 + minute
+                                else -> (hour + 12) * 60 + minute
+                            }
+
+                            convertedValue
+                        }
+
+                        fireStore
+                            .collection("users")
+                            .document(userId)
+                            .update("reminders", updatedReminders)
+                            .addOnSuccessListener {
+                                Log.d(modifyReminder_TAG, "Reminder modified successfully.")
+                                remindersList = updatedReminders
+                            }
+                            .addOnFailureListener {
+                                Log.d(modifyReminder_TAG, "Failed to modify reminder.")
+                            }
+                    }
                 }
         }
     }
@@ -108,14 +190,15 @@ class ReminderViewModel: ViewModel() {
 
                 userDocument.update("reminders", reminders)
                     .addOnSuccessListener {
-                        Log.d("************************", "Reminder state modified")
+                        Log.d(changeReminderState_TAG, "Reminder state modified")
+                        remindersList = reminders
                     }
                     .addOnFailureListener {
-                        Log.d("************************", "Error with modifying reminder state")
+                        Log.d(changeReminderState_TAG, "Error with modifying reminder state")
                     }
             }
             .addOnFailureListener {
-                Log.d("************************", "Failed to fetch document")
+                Log.d(changeReminderState_TAG, "Failed to fetch document")
             }
     }
 
@@ -136,17 +219,18 @@ class ReminderViewModel: ViewModel() {
                         // Update the document with the modified reminders array
                         userDocumentRef.update("reminders", modifiedReminders)
                             .addOnSuccessListener {
-                                Log.d("************************", "Reminder deleted")
+                                Log.d(deleteReminder_TAG, "Reminder deleted")
+                                remindersList = modifiedReminders
                             }
                             .addOnFailureListener {
-                                Log.d("************************", "Error with deleting reminder")
+                                Log.d(deleteReminder_TAG, "Error with deleting reminder")
                             }
                     } else {
-                        Log.d("************************", "Invalid index or empty reminders array")
+                        Log.d(deleteReminder_TAG, "Invalid index or empty reminders array")
                     }
                 }
                 .addOnFailureListener {
-                    Log.d("************************", "Failed to fetch reminders")
+                    Log.d(deleteReminder_TAG, "Failed to fetch reminders")
                 }
         }
     }

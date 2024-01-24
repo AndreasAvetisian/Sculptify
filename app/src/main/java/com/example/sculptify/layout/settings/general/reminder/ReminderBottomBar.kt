@@ -106,6 +106,5 @@ fun ReminderBottomBar(
                 }
             }
         }
-
     }
 }
