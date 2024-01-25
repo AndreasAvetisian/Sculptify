@@ -18,10 +18,10 @@ class ReminderViewModel: ViewModel() {
     private val fireStore = Firebase.firestore
 
     companion object {
-        private const val addReminder_TAG = "AddReminder"
-        private const val modifyReminder_TAG = "ModifyReminder"
-        private const val changeReminderState_TAG = "ChangeReminderState"
-        private const val deleteReminder_TAG = "DeleteReminder"
+        private const val addReminderTAG = "AddReminder"
+        private const val modifyReminderTAG = "ModifyReminder"
+        private const val changeReminderStateTAG = "ChangeReminderState"
+        private const val deleteReminderTAG = "DeleteReminder"
     }
 
     private val _remindersList = MutableStateFlow<List<Map<String, Any>>>(emptyList())
@@ -115,11 +115,11 @@ class ReminderViewModel: ViewModel() {
                             .document(userId)
                             .update("reminders", updatedReminders)
                             .addOnSuccessListener {
-                                Log.d(addReminder_TAG, "Reminder added successfully.")
+                                Log.d(addReminderTAG, "Reminder added successfully.")
                                 updateRemindersList(updatedReminders)
                             }
                             .addOnFailureListener {
-                                Log.d(addReminder_TAG, "Failed to add reminder.")
+                                Log.d(addReminderTAG, "Failed to add reminder.")
                             }
                     }
                 }
@@ -172,11 +172,11 @@ class ReminderViewModel: ViewModel() {
                             .document(userId)
                             .update("reminders", updatedReminders)
                             .addOnSuccessListener {
-                                Log.d(modifyReminder_TAG, "Reminder modified successfully.")
+                                Log.d(modifyReminderTAG, "Reminder modified successfully.")
                                 updateRemindersList(updatedReminders)
                             }
                             .addOnFailureListener {
-                                Log.d(modifyReminder_TAG, "Failed to modify reminder.")
+                                Log.d(modifyReminderTAG, "Failed to modify reminder.")
                             }
                     }
                 }
@@ -201,18 +201,18 @@ class ReminderViewModel: ViewModel() {
 
                     userDocument.update("reminders", modifiedReminders)
                         .addOnSuccessListener {
-                            Log.d(changeReminderState_TAG, "Reminder state modified")
+                            Log.d(changeReminderStateTAG, "Reminder state modified")
                             updateRemindersList(modifiedReminders)
                         }
                         .addOnFailureListener {
-                            Log.d(changeReminderState_TAG, "Error with modifying reminder state")
+                            Log.d(changeReminderStateTAG, "Error with modifying reminder state")
                         }
                 } else {
-                    Log.d(changeReminderState_TAG, "Reminder with ID $reminderId not found")
+                    Log.d(changeReminderStateTAG, "Reminder with ID $reminderId not found")
                 }
             }
             .addOnFailureListener {
-                Log.d(changeReminderState_TAG, "Failed to fetch document")
+                Log.d(changeReminderStateTAG, "Failed to fetch document")
             }
     }
 
@@ -235,18 +235,18 @@ class ReminderViewModel: ViewModel() {
                         // Update the document with the modified reminders array
                         userDocumentRef.update("reminders", modifiedReminders)
                             .addOnSuccessListener {
-                                Log.d(deleteReminder_TAG, "Reminder with ID $$reminderId was deleted")
+                                Log.d(deleteReminderTAG, "Reminder with ID $$reminderId was deleted")
                                 updateRemindersList(modifiedReminders)
                             }
                             .addOnFailureListener {
-                                Log.d(deleteReminder_TAG, "Error with deleting reminder")
+                                Log.d(deleteReminderTAG, "Error with deleting reminder")
                             }
                     } else {
-                        Log.d(deleteReminder_TAG, "Reminder with ID $reminderId not found")
+                        Log.d(deleteReminderTAG, "Reminder with ID $reminderId not found")
                     }
                 }
                 .addOnFailureListener {
-                    Log.d(deleteReminder_TAG, "Failed to fetch reminders")
+                    Log.d(deleteReminderTAG, "Failed to fetch reminders")
                 }
         }
     }

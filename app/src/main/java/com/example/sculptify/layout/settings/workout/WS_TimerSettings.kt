@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,8 +28,12 @@ import com.example.sculptify.viewModels.UserViewModel
 fun WS_TimerSettings() {
     val userVM: UserViewModel = viewModel()
 
-    val rbeValue = userVM.userdata.value["rbe"]?.toString()?.toInt() ?: 0
-    val cbsValue = userVM.userdata.value["cbs"]?.toString()?.toInt() ?: 0
+    val userData by rememberUpdatedState(
+        newValue = userVM.userdata.collectAsState().value
+    )
+
+    val rbeValue = userData["rbe"]?.toString()?.toInt() ?: 0
+    val cbsValue = userData["cbs"]?.toString()?.toInt() ?: 0
 
     var currentRBEValue by remember{ mutableIntStateOf(rbeValue) }
     var currentCBSValue by remember{ mutableIntStateOf(cbsValue) }

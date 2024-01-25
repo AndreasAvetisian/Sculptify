@@ -1,7 +1,6 @@
 package com.example.sculptify.viewModels
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.user.User
@@ -13,18 +12,38 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class AuthenticationViewModel: ViewModel() {
     private val fAuth = Firebase.auth
     private val fireStore = Firebase.firestore
-    val isAuthorized = Firebase.auth.currentUser?.uid.toString().isNotEmpty()
-    var errorMessage = mutableStateOf("")
+
+
+    private val _isAuthorized = MutableStateFlow(false)
+    val isAuthorized: StateFlow<Boolean> = _isAuthorized.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow("")
+    val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
+
+    fun setErrorMessage(message: String) {
+        _errorMessage.value = message
+    }
+
+    fun getErrorMessage(): String {
+        return errorMessage.value
+    }
 
     companion object {
-        private const val SignUp_TAG = "SignUpUser"
-        private const val SignIp_TAG = "SignInUser"
-        private const val SignOut_TAG = "SignOutUser"
-        private const val DeleteUser_TAG = "DeleteUser"
+        private const val SignUpTAG = "SignUpUser"
+        private const val SignInTAG = "SignInUser"
+        private const val SignOutTAG = "SignOutUser"
+        private const val DeleteUserTAG = "DeleteUser"
+    }
+
+    init {
+        _isAuthorized.value = fAuth.currentUser?.uid?.isNotEmpty() == true
     }
 
     fun logInUser(email: String, pw: String, navController: NavHostController) {
@@ -32,22 +51,23 @@ class AuthenticationViewModel: ViewModel() {
             fAuth
                 .signInWithEmailAndPassword(email, pw)
                 .addOnSuccessListener {
-                    Log.d(SignIp_TAG, "Logged in successfully")
+                    Log.d(SignInTAG, "Logged in successfully")
+                    _isAuthorized.value = true
                     navController.navigate(MAIN_ROUTE)
-                    errorMessage.value = ""
+                    _errorMessage.value = ""
                 }
                 .addOnFailureListener { error: Exception ->
                     when (error) {
                         is FirebaseAuthInvalidCredentialsException -> {
-                            errorMessage.value = "Incorrect email or password. Please try again."
+                            _errorMessage.value = "Incorrect email or password. Please try again."
                         }
                         else -> {
-                            errorMessage.value = "Authentication failed. Please check your email and password again."
+                            _errorMessage.value = "Authentication failed. Please check your email and password again."
                         }
                     }
                 }
         } else {
-            errorMessage.value = "Please, fill email and password fields"
+            _errorMessage.value = "Please, fill email and password fields"
         }
     }
 
@@ -76,19 +96,19 @@ class AuthenticationViewModel: ViewModel() {
                 .addOnFailureListener { error: Exception ->
                     when (error) {
                         is FirebaseAuthUserCollisionException -> {
-                            errorMessage.value = "Email already exists. Please use a different email."
+                            _errorMessage.value = "Email already exists. Please use a different email."
                         }
                         is FirebaseAuthWeakPasswordException -> {
-                            errorMessage.value = "Weak password. Please choose a stronger password."
+                            _errorMessage.value = "Weak password. Please choose a stronger password."
                         }
                         else -> {
-                            errorMessage.value = "Registration failed. Please check your email and password again."
+                            _errorMessage.value = "Registration failed. Please check your email and password again."
                         }
                     }
                 }
 
         } else {
-            errorMessage.value = "Please fill in email and password fields."
+            _errorMessage.value = "Please fill in email and password fields."
         }
     }
 
@@ -122,37 +142,39 @@ class AuthenticationViewModel: ViewModel() {
         fireStore.collection("users").document(userId)
             .set(user)
             .addOnSuccessListener {
-                Log.d(SignUp_TAG, "User's information added successfully!")
+                Log.d(SignUpTAG, "User's information added successfully!")
             }
             .addOnFailureListener { error ->
-                Log.d(SignUp_TAG, error.message.toString())
+                Log.d(SignUpTAG, error.message.toString())
             }
     }
 
     fun signOut(navController: NavHostController) {
         fAuth.signOut()
-        Log.d(SignOut_TAG, "Logout successfully")
-        errorMessage.value = ""
+        Log.d(SignOutTAG, "Logout successfully")
+        _isAuthorized.value = false
+        _errorMessage.value = ""
         navController.navigate(AUTHENTICATION_ROUTE)
     }
 
     fun deleteUser(navController: NavHostController) {
 
-        if (isAuthorized) {
+        if (_isAuthorized.value) {
             fireStore
                 .collection("users")
                 .document(fAuth.currentUser!!.uid)
                 .delete()
                 .addOnSuccessListener {
-                    Log.d(DeleteUser_TAG, "User deleted from FireBase successfully")
+                    Log.d(DeleteUserTAG, "User deleted from FireBase successfully")
                 }
                 .addOnFailureListener {
-                    Log.d(DeleteUser_TAG, "Something went wrong :(")
+                    Log.d(DeleteUserTAG, "Something went wrong :(")
                 }
             fAuth.currentUser!!
                 .delete()
                 .addOnCompleteListener {
-                    Log.d(DeleteUser_TAG, "User deleted")
+                    Log.d(DeleteUserTAG, "User deleted")
+                    _isAuthorized.value = false
                 }
             navController.navigate(AUTHENTICATION_ROUTE)
         }

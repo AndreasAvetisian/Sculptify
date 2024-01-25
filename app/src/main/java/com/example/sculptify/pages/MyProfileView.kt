@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,14 +51,21 @@ fun MyProfileView(
     val authVM: AuthenticationViewModel = viewModel()
 
     val userEmail = Firebase.auth.currentUser?.email.toString()
-    val userFirstName = userVM.userdata.value["firstName"].toString()
-    val userYOB = userVM.userdata.value["yearOfBirth"].toString()
+//    val userFirstName = userVM.userdata.value["firstName"].toString()
+    val userFirstName by rememberUpdatedState(
+        newValue = userVM.userdata.collectAsState().value["firstName"].toString()
+    )
+//    val userYOB = userVM.userdata.value["yearOfBirth"].toString()
+
+    val userYOB by rememberUpdatedState(
+        newValue = userVM.userdata.collectAsState().value["yearOfBirth"].toString()
+    )
 
     var selectedGenderButton by remember { mutableStateOf(GenderButton.None) }
 
     var isPageRefreshed by remember { mutableStateOf(false) }
 
-    LaunchedEffect(userVM.userdata.value) {
+    LaunchedEffect(userVM.userdata.collectAsState().value) {
         userVM.userdata.value.let {
             selectedGenderButton = when (it["gender"]) {
                 "Male" -> GenderButton.Male

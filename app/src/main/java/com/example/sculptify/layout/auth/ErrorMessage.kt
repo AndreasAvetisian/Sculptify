@@ -16,7 +16,7 @@ import com.example.sculptify.viewModels.AuthenticationViewModel
 
 @Composable
 fun ErrorMessage(authVM: AuthenticationViewModel) {
-    if (authVM.errorMessage.value.isEmpty()) {
+    if (authVM.getErrorMessage().isEmpty()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -29,7 +29,7 @@ fun ErrorMessage(authVM: AuthenticationViewModel) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = authVM.errorMessage.value,
+                text = authVM.getErrorMessage(),
                 fontSize = 18.sp,
                 color = Color.Red,
                 modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp),

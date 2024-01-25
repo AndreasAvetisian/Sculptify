@@ -12,6 +12,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,11 +34,15 @@ import com.example.sculptify.viewModels.UserViewModel
 fun DayStreakView() {
     val userVM: UserViewModel = viewModel()
 
+    val userData by rememberUpdatedState(
+        newValue = userVM.userdata.collectAsState().value
+    )
+
     LaunchedEffect(true) {
         userVM.getUserData()
     }
 
-    val dayStreakValue = userVM.userdata.value["dayStreak"].toString()
+    val dayStreakValue = userData["dayStreak"].toString()
 
     Column (
         modifier = Modifier

@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -51,6 +52,7 @@ import com.example.sculptify.pages.settings.GeneralSettingsView
 import com.example.sculptify.pages.settings.WorkoutSettingsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.ReminderViewModel
+import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlin.math.roundToInt
@@ -104,6 +106,12 @@ fun MainScaffoldView() {
 
     val authVM: AuthenticationViewModel = viewModel()
 
+    val userVM: UserViewModel = viewModel()
+
+    LaunchedEffect(true) {
+        userVM.getUserData()
+    }
+
     Scaffold(
         content = {
             MainContentView(navController)
@@ -129,7 +137,7 @@ fun MainScaffoldView() {
                     backOnClick = {
                         when (currentRoute) {
                             SIGN_UP_ROUTE -> {
-                                authVM.errorMessage.value = ""
+                                authVM.setErrorMessage("")
                                 navController.navigate(AUTHENTICATION_ROUTE)
                             }
                             EMAIL_AND_PASSWORD -> { navController.navigate(SIGN_UP_ROUTE) }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,12 +37,13 @@ fun ReminderView(
 ) {
     val userVM: UserViewModel = viewModel()
 
+    val userData by userVM.userdata.collectAsState()
+
     LaunchedEffect(true) {
         userVM.getUserData()
     }
 
-    //val reminders = userVM.userdata.value["reminders"] as? List<Map<String, Any>> ?: emptyList()
-    val reminders by reminderVM.remindersList.collectAsState()
+    val reminders = userData["reminders"] as? List<Map<String, Any>> ?: emptyList()
 
     var isEditClicked by remember { mutableStateOf(false) }
 
@@ -72,16 +74,14 @@ fun ReminderView(
                     .fillMaxHeight(0.875f),
             ) {
                 if (reminders.isNotEmpty()) {
-                    items(reminders.size) { index ->
-                        val reminder = reminders[index]
+                    itemsIndexed(reminders) { _, reminder ->
+                        val time = "${reminder["hourValue"]}:${
+                            reminder["minuteValue"].toString().padStart(2, '0')
+                        } ${reminder["amOrPm"]}"
 
-                        val time = "${reminders[index]["hourValue"]}:${
-                            reminders[index]["minuteValue"].toString().padStart(2, '0')
-                        } ${reminders[index]["amOrPm"]}"
+                        val days = reminder["daysOfWeek"] as List<String>
 
-                        val days = reminders[index]["daysOfWeek"] as List<String>
-
-                        val isSwitchActive = reminders[index]["active"] as Boolean
+                        val isSwitchActive = reminder["active"] as Boolean
 
                         var currentSwitchState by remember { mutableStateOf(isSwitchActive) }
 
