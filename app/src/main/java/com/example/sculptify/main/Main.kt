@@ -25,15 +25,11 @@ import com.example.sculptify.auth.HeightAndWeight
 import com.example.sculptify.auth.NameAndYOB
 import com.example.sculptify.auth.SignUpView
 import com.example.sculptify.auth.WeeklyGoal
-import com.example.sculptify.auth.regCbs
-import com.example.sculptify.auth.regDayStreak
 import com.example.sculptify.auth.regEmail
 import com.example.sculptify.auth.regFirstName
 import com.example.sculptify.auth.regGender
 import com.example.sculptify.auth.regHeight
-import com.example.sculptify.auth.regIsAdmin
 import com.example.sculptify.auth.regPw
-import com.example.sculptify.auth.regRbe
 import com.example.sculptify.auth.regWeeklyGoal
 import com.example.sculptify.auth.regWeight
 import com.example.sculptify.auth.regYearOfBirth
@@ -42,12 +38,12 @@ import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDaysView
 import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.layout.mv.bottomBar.BottomBar
+import com.example.sculptify.layout.sv.StatisticsView
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.ReminderView
-import com.example.sculptify.pages.StatisticsView
 import com.example.sculptify.pages.settings.GeneralSettingsView
 import com.example.sculptify.pages.settings.WorkoutSettingsView
 import com.example.sculptify.viewModels.AuthenticationViewModel
@@ -200,18 +196,14 @@ fun MainScaffoldView() {
                             CONFIRM_REGISTRATION -> {
                                  if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
                                     authVM.signUpUser(
-                                        regEmail,
-                                        regPw,
-                                        regFirstName,
-                                        regIsAdmin,
-                                        regCbs,
-                                        regRbe,
-                                        regDayStreak,
-                                        regWeeklyGoal.roundToInt(),
-                                        regGender,
-                                        regHeight.toInt(),
-                                        regWeight.toFloat(),
-                                        regYearOfBirth.toInt(),
+                                        regEmail = regEmail,
+                                        regPw = regPw,
+                                        regFirstName = regFirstName,
+                                        regWeeklyGoal = regWeeklyGoal.roundToInt(),
+                                        regGender = regGender,
+                                        regHeight = regHeight.toInt(),
+                                        regWeight = regWeight.toFloat(),
+                                        regYearOfBirth = regYearOfBirth.toInt(),
                                         navController
                                     )
 
@@ -255,7 +247,7 @@ fun MainContentView(navController: NavHostController) {
         // ---------------------------------------------------------------------------------------
         composable( route = MAIN_ROUTE ){ MainView(navController) }
         composable( route = DAY_STREAK_ACTIVE_DAYS_ROUTE ){ DayStreak_ActiveDaysView(navController) }
-        composable( route = STATISTICS_ROUTE ){ StatisticsView() }
+        composable( route = STATISTICS_ROUTE ){ StatisticsView(navController) }
         composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
         composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
         composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }

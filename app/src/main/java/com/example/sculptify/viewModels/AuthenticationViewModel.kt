@@ -75,10 +75,6 @@ class AuthenticationViewModel: ViewModel() {
         regEmail: String,
         regPw: String,
         regFirstName: String,
-        regIsAdmin: Boolean,
-        regCbs: Int,
-        regRbe: Int,
-        regDayStreak: Int,
         regWeeklyGoal: Int,
         regGender: String,
         regHeight: Int,
@@ -89,7 +85,7 @@ class AuthenticationViewModel: ViewModel() {
         if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
             fAuth.createUserWithEmailAndPassword(regEmail, regPw)
                 .addOnSuccessListener { authResult ->
-                    saveUserInformation(authResult.user!!.uid, regFirstName, regIsAdmin, regCbs, regRbe, regDayStreak, regWeeklyGoal, regGender, regHeight, regWeight, regYearOfBirth)
+                    saveUserInformation(authResult.user!!.uid, regFirstName, regWeeklyGoal, regGender, regHeight, regWeight, regYearOfBirth)
                     logInUser(regEmail, regPw, navController)
                     navController.navigate(MAIN_ROUTE)
                 }
@@ -115,28 +111,27 @@ class AuthenticationViewModel: ViewModel() {
     private fun saveUserInformation(
         userId: String,
         regFirstName: String,
-        regIsAdmin: Boolean,
-        regCbs: Int,
-        regRbe: Int,
-        regDayStreak: Int,
         regWeeklyGoal: Int,
         regGender: String,
         regHeight: Int,
         regWeight: Float,
         regYearOfBirth: Int
     ) {
+//        val user = User(
+//            firstName = regFirstName,
+//            weeklyGoal = regWeeklyGoal,
+//            gender = regGender,
+//            height = regHeight,
+//            weight = regWeight,
+//            yearOfBirth = regYearOfBirth
+//        )
         val user = User(
-            regFirstName,
-            regIsAdmin,
-            regCbs,
-            regRbe,
-            regDayStreak,
-            regWeeklyGoal,
-            regGender,
-            regHeight,
-            regWeight,
-            regYearOfBirth,
-
+            firstName = regFirstName,
+            weeklyGoal = regWeeklyGoal,
+            gender = regGender,
+            height = regHeight,
+            weight = regWeight,
+            yearOfBirth = regYearOfBirth
         )
 
         fireStore.collection("users").document(userId)

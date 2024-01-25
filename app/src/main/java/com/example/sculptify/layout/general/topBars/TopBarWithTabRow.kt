@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
+import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
+import com.example.sculptify.layout.sv.MyStatistics_TabItems
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -40,7 +42,8 @@ fun TopBarWithTabRow(
     indicatorHeight: Dp,
     selectedTabIndex: Int,
     onBackButtonClick: () -> Unit,
-    onTabSelected: (Int) -> Unit
+    onTabSelected: (Int) -> Unit,
+    route: String
 ) {
     Row(
         modifier = Modifier
@@ -105,25 +108,51 @@ fun TopBarWithTabRow(
                 )
             },
         ) {
-            DayStreak_ActiveDays_TabItems.forEachIndexed { index, item ->
-                Tab(
-                    selected = index == selectedTabIndex,
-                    onClick = {
-                        onTabSelected(index)
-                    },
-                    text = {
-                        Text(
-                            text = item.title,
-                            fontSize = 20.sp,
-                            fontFamily = balooFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = if (index == selectedTabIndex) {
-                                item.selectedItem
-                            } else item.unselectedItem
+            when (route) {
+                DAY_STREAK_ACTIVE_DAYS_ROUTE -> {
+                    DayStreak_ActiveDays_TabItems.forEachIndexed { index, item ->
+                        Tab(
+                            selected = index == selectedTabIndex,
+                            onClick = {
+                                onTabSelected(index)
+                            },
+                            text = {
+                                Text(
+                                    text = item.title,
+                                    fontSize = 20.sp,
+                                    fontFamily = balooFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (index == selectedTabIndex) {
+                                        item.selectedItem
+                                    } else item.unselectedItem
+                                )
+                            }
                         )
                     }
-                )
+                }
+                else -> {
+                    MyStatistics_TabItems.forEachIndexed { index, item ->
+                        Tab(
+                            selected = index == selectedTabIndex,
+                            onClick = {
+                                onTabSelected(index)
+                            },
+                            text = {
+                                Text(
+                                    text = item.title,
+                                    fontSize = 20.sp,
+                                    fontFamily = balooFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (index == selectedTabIndex) {
+                                        item.selectedItem
+                                    } else item.unselectedItem
+                                )
+                            }
+                        )
+                    }
+                }
             }
+
         }
     }
 }

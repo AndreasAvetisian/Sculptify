@@ -13,5 +13,9 @@ data class User(
     val height: Int = 0,
     val weight: Float = 0f,
     val yearOfBirth: Int = 0,
-    val reminders: List<Reminder> = emptyList()
+    val reminders: List<Reminder> = emptyList(),
+    val exercisesCompleted: List<Int> = emptyList(),
+    val duration: List<Int> = emptyList(),
+    val caloriesBurned: List<Int> = emptyList(),
+    val pbs: Int = 0
 )

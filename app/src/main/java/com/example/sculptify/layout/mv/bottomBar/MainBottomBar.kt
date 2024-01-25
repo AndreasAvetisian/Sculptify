@@ -23,9 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.R
 import com.example.sculptify.enumClasses.BottomBarButton
 import com.example.sculptify.layout.mbs.MBS
+import com.example.sculptify.layout.sv.selectedTabIndexForMyStatistics
 import com.example.sculptify.main.ACHIEVEMENTS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
@@ -46,6 +48,9 @@ fun BottomBar(navController: NavHostController) {
         showBottomSheet = false
         selectedButton = lastClickedButton
     }
+
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
 
     Column {
         Divider( thickness = 2.dp, color = Color(0xff909090))
@@ -69,9 +74,11 @@ fun BottomBar(navController: NavHostController) {
                     modifier = Modifier,
                     selected = selectedButton == BottomBarButton.Main,
                     onClick = {
-                        navController.navigate(MAIN_ROUTE)
-                        lastClickedButton = BottomBarButton.Main
-                        selectedButton = BottomBarButton.Main
+                        if (currentRoute !== MAIN_ROUTE) {
+                            navController.navigate(MAIN_ROUTE)
+                            lastClickedButton = BottomBarButton.Main
+                            selectedButton = BottomBarButton.Main
+                        }
                     }
                 )
                 BottomBarButton(
@@ -82,6 +89,7 @@ fun BottomBar(navController: NavHostController) {
                     selected = selectedButton == BottomBarButton.Statistics,
                     onClick = {
                         navController.navigate(STATISTICS_ROUTE)
+                        selectedTabIndexForMyStatistics = 0
                         lastClickedButton = BottomBarButton.Statistics
                         selectedButton = BottomBarButton.Statistics
                     }

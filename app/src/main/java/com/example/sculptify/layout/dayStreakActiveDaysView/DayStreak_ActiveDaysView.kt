@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.data.dayStreakActiveDayV.DayStreakActiveDaysTabItem
 import com.example.sculptify.layout.general.topBars.TopBarWithTabRow
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
+import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.pages.ActiveDaysView
 import com.example.sculptify.pages.DayStreakView
@@ -72,7 +73,8 @@ fun DayStreak_ActiveDaysView(
                 },
                 onTabSelected = {
                     selectedTabIndexForDSAD = it
-                }
+                },
+                route = DAY_STREAK_ACTIVE_DAYS_ROUTE
             )
 
             HorizontalPager(

@@ -51,11 +51,10 @@ fun MyProfileView(
     val authVM: AuthenticationViewModel = viewModel()
 
     val userEmail = Firebase.auth.currentUser?.email.toString()
-//    val userFirstName = userVM.userdata.value["firstName"].toString()
+
     val userFirstName by rememberUpdatedState(
         newValue = userVM.userdata.collectAsState().value["firstName"].toString()
     )
-//    val userYOB = userVM.userdata.value["yearOfBirth"].toString()
 
     val userYOB by rememberUpdatedState(
         newValue = userVM.userdata.collectAsState().value["yearOfBirth"].toString()
