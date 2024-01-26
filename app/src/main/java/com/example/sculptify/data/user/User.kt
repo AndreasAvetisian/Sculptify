@@ -1,12 +1,13 @@
 package com.example.sculptify.data.user
 
 import com.example.sculptify.data.settings.general.reminder.Reminder
+import java.security.Timestamp
 
 data class User(
     val firstName: String = "",
     val isAdmin: Boolean = false,
-    val cbs: Int = 15,
-    val rbe: Int = 30,
+    val cbs: Int = 15, // Countdown Before Start
+    val rbe: Int = 30, // Rest Before Exercises
     val dayStreak: Int = 0,
     val weeklyGoal: Int = 3,
     val gender: String = "",
@@ -14,8 +15,6 @@ data class User(
     val weight: Float = 0f,
     val yearOfBirth: Int = 0,
     val reminders: List<Reminder> = emptyList(),
-    val exercisesCompleted: List<Int> = emptyList(),
-    val duration: List<Int> = emptyList(),
-    val caloriesBurned: List<Int> = emptyList(),
-    val pbs: Int = 0
+    val userWorkoutStat: List<Map<Int, Timestamp>> = emptyList(),
+    val pbs: Int = 0 // Personal Best Streak
 )

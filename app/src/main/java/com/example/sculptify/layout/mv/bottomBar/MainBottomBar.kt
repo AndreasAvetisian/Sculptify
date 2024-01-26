@@ -88,10 +88,12 @@ fun BottomBar(navController: NavHostController) {
                     modifier = Modifier,
                     selected = selectedButton == BottomBarButton.Statistics,
                     onClick = {
-                        navController.navigate(STATISTICS_ROUTE)
-                        selectedTabIndexForMyStatistics = 0
-                        lastClickedButton = BottomBarButton.Statistics
-                        selectedButton = BottomBarButton.Statistics
+                        if (currentRoute !== STATISTICS_ROUTE) {
+                            navController.navigate(STATISTICS_ROUTE)
+                            selectedTabIndexForMyStatistics = 0
+                            lastClickedButton = BottomBarButton.Statistics
+                            selectedButton = BottomBarButton.Statistics
+                        }
                     }
                 )
                 BottomBarButton(
@@ -101,9 +103,11 @@ fun BottomBar(navController: NavHostController) {
                     modifier = Modifier,
                     selected = selectedButton == BottomBarButton.Achievements,
                     onClick = {
-                        navController.navigate(ACHIEVEMENTS_ROUTE)
-                        lastClickedButton = BottomBarButton.Achievements
-                        selectedButton = BottomBarButton.Achievements
+                        if (currentRoute !== ACHIEVEMENTS_ROUTE) {
+                            navController.navigate(ACHIEVEMENTS_ROUTE)
+                            lastClickedButton = BottomBarButton.Achievements
+                            selectedButton = BottomBarButton.Achievements
+                        }
                     }
                 )
                 BottomBarButton(

@@ -35,6 +35,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
 
     val dayStreakValue = userData["dayStreak"] ?: 0
     val weeklyGoalValue = userData["weeklyGoal"] ?: 0
+    val pbs = userData["pbs"] ?: 0
 
     Row (
         modifier = Modifier
@@ -49,7 +50,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             iconId = R.drawable.day_streak_main_icon,
             iconColor = Color(0xffff4e28),
             title = "Day Streak",
-            stat = "Personal best: 0",
+            stat = "Personal best: $pbs",
             width = 0.5f,
             paddingStart = 0.dp,
             paddingEnd = 10.dp
