@@ -31,43 +31,8 @@ fun MyStatisticsView() {
 
     var selectedButton by remember { mutableStateOf(StatSelectionButton.Today) }
 
-    val exercisesCompleted: String = when (selectedButton) {
-        StatSelectionButton.Today -> (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-            ?.lastOrNull { it["date"] != null }
-            ?.get("exercisesCompleted")
-            ?.toString() ?: "0"
-        StatSelectionButton.AllTime -> {
-            val allTimeDuration = (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-                ?.mapNotNull { it["exercisesCompleted"] }
-                ?.sumOf { it.toString().toInt() }
-            allTimeDuration.toString()
-        }
-    }
-
-    val durationValue: String = when (selectedButton) {
-        StatSelectionButton.Today -> (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-            ?.lastOrNull { it["date"] != null }
-            ?.get("duration")
-            ?.toString() ?: "0"
-        StatSelectionButton.AllTime -> {
-            val allTimeDuration = (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-                ?.mapNotNull { it["duration"] }
-                ?.sumOf { it.toString().toInt() }
-            allTimeDuration.toString()
-        }
-    }
-
-    val caloriesBurned: String = when (selectedButton) {
-        StatSelectionButton.Today -> (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-            ?.lastOrNull { it["date"] != null }
-            ?.get("caloriesBurned")
-            ?.toString() ?: "0"
-        StatSelectionButton.AllTime -> {
-            val allTimeDuration = (userData["userWorkoutStat"] as? List<Map<String, Any>>)
-                ?.mapNotNull { it["caloriesBurned"] }
-                ?.sumOf { it.toString().toInt() }
-            allTimeDuration.toString()
-        }
+    val (exercisesCompleted, durationValue, caloriesBurned) = remember(userData, selectedButton) {
+        computeStatistics(userData, selectedButton)
     }
 
     val pbsValue by rememberUpdatedState(
@@ -75,8 +40,7 @@ fun MyStatisticsView() {
     )
 
     Column (
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         StatSelection(selectedButton = selectedButton) { button ->
@@ -101,4 +65,36 @@ fun MyStatisticsView() {
             )
         }
     }
+}
+
+private fun computeStatistics(
+    userData: Map<String, Any>,
+    selectedButton: StatSelectionButton
+): Triple<String, String, String> {
+    val userWorkoutStat = userData["userWorkoutStat"] as? List<Map<String, Any>> ?: return Triple("0", "0", "0")
+
+    val todayStats = userWorkoutStat.lastOrNull { it["date"] != null }
+
+    val exercisesCompleted = when (selectedButton) {
+        StatSelectionButton.Today -> todayStats?.get("exercisesCompleted")?.toString() ?: "0"
+        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+            it["exercisesCompleted"].toString().toInt()
+        }.toString()
+    }
+
+    val durationValue = when (selectedButton) {
+        StatSelectionButton.Today -> todayStats?.get("duration")?.toString() ?: "0"
+        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+            it["duration"].toString().toInt()
+        }.toString()
+    }
+
+    val caloriesBurned = when (selectedButton) {
+        StatSelectionButton.Today -> todayStats?.get("caloriesBurned")?.toString() ?: "0"
+        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+            it["caloriesBurned"].toString().toInt()
+        }.toString()
+    }
+
+    return Triple(exercisesCompleted, durationValue, caloriesBurned)
 }
