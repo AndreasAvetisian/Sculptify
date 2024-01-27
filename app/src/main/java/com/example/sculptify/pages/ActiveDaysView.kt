@@ -21,10 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +55,11 @@ fun ActiveDaysView(navController: NavHostController) {
         userVM.getUserData()
     }
 
-    val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString() ?: 0
+    val userData by rememberUpdatedState(
+        newValue = userVM.userdata.collectAsState().value
+    )
+
+    val weeklyGoalValue = userData["weeklyGoal"]?.toString() ?: 0
 
     var showBottomSheet by remember { mutableStateOf(false) }
 

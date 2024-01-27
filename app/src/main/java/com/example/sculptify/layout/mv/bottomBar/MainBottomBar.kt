@@ -27,7 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.R
 import com.example.sculptify.enumClasses.BottomBarButton
 import com.example.sculptify.layout.mbs.MBS
-import com.example.sculptify.layout.sv.selectedTabIndexForMyStatistics
+import com.example.sculptify.layout.msv.selectedTabIndexForMyStatistics
 import com.example.sculptify.main.ACHIEVEMENTS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE

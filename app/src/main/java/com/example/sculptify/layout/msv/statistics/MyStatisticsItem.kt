@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.sv.statistics
+package com.example.sculptify.layout.msv.statistics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -27,6 +27,7 @@ fun MyStatisticsItem(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 10.dp)
     ) {
         Row (
             modifier = Modifier

@@ -9,8 +9,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeeklyGoal
+import com.example.sculptify.layout.msv.bmi.BMI_EditBodyParameters
 import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.main.STATISTICS_ROUTE
 import com.example.sculptify.pages.MeView
 import kotlinx.coroutines.CoroutineScope
 
@@ -32,19 +34,29 @@ fun MBS(
         sheetState = sheetState,
         containerColor = Color(0xFF1C1C1E)
     ) {
-        if (currentRoute == MAIN_ROUTE) {
-            MeView(
-                scope = scope,
-                sheetState = sheetState,
-                onDismiss = onDismiss,
-                navController = navController
-            )
-        } else if (currentRoute == DAY_STREAK_ACTIVE_DAYS_ROUTE){
-            ADV_ModifyWeeklyGoal(
-                scope = scope,
-                sheetState = sheetState,
-                onDismiss = onDismiss
-            )
+        when (currentRoute) {
+            MAIN_ROUTE -> {
+                MeView(
+                    scope = scope,
+                    sheetState = sheetState,
+                    onDismiss = onDismiss,
+                    navController = navController
+                )
+            }
+            DAY_STREAK_ACTIVE_DAYS_ROUTE -> {
+                ADV_ModifyWeeklyGoal(
+                    scope = scope,
+                    sheetState = sheetState,
+                    onDismiss = onDismiss
+                )
+            }
+            STATISTICS_ROUTE -> {
+                BMI_EditBodyParameters(
+                    scope = scope,
+                    sheetState = sheetState,
+                    onDismiss = onDismiss
+                )
+            }
         }
     }
 }

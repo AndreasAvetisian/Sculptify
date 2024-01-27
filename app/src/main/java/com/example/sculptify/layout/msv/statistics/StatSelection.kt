@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.sv.statistics
+package com.example.sculptify.layout.msv.statistics
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

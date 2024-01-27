@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.enumClasses.StatSelectionButton
-import com.example.sculptify.layout.sv.statistics.MyStatisticsItem
-import com.example.sculptify.layout.sv.statistics.StatSelection
+import com.example.sculptify.layout.msv.statistics.MyStatisticsItem
+import com.example.sculptify.layout.msv.statistics.StatSelection
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable

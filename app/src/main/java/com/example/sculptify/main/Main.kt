@@ -37,8 +37,8 @@ import com.example.sculptify.auth.weakPwError
 import com.example.sculptify.layout.auth.SignUpBottomBar
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDaysView
 import com.example.sculptify.layout.mbs.MBS
+import com.example.sculptify.layout.msv.StatisticsView
 import com.example.sculptify.layout.mv.bottomBar.BottomBar
-import com.example.sculptify.layout.sv.StatisticsView
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyFavorite_MyHistoryView
@@ -115,7 +115,6 @@ fun MainScaffoldView() {
         bottomBar = {
             if (
                 currentRoute == MAIN_ROUTE ||
-                currentRoute == STATISTICS_ROUTE ||
                 currentRoute == ACHIEVEMENTS_ROUTE
             ) {
                 BottomBar(navController)

@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.sv
+package com.example.sculptify.layout.msv
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -81,7 +81,7 @@ fun StatisticsView(
                     MyStatisticsView()
                 }
                 1 -> {
-                    MyBMIView()
+                    MyBMIView(navController)
                 }
             }
         }

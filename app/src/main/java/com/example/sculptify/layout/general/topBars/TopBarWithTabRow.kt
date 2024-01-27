@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
 import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
-import com.example.sculptify.layout.sv.MyStatistics_TabItems
+import com.example.sculptify.layout.msv.MyStatistics_TabItems
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
