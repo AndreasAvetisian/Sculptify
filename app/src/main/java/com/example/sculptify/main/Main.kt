@@ -114,8 +114,7 @@ fun MainScaffoldView() {
         },
         bottomBar = {
             if (
-                currentRoute == MAIN_ROUTE ||
-                currentRoute == ACHIEVEMENTS_ROUTE
+                currentRoute == MAIN_ROUTE
             ) {
                 BottomBar(navController)
             } else if (
@@ -247,7 +246,7 @@ fun MainContentView(navController: NavHostController) {
         composable( route = MAIN_ROUTE ){ MainView(navController) }
         composable( route = DAY_STREAK_ACTIVE_DAYS_ROUTE ){ DayStreak_ActiveDaysView(navController) }
         composable( route = STATISTICS_ROUTE ){ StatisticsView(navController) }
-        composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView() }
+        composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView(navController) }
         composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
         composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }
         composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
