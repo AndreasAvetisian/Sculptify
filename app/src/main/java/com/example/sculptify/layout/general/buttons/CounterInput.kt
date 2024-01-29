@@ -27,7 +27,8 @@ fun CounterInput(
     paddingBottom: Dp,
     paddingTop: Dp,
     buttonWidth: Dp,
-    circleSize: Dp
+    circleSize: Dp,
+    thumbColor: Color
 ) {
     Row (
         modifier = Modifier
@@ -54,7 +55,8 @@ fun CounterInput(
             width = buttonWidth,
             height = 40.dp,
             circleSize = circleSize,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            thumbColor = thumbColor
         )
     }
 }

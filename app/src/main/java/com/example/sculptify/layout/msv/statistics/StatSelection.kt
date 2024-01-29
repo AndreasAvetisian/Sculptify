@@ -66,7 +66,7 @@ fun StatSelection(selectedButton: StatSelectionButton, onButtonSelected: (StatSe
                 )
                 Divider(
                     modifier = Modifier.fillMaxWidth(0.7f),
-                    thickness = 2.dp,
+                    thickness = 3.dp,
                     color = if (selectedButton == StatSelectionButton.Today && itemData.title == "Today") {
                         itemData.selectedIndicator
                     } else if (selectedButton == StatSelectionButton.AllTime && itemData.title == "All Time") {

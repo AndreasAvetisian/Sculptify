@@ -122,7 +122,8 @@ fun ADV_ModifyWeeklyGoal(
             width = 200.dp,
             height = 60.dp,
             circleSize = 60.dp,
-            fontSize = 32.sp
+            fontSize = 32.sp,
+            thumbColor = Color(0xff0060FE)
         )
         Column (
             modifier =  Modifier

@@ -70,7 +70,8 @@ fun WS_TimerSettings() {
             paddingBottom = 5.dp,
             paddingTop = 10.dp,
             buttonWidth = 180.dp,
-            circleSize = 60.dp
+            circleSize = 60.dp,
+            thumbColor = Color(0xff49714A)
         )
         CounterInput(
             title = "Countdown Before Start",
@@ -89,13 +90,14 @@ fun WS_TimerSettings() {
             paddingBottom = 5.dp,
             paddingTop = 10.dp,
             buttonWidth = 180.dp,
-            circleSize = 60.dp
+            circleSize = 60.dp,
+            thumbColor = Color(0xff49714A)
         )
         ConfirmOpenableLineButton(
             bgColor = if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {
-                Color(0xff0000ff)
+                Color(0xff49714A)
             } else {
-                Color(0xff0000ff).copy(0.2f)
+                Color(0xff49714A).copy(0.2f)
             },
             onClick = {
                 if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {

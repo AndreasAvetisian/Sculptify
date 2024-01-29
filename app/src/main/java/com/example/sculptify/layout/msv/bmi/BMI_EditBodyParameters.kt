@@ -75,7 +75,8 @@ fun BMI_EditBodyParameters(
             paddingBottom = 5.dp,
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
-            circleSize = 110.dp
+            circleSize = 110.dp,
+            thumbColor = Color(0xffFF4E28)
         )
         CounterInput(
             title = "Weight",
@@ -94,14 +95,15 @@ fun BMI_EditBodyParameters(
             paddingBottom = 10.dp,
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
-            circleSize = 110.dp
+            circleSize = 110.dp,
+            thumbColor = Color(0xffFF4E28)
         )
         ConfirmButton(
             text = "Save",
             bgColor = if (currentHeightValue != userHeight || currentWeightValue != userWeight) {
-                Color(0xff0000ff)
+                Color(0xffFF4E28)
             } else {
-                Color(0xff0000ff).copy(0.2f)
+                Color(0xffFF4E28).copy(0.2f)
             },
             textColor = Color.White,
             modifier = Modifier

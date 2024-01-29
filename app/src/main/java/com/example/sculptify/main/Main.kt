@@ -114,7 +114,9 @@ fun MainScaffoldView() {
         },
         bottomBar = {
             if (
-                currentRoute == MAIN_ROUTE
+                currentRoute == MAIN_ROUTE ||
+                currentRoute == STATISTICS_ROUTE ||
+                currentRoute == ACHIEVEMENTS_ROUTE
             ) {
                 BottomBar(navController)
             } else if (

@@ -71,7 +71,8 @@ fun MPV_BodyParameters() {
             paddingBottom = 5.dp,
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
-            circleSize = 110.dp
+            circleSize = 110.dp,
+            thumbColor = Color(0xff0060FE)
         )
         CounterInput(
             title = "Weight",
@@ -90,7 +91,8 @@ fun MPV_BodyParameters() {
             paddingBottom = 10.dp,
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
-            circleSize = 110.dp
+            circleSize = 110.dp,
+            thumbColor = Color(0xff0060FE)
         )
         ConfirmOpenableLineButton(
             bgColor = if (currentHeightValue != userHeight || currentWeightValue != userWeight) {

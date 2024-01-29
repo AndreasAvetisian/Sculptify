@@ -33,7 +33,7 @@ fun MainView(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.675.dp, 15.675.dp, 15.675.dp, 104.dp)
+            .padding(15.675.dp, 0.dp, 15.675.dp, 64.dp)
     ) {
         item {
             MV_TopBar()

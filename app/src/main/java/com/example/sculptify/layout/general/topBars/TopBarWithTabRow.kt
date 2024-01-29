@@ -32,8 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.layout.msv.MyStatistics_TabItems
+import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
+import com.example.sculptify.main.STATISTICS_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -96,7 +97,7 @@ fun TopBarWithTabRow(
                 val selectedTabPosition = tabPositions[selectedTabIndex]
 
                 TabRowDefaults.Indicator(
-                    color = Color(0xff0060FE),
+                    color = if (route == STATISTICS_ROUTE) Color(0xffFF4E28) else Color(0xff0060FE),
                     modifier = Modifier
                         .padding(
                             start = 30.dp,

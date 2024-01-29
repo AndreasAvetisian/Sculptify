@@ -52,7 +52,8 @@ fun DraggableThumbButton(
     onValueIncreaseClick: () -> Unit,
     modifier: Modifier = Modifier,
     size: Dp,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    thumbColor: Color
 ) {
     val dragLimitHorizontalPx = DRAG_LIMIT_HORIZONTAL_DP.dp.dpToPx()
     val startDragThreshold = START_DRAG_THRESHOLD_DP.dp.dpToPx()
@@ -74,7 +75,7 @@ fun DraggableThumbButton(
             .shadow(8.dp, shape = CircleShape)
             .size(size)
             .clip(CircleShape)
-            .background(Color(0xff0060FE))
+            .background(thumbColor)
             .pointerInput(Unit) {
                 forEachGesture {
                     awaitPointerEventScope {

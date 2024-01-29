@@ -27,7 +27,7 @@ fun MV_TopBar() {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 5.dp),
+            .padding(bottom = 5.dp, top = 15.675.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
     ) {

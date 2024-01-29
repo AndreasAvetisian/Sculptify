@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 
@@ -19,7 +20,8 @@ fun CounterButton(
     width: Dp,
     height: Dp,
     circleSize: Dp,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    thumbColor: Color
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -45,7 +47,8 @@ fun CounterButton(
             onValueIncreaseClick = onValueIncreaseClick,
             modifier = Modifier.align(Alignment.Center),
             size = circleSize,
-            fontSize = fontSize
+            fontSize = fontSize,
+            thumbColor = thumbColor
         )
     }
 }

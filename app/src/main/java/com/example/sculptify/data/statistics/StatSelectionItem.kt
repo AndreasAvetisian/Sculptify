@@ -7,5 +7,5 @@ data class StatSelectionItem (
     val unselectedItem: Color = Color(0xff909090),
     val selectedItem: Color = Color.White,
     val unselectedIndicator: Color = Color.Transparent,
-    val selectedIndicator: Color = Color(0xff0060FE)
+    val selectedIndicator: Color = Color(0xffFF4E28)
 )
