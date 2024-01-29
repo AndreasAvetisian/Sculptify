@@ -1,5 +1,9 @@
 package com.example.sculptify.layout.mpv
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,7 +63,15 @@ fun MPV_BottomButtonsLayout(
                     .padding(start = 7.5.dp)
             )
         }
-        if (isDeletionOpen) {
+        AnimatedVisibility(
+            visible = isDeletionOpen,
+            enter = fadeIn(
+                initialAlpha = 0.4f
+            ),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 250)
+            )
+        ) {
             Row (
                 modifier = Modifier
                     .fillMaxWidth()

@@ -1,5 +1,9 @@
 package com.example.sculptify.pages
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,7 +62,15 @@ fun MyStatisticsView() {
             title = "Calories Burned",
             value = "$caloriesBurned kcal"
         )
-        if (selectedButton == StatSelectionButton.AllTime) {
+        AnimatedVisibility(
+            visible = selectedButton == StatSelectionButton.AllTime,
+            enter = fadeIn(
+                initialAlpha = 0.4f
+            ),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 250)
+            )
+        ) {
             MyStatisticsItem(
                 title = "Personal Best Streak",
                 value = "$pbsValue ${if (pbsValue != "1") "days" else "day"}"

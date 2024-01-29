@@ -3,7 +3,6 @@ package com.example.sculptify.layout.auth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -16,7 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import com.example.sculptify.ui.theme.balooFontFamily
+import androidx.compose.ui.unit.sp
+import com.example.sculptify.layout.general.customText.CustomText
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -38,9 +38,9 @@ fun AuthField(
         onValueChange = onValueChange,
         visualTransformation = visualTransformation,
         label = {
-            Text(
+            CustomText(
                 text = label,
-                fontFamily = balooFontFamily,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal
             )
         },

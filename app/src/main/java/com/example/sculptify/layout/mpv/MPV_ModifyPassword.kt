@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.general.buttons.ConfirmButton
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -72,13 +72,7 @@ fun MPV_ModifyPassword(
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
             ) {
-                Text(
-                    text = "Modify Password",
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xffffffff)
-                )
+                CustomText(text = "Modify Password")
             }
             Row (
                 modifier = Modifier
@@ -87,13 +81,10 @@ fun MPV_ModifyPassword(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
+                CustomText(
                     text = "********",
                     modifier = Modifier
                         .padding(top = 7.dp),
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     color = Color(0xFF909090)
                 )
                 Icon(
@@ -171,7 +162,7 @@ fun MPV_ModifyPassword(
                         .height(50.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(
+                    CustomText(
                         text = weakPasswordError,
                         fontSize = 16.sp,
                         color = Color.Red,

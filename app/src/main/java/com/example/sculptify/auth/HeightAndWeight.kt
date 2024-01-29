@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -47,12 +47,9 @@ fun HeightAndWeight() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                CustomText(
                     text = "Your height is",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
                 )
                 AuthField(
                     value = regHeight,
@@ -85,12 +82,9 @@ fun HeightAndWeight() {
                         .width(200.dp),
                     containerColor = Color(0xff1C1C1E)
                 )
-                Text(
+                CustomText(
                     text = "and weight is",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
                 )
                 AuthField(
                     value = regWeight,

@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -24,17 +23,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.settings.general.reminder.rd.RD_DaysOfWeek
 import com.example.sculptify.layout.settings.general.reminder.timePicker.TimePicker
-import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.ReminderViewModel
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -207,12 +204,8 @@ fun ReminderDialog(
                         )
                     }
                 } else {
-                    Text(
+                    CustomText(
                         text = "Reminder already exists",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
                 }

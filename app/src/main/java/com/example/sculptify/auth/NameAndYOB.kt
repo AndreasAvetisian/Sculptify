@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.auth.AuthField
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -41,12 +41,9 @@ fun NameAndYOB() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                CustomText(
                     text = "Your name is",
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 30.sp
                 )
                 AuthField(
                     value = regFirstName,
@@ -65,12 +62,9 @@ fun NameAndYOB() {
                         .padding(40.dp, 10.dp, 40.dp, 10.dp),
                     containerColor = Color(0xff1C1C1E)
                 )
-                Text(
+                CustomText(
                     text = "and you were born in",
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 30.sp
                 )
                 AuthField(
                     value = regYearOfBirth,

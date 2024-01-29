@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.layout.mv.MV_HistoryOfWorkouts
 import com.example.sculptify.layout.mv.MV_TopBar
 import com.example.sculptify.layout.mv.buttons.MV_ButtonsLayout
+import com.example.sculptify.layout.mv.buttons.MV_FloatingButton
 import com.example.sculptify.layout.mv.swipeMenu.MV_SwipeMenu
 import com.example.sculptify.layout.mv.workouts.MV_ClassicWorkouts
 import com.example.sculptify.viewModels.UserViewModel
@@ -33,7 +34,7 @@ fun MainView(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.675.dp, 0.dp, 15.675.dp, 64.dp)
+            .padding(15.675.dp, 0.dp, 15.675.dp, 60.dp)
     ) {
         item {
             MV_TopBar()
@@ -43,4 +44,5 @@ fun MainView(
             MV_ClassicWorkouts()
         } // item
     }
+    MV_FloatingButton(navController)
 }

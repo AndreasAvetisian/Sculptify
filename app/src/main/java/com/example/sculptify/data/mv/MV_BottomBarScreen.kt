@@ -9,7 +9,7 @@ sealed class BottomBarScreen(
     val route: String,
     val title: String,
     val icon: Int,
-    val iconFocused: Int
+    val widthDistribution: Float
 ) {
 
     // for home
@@ -17,7 +17,7 @@ sealed class BottomBarScreen(
         route = MAIN_ROUTE,
         title = "Main",
         icon = R.drawable.history_of_workouts,
-        iconFocused = R.drawable.history_of_workouts
+        widthDistribution = 0.33f
     )
 
     // for report
@@ -25,7 +25,7 @@ sealed class BottomBarScreen(
         route = STATISTICS_ROUTE,
         title = "Statistics",
         icon = R.drawable.statistics_icon,
-        iconFocused = R.drawable.statistics_icon
+        widthDistribution = 0.5f
     )
 
     // for report
@@ -33,6 +33,6 @@ sealed class BottomBarScreen(
         route = ACHIEVEMENTS_ROUTE,
         title = "Achievements",
         icon = R.drawable.achievements_icon,
-        iconFocused = R.drawable.achievements_icon
+        widthDistribution = 1f
     )
 }

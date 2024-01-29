@@ -17,7 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,14 +31,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.mbs.MBS
-import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -78,15 +76,10 @@ fun ActiveDaysView(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
+        CustomText(
             text = "0/$weeklyGoalValue",
             fontSize = 80.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xffffffff),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-//                .background(Color.Red)
+            textAlign = TextAlign.Center
         )
         Row (
             modifier = Modifier
@@ -96,12 +89,9 @@ fun ActiveDaysView(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
+            CustomText(
                 text = "Weekly Goal",
                 fontSize = 16.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xffffffff),
                 textAlign = TextAlign.Center
             )
             Icon(
@@ -141,12 +131,9 @@ fun ActiveDaysView(navController: NavHostController) {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(
+                            CustomText(
                                 text = date.dayOfMonth.toString(),
                                 fontSize = 22.sp,
-                                fontFamily = balooFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
                                 textAlign = TextAlign.Center
                             )
                         }

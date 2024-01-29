@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
 fun BMI_SliderItem(
@@ -40,12 +38,9 @@ fun BMI_SliderItem(
         ) {
             Spacer(modifier = Modifier.fillMaxSize())
         }
-        Text(
+        CustomText(
             text = "%.${if (index == 18.5f) "1" else "0"}f".format(index),
-            color = Color.White,
-            fontSize = 10.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold
+            fontSize = 10.sp
         )
     }
 }

@@ -17,7 +17,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,14 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.myFavoriteMyHistory.MyFavMyHisTabItem
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.ui.theme.balooFontFamily
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -99,7 +96,11 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                     TabRowDefaults.Indicator(
                         color = Color(0xff0060FE),
                         modifier = Modifier
-                            .padding(start = 0.dp, end = (deviceWidthDp/2).dp, top = (deviceHeightDp * 0.059).dp) // Adjust padding as needed
+                            .padding(
+                                start = 0.dp,
+                                end = (deviceWidthDp / 2).dp,
+                                top = (deviceHeightDp * 0.059).dp
+                            ) // Adjust padding as needed
                             .width(selectedTabPosition.width) // Adjust width as needed
                             .offset(x = indicatorOffset)
                     )
@@ -112,11 +113,8 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                             selectedTabIndex = index
                         },
                         text = {
-                            Text(
+                            CustomText(
                                 text = item.title,
-                                fontSize = 20.sp,
-                                fontFamily = balooFontFamily,
-                                fontWeight = FontWeight.Bold,
                                 color = if (index == selectedTabIndex) {
                                     item.selectedItem
                                 } else item.unselectedItem
@@ -135,13 +133,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    Text(
-                        text = myFavMyHisTabItems[index].title,
-                        fontSize = 20.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xffFCFCFC)
-                    )
+                    CustomText(text = myFavMyHisTabItems[index].title)
                 }
             }
         }

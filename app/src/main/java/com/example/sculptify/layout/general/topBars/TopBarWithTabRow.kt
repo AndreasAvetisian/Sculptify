@@ -19,23 +19,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.MyStatistics_TabItems
 import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
-import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
 fun TopBarWithTabRow(
@@ -118,11 +115,8 @@ fun TopBarWithTabRow(
                                 onTabSelected(index)
                             },
                             text = {
-                                Text(
+                                CustomText(
                                     text = item.title,
-                                    fontSize = 20.sp,
-                                    fontFamily = balooFontFamily,
-                                    fontWeight = FontWeight.Bold,
                                     color = if (index == selectedTabIndex) {
                                         item.selectedItem
                                     } else item.unselectedItem
@@ -139,11 +133,8 @@ fun TopBarWithTabRow(
                                 onTabSelected(index)
                             },
                             text = {
-                                Text(
+                                CustomText(
                                     text = item.title,
-                                    fontSize = 20.sp,
-                                    fontFamily = balooFontFamily,
-                                    fontWeight = FontWeight.Bold,
                                     color = if (index == selectedTabIndex) {
                                         item.selectedItem
                                     } else item.unselectedItem

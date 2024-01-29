@@ -7,15 +7,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
 fun BMI_EditRow() {
@@ -25,13 +22,7 @@ fun BMI_EditRow() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = "BMI",
-            color = Color.White,
-            fontSize = 20.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold
-        )
+        CustomText(text = "BMI")
         Icon(
             Icons.Rounded.Edit,
             contentDescription = "",

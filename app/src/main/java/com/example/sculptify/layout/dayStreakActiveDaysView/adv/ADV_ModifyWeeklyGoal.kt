@@ -27,6 +27,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.counterButton.CounterButton
 import com.example.sculptify.ui.theme.balooFontFamily
@@ -96,12 +97,8 @@ fun ADV_ModifyWeeklyGoal(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(
+            CustomText(
                 text = "Weekly active days",
-                fontSize = 20.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xffffffff)
             )
             Text(
                 text = text

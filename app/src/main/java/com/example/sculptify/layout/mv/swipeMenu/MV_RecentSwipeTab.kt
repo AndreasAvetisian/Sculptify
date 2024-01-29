@@ -9,16 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 import java.util.Locale
 @Composable
 fun MV_RecentSwipeTab() {
@@ -28,18 +26,13 @@ fun MV_RecentSwipeTab() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
     ) {
-        Text(
+        CustomText(
             text = MV_SwipeMenuTabItems[0].title.uppercase(Locale.ROOT),
-            fontSize = 26.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xffFCFCFC)
+            fontSize = 26.sp
         )
-        Text(
+        CustomText(
             text = MV_SwipeMenuTabItems[0].description,
             fontSize = 14.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold,
             color = Color(0xff909090)
         )
     }
@@ -73,18 +66,12 @@ fun MV_RecentSwipeTab() {
                     .fillMaxWidth()
                     .padding(start = 15.675.dp)
             ) {
-                Text(
+                CustomText(
                     text = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentTitle,
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xffFCFCFC)
                 )
-                Text(
+                CustomText(
                     text = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentDate,
                     fontSize = 14.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     color = Color(0xff909090)
                 )
             }
@@ -113,18 +100,12 @@ fun MV_RecentSwipeTab() {
                     .fillMaxWidth()
                     .padding(start = 15.675.dp)
             ) {
-                Text(
-                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentTitle,
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xffFCFCFC)
+                CustomText(
+                    text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentTitle
                 )
-                Text(
+                CustomText(
                     text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentDate,
                     fontSize = 14.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     color = Color(0xff909090)
                 )
             }

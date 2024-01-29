@@ -16,19 +16,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
 import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
 fun DSADBottomBar(
@@ -39,16 +37,13 @@ fun DSADBottomBar(
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
+        CustomText(
             text = if (selectedTabIndexForDSAD == 0) {
                 DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].defaultDescription
             } else {
                 DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].defaultDescription
             },
-            color = Color.White,
             fontSize = 14.sp,
-            fontFamily = balooFontFamily,
-            fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth(0.6f)
@@ -83,16 +78,12 @@ fun DSADBottomBar(
                             }
                         )
                 )
-                Text(
+                CustomText(
                     text = if (selectedTabIndexForDSAD == 0) {
                         DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].notActivatedButtonText
                     } else {
                         DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].notActivatedButtonText
-                    },
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
+                    }
                 )
                 Spacer(modifier = Modifier.size(
                     if (!DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].isActivatedButton) {

@@ -15,7 +15,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,12 +23,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmButton
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
@@ -97,13 +94,7 @@ fun ReminderBottomBar(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text(
-                            text = "Edit",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            fontFamily = balooFontFamily,
-                            fontWeight = FontWeight.Bold
-                        )
+                        CustomText(text = "Edit")
                         Icon(
                             Icons.Rounded.Edit,
                             contentDescription = "",

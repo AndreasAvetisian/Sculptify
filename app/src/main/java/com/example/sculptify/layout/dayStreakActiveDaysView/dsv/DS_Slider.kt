@@ -39,18 +39,6 @@ fun DS_Slider() {
     var dayStreakValue = userVM.userdata.value["dayStreak"]?.toString()?.toFloat() ?: 0f
     val weeklyGoalValue = userVM.userdata.value["weeklyGoal"]?.toString()?.toFloat() ?: 1f
 
-//    val valueMap = mapOf(
-//        Pair(7f, 7f) to 6.58f,
-//        Pair(6f, 6f) to 5.64f,
-//        Pair(5f, 5f) to 4.7f,
-//        Pair(4f, 4f) to 3.76f,
-//        Pair(3f, 3f) to 2.82f,
-//        Pair(2f, 2f) to 1.88f,
-//        Pair(1f, 1f) to 0.94f
-//    )
-//
-//    valueMap[Pair(weeklyGoalValue, dayStreakValue)] ?: dayStreakValue
-
     Slider(
         value =
         if ((weeklyGoalValue == 7f && dayStreakValue == 7f) || (dayStreakValue > weeklyGoalValue && weeklyGoalValue == 7f))  {

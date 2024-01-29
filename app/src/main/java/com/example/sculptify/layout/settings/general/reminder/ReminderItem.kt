@@ -22,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,11 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 import kotlinx.coroutines.coroutineScope
 
 @Composable
@@ -133,12 +131,9 @@ fun ReminderItem(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
+                        CustomText(
                             text = time,
-                            fontSize = 40.sp,
-                            fontFamily = balooFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            fontSize = 40.sp
                         )
                         if (!isEditClicked) {
                             Switch(
@@ -175,12 +170,9 @@ fun ReminderItem(
                                         text = item
                                     )
                                 }
-                                Text(
+                                CustomText(
                                     text = "...",
-                                    fontSize = 30.sp,
-                                    fontFamily = balooFontFamily,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    fontSize = 30.sp
                                 )
                             } else {
                                 days.forEach { item ->
@@ -226,13 +218,7 @@ fun ReminderItem(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Deleted",
-                        fontSize = 20.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    CustomText(text = "Deleted")
                 }
             }
         }

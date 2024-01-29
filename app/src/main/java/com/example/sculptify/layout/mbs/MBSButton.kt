@@ -13,21 +13,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.data.meMBS.MeMBSButton
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -47,13 +45,15 @@ fun MBSButton(
             .fillMaxWidth()
             .height(60.dp)
             .clickable {
-                scope.launch {
-                    sheetState.hide()
-                }.invokeOnCompletion {
-                    if (!sheetState.isVisible) {
-                        onDismiss()
+                scope
+                    .launch {
+                        sheetState.hide()
                     }
-                }
+                    .invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            onDismiss()
+                        }
+                    }
                 navController.navigate(button.route) {
                     popUpTo(navController.graph.findStartDestination().id)
                     launchSingleTop = true
@@ -76,12 +76,9 @@ fun MBSButton(
                     tint = Color.White,
                     contentDescription = ""
                 )
-                Text(
+                CustomText(
                     text = button.text,
-                    fontSize = 17.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xffFCFCFC)
+                    fontSize = 17.sp
                 )
             }
             Icon(

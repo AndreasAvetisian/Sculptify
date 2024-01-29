@@ -16,7 +16,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 import kotlinx.coroutines.launch
 
 @Composable
@@ -62,7 +61,7 @@ fun MV_Button(
             .fillMaxWidth(width)
             .height(140.dp)
             .padding(start = paddingStart, end = paddingEnd)
-            .clickable (
+            .clickable(
                 interactionSource = interactionSource,
                 indication = null
             ) {
@@ -92,12 +91,9 @@ fun MV_Button(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
+                CustomText(
                     text = data,
-                    fontSize = 40.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    fontSize = 40.sp
                 )
                 Icon(
                     painter = painterResource(id = iconId),
@@ -108,16 +104,13 @@ fun MV_Button(
                 )
             }
             Column {
-                Text(
+                CustomText(
                     text = title,
-                    fontFamily = balooFontFamily,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
                     fontSize = 16.sp
                 )
-                Text(
+                CustomText(
                     text = stat,
-                    fontFamily = balooFontFamily,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xff909090),
                     fontSize = 16.sp

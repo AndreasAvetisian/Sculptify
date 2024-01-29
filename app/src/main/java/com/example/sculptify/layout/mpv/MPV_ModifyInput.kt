@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -47,13 +47,7 @@ fun MPV_ModifyInput(
             modifier = Modifier
                 .fillMaxWidth(0.6f)
         ) {
-            Text(
-                text = title,
-                fontSize = 20.sp,
-                fontFamily = balooFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xffffffff)
-            )
+            CustomText(text = title)
         }
         Row (
             modifier = Modifier
@@ -65,10 +59,10 @@ fun MPV_ModifyInput(
                 value = value,
                 onValueChange = onValueChange,
                 placeholder = {
-                    Text(
+                    CustomText(
                         text = placeholder,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 16.sp,
+                        color = Color(0xff909090)
                     )
                 },
                 singleLine = true,

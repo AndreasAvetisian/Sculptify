@@ -1,6 +1,11 @@
 package com.example.sculptify.layout.settings.workout
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +27,7 @@ import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.ConfirmDeletion
 import com.example.sculptify.viewModels.UserViewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun WS_DeleteAllDataButton() {
     val userVM: UserViewModel = viewModel()
@@ -55,7 +61,15 @@ fun WS_DeleteAllDataButton() {
             }
         )
     }
-    if (isOpen) {
+    AnimatedVisibility(
+        visible = isOpen,
+        enter = fadeIn(
+            initialAlpha = 0.4f
+        ),
+        exit = fadeOut(
+            animationSpec = tween(durationMillis = 250)
+        )
+    ) {
         ConfirmDeletion(
             onClick = {
                 userVM.deleteUserData()
@@ -75,7 +89,6 @@ fun WS_DeleteAllDataButton() {
             text = "Confirm deletion"
         )
     }
-
     if (isPageRefreshed) {
         LaunchedEffect(true) {
             userVM.getUserData()

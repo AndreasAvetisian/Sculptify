@@ -7,16 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.data.statistics.StatSelectionItem
 import com.example.sculptify.enumClasses.StatSelectionButton
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
 fun StatSelection(selectedButton: StatSelectionButton, onButtonSelected: (StatSelectionButton) -> Unit) {
@@ -42,7 +40,7 @@ fun StatSelection(selectedButton: StatSelectionButton, onButtonSelected: (StatSe
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                CustomText(
                     text = itemData.title,
                     color = if (selectedButton == StatSelectionButton.Today && itemData.title == "Today") {
                         itemData.selectedItem
@@ -52,8 +50,6 @@ fun StatSelection(selectedButton: StatSelectionButton, onButtonSelected: (StatSe
                         itemData.unselectedItem
                     },
                     fontSize = 16.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
                         onButtonSelected(
                             when (itemData.title) {

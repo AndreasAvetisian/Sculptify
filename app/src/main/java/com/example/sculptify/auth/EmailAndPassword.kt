@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 
 var weakPwError by mutableStateOf("")
@@ -55,12 +55,9 @@ fun EmailAndPassword() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                CustomText(
                     text = "Email:",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
                 )
                 AuthField(
                     value = regEmail,
@@ -80,12 +77,9 @@ fun EmailAndPassword() {
                         .fillMaxWidth(),
                     containerColor = Color(0xff1C1C1E)
                 )
-                Text(
+                CustomText(
                     text = "Password:",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold
                 )
                 AuthField(
                     value = regPw,
@@ -132,12 +126,13 @@ fun EmailAndPassword() {
                             .height(50.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(
+                        CustomText(
                             text = weakPwError,
                             fontSize = 18.sp,
                             color = Color.Red,
                             modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 0.dp),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Normal
                         )
                     }
                 } else {

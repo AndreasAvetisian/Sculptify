@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,6 +38,7 @@ import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.auth.ErrorMessage
 import com.example.sculptify.layout.auth.SignInButton
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.main.SIGN_UP_ROUTE
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
@@ -112,14 +112,11 @@ fun AuthenticationView(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "SCULPTIFY",
-                    fontSize = 60.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                CustomText(
                     modifier = Modifier
-                        .padding(0.dp, 0.dp, 0.dp, 50.dp)
+                        .padding(0.dp, 0.dp, 0.dp, 50.dp),
+                    text = "SCULPTIFY",
+                    fontSize = 60.sp
                 )
                 AuthField(
                     value = email,
@@ -178,18 +175,13 @@ fun AuthenticationView(
                     }
                 )
                 Row {
-                    Text(
+                    CustomText(
                         text = "Don't have an account?",
                         fontSize = 18.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
                     )
-                    Text(
+                    CustomText(
                         text = " Sign up!",
                         fontSize = 18.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
                         color = Color(0xff0060FE),
                         modifier = Modifier
                             .clickable {

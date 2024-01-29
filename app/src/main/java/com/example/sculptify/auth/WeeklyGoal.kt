@@ -15,18 +15,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
-import com.example.sculptify.ui.theme.balooFontFamily
+import com.example.sculptify.layout.general.customText.CustomText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,12 +48,9 @@ fun WeeklyGoal() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                CustomText(
                     text = "How often would you like to work out?",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Icon(
@@ -79,12 +74,9 @@ fun WeeklyGoal() {
                     modifier = Modifier
                         .size(100.dp)
                 )
-                Text(
+                CustomText(
                     text = if (regWeeklyGoal == 1f) "time" else "times" + " / week",
-                    color = Color.White,
                     fontSize = 30.sp,
-                    fontFamily = balooFontFamily,
-                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Slider(
@@ -129,20 +121,12 @@ fun WeeklyGoal() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
+                    CustomText(
                         text = "Less",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
-                    Text(
+                    CustomText(
                         text = "More",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontFamily = balooFontFamily,
-                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
                 }
