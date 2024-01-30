@@ -31,8 +31,8 @@ import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.mpv.MPV_BottomButtonsLayout
 import com.example.sculptify.layout.mpv.MPV_ModifyGender
 import com.example.sculptify.layout.mpv.MPV_ModifyInput
-import com.example.sculptify.layout.mpv.MPV_ModifyPassword
 import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
@@ -82,6 +82,9 @@ fun MyProfileView(
     var genderValue by remember { mutableStateOf("") }
     var yobValue by remember { mutableStateOf("") }
 
+    var isModifyPasswordOpen by remember { mutableStateOf(false) }
+    var isBodyParametersOpen by remember { mutableStateOf(false) }
+
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
@@ -108,25 +111,52 @@ fun MyProfileView(
                     readOnly = true,
                     keyboardType = KeyboardType.Email
                 )
-                MPV_ModifyPassword(
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                OpenableLineButton(
+                    text = "Modify Password",
+                    route = MY_PROFILE_ROUTE,
+                    index = 0,
+                    onClick = {
+                        isModifyPasswordOpen = !isModifyPasswordOpen
+                        if (!isModifyPasswordOpen) {
+                            pwValue = ""
+                            confirmPwValue = ""
+                        }
+                    },
+                    onPasswordModified = {
+                        if (pwValue == confirmPwValue) {
+                            isModifyPasswordOpen = false
+                            pwValue = ""
+                            confirmPwValue = ""
+                        } else {
+                            confirmPwValue = ""
+                        }
+                    },
+                    isOpen = isModifyPasswordOpen,
                     pwValue = pwValue,
                     pwOnValueChange = { pwValue = it },
                     confirmPwValue = confirmPwValue,
                     confirmPwOnValueChange = { confirmPwValue = it }
                 )
             }
-
             Spacer(modifier = Modifier.height(10.dp))
-
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 OpenableLineButton(
                     text = "Body Parameters",
-                    isProfileView = true,
-                    isTimerSettingsView = false,
-                    isReadMeView = false
+                    route = MY_PROFILE_ROUTE,
+                    index = 1,
+                    onClick = {
+                        isBodyParametersOpen = !isBodyParametersOpen
+                    },
+                    isOpen = isBodyParametersOpen
                 )
             }
 

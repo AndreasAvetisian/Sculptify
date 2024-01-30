@@ -1,10 +1,10 @@
 package com.example.sculptify.layout.settings.workout
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,17 +42,12 @@ fun WS_TimerSettings() {
 
     Column (
         modifier = Modifier
+            .background(Color(0xff1C1C1E))
             .padding(horizontal = 15.675.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth(),
-            thickness = 1.dp,
-            color = Color(0xff909090)
-        )
         CounterInput(
             title = "Rest Before Exercise",
             titleFontSize = 16.sp,
