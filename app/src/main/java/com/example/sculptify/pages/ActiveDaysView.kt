@@ -1,10 +1,10 @@
 package com.example.sculptify.pages
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.sculptify.layout.dayStreakActiveDaysView.adv.customCPI.CustomCPI
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.viewModels.UserViewModel
@@ -44,7 +45,6 @@ import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun ActiveDaysView(navController: NavHostController) {
     val userVM: UserViewModel = viewModel()
@@ -72,14 +72,18 @@ fun ActiveDaysView(navController: NavHostController) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 50.dp),
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        CustomText(
-            text = "0/$weeklyGoalValue",
-            fontSize = 80.sp,
-            textAlign = TextAlign.Center
+        CustomCPI(
+            modifier = Modifier
+                .size(250.dp),
+            currentValue = 4,
+            primaryColor = Color(0xff0060FE),
+            secondaryColor = Color(0xff1C1C1E),
+            circleRadius = 320f,
+            maxValue = weeklyGoalValue.toString().toInt()
         )
         Row (
             modifier = Modifier

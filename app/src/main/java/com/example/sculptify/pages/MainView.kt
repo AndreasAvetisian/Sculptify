@@ -1,6 +1,7 @@
 package com.example.sculptify.pages
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,18 +32,23 @@ fun MainView(
 
     val scrollState = rememberLazyListState()
 
-    LazyColumn (
+    Column (
         modifier = Modifier
             .fillMaxSize()
             .padding(15.675.dp, 0.dp, 15.675.dp, 60.dp)
     ) {
-        item {
-            MV_TopBar()
-            MV_ButtonsLayout(navController)
-            MV_SwipeMenu()
-            MV_HistoryOfWorkouts()
-            MV_ClassicWorkouts()
-        } // item
+        MV_TopBar()
+        LazyColumn (
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            item {
+                MV_ButtonsLayout(navController)
+                MV_SwipeMenu()
+                MV_HistoryOfWorkouts()
+                MV_ClassicWorkouts()
+            } // item
+        }
     }
     MV_FloatingButton(navController)
 }

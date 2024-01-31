@@ -41,7 +41,7 @@ val BodyMassIndex_Items = listOf(
         indicatorColor = Color(0xff2340D4),
         description = "Severely underweight",
         width = 0.04f,
-        range = 15f..16f
+        range = 0f..16f
     ),
     BodyMassIndexItem(
         index = 16f,
@@ -76,7 +76,7 @@ val BodyMassIndex_Items = listOf(
         indicatorColor = Color(0xffFF0232),
         description = "Severely obese",
         width = 1f,
-        range = 35f..40f
+        range = 35f..250f
     )
 )
 
