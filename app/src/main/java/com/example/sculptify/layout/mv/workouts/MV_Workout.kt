@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +20,9 @@ import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
 fun MV_Workout(
+    title: String,
+    workoutsList: Map<String, Any>,
+    bgColor: Color,
     padding: Dp
 ) {
     Card (
@@ -37,7 +39,7 @@ fun MV_Workout(
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xff0060FE))
+                    .background(bgColor)
                     .padding(15.675.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
@@ -47,19 +49,21 @@ fun MV_Workout(
                     fontSize = 14.sp
                 )
                 CustomText(
-                    text = "Beginner",
+                    text = title,
                     fontSize = 24.sp,
                 )
             }
-            MV_WorkoutItem()
-            Divider(thickness = 1.dp, color = Color(0xff909090), modifier = Modifier.padding(start = 85.675.dp))
-            MV_WorkoutItem()
-            Divider(thickness = 1.dp, color = Color(0xff909090), modifier = Modifier.padding(start = 85.675.dp))
-            MV_WorkoutItem()
-            Divider(thickness = 1.dp, color = Color(0xff909090), modifier = Modifier.padding(start = 85.675.dp))
-            MV_WorkoutItem()
-            Divider(thickness = 1.dp, color = Color(0xff909090), modifier = Modifier.padding(start = 85.675.dp))
-            MV_WorkoutItem()
+            workoutsList.forEach { (_, workoutDetails) ->
+                val workoutDetailsMap = workoutDetails as? Map<String, Any>
+                val focusArea = workoutDetailsMap?.get("focusArea") as? String
+                val level = workoutDetailsMap?.get("level") as? String
+                val time = workoutDetailsMap?.get("time") as? String
+
+                MV_WorkoutItem(
+                    title = "$focusArea - $level",
+                    time = time.toString()
+                )
+            }
         }
     }
 }

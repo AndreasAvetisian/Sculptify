@@ -20,7 +20,10 @@ import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
-fun MV_WorkoutItem() {
+fun MV_WorkoutItem(
+    title: String,
+    time: String
+) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -44,12 +47,15 @@ fun MV_WorkoutItem() {
                 horizontalAlignment = Alignment.Start
             ) {
                 CustomText(
-                    text = "Abs - Beginner",
-                    fontSize = 18.sp
+                    text = title,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
                 )
                 CustomText(
-                    text = "18 mins",
-                    fontSize = 16.sp
+                    text = time,
+                    fontSize = 16.sp,
+                    color = Color(0xff909090)
                 )
             }
         }
