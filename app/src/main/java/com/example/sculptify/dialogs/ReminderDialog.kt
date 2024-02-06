@@ -28,10 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.buttons.ConfirmButton
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.settings.general.reminder.rd.RD_DaysOfWeek
 import com.example.sculptify.layout.settings.general.reminder.timePicker.TimePicker
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.viewModels.ReminderViewModel
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -79,7 +83,7 @@ fun ReminderDialog(
         )
     ) {
         Card (
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+            colors = CardDefaults.cardColors(Dark_Gray),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 10.dp
             ),
@@ -121,8 +125,8 @@ fun ReminderDialog(
                                 mutableStateOf(initialSelectedDays.contains(item) || initialSelectedDays.contains("Every day"))
                             }
                             RD_DaysOfWeek(
-                                bgColor = if (isSelected) Color(0xff0060FE) else Color(0xff1C1C1E),
-                                borderColor = if (isSelected) Color.Transparent else Color(0xff0060FE),
+                                bgColor = if (isSelected) Blue else Dark_Gray,
+                                borderColor = if (isSelected) Transparent else Blue,
                                 onClick = {
                                     isSelected = !isSelected
                                     selectedDaysOfWeek = if (isSelected && item == "Every day") {
@@ -152,8 +156,8 @@ fun ReminderDialog(
                     ) {
                         ConfirmButton(
                             text = "Cancel",
-                            bgColor = Color(0xff0060FE),
-                            textColor = Color.White,
+                            bgColor = Blue,
+                            textColor = White,
                             modifier = Modifier
                                 .fillMaxWidth(0.5f)
                                 .height(40.dp)
@@ -165,11 +169,7 @@ fun ReminderDialog(
                         ConfirmButton(
                             text = if (reminderVM.isCreateDialogShown) "Add" else "Modify",
                             bgColor =
-                            if (selectedDaysOfWeek !== initialSelectedDays) {
-                                Color(0xff0060FE)
-                            } else {
-                                Color(0xff0060FE).copy(0.2f)
-                            },
+                            if (selectedDaysOfWeek !== initialSelectedDays) Blue else Blue.copy(0.2f),
                             textColor = Color.White,
                             modifier = Modifier
                                 .fillMaxWidth()

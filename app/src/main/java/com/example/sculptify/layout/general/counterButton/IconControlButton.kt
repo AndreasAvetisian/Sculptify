@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun IconControlButton(
@@ -21,8 +22,8 @@ fun IconControlButton(
     contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    tintColor: Color = Color.White,
-    clickTintColor: Color = Color.White,
+    tintColor: Color = White,
+    clickTintColor: Color = White,
     enabled: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }

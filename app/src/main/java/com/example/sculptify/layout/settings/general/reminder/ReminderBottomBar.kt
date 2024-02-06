@@ -22,11 +22,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
@@ -55,7 +57,7 @@ fun ReminderBottomBar(
     ) {
         Divider(
             thickness = 2.dp,
-            color = Color(0xff909090),
+            color = Light_Gray,
             modifier = Modifier
                 .padding(bottom = 15.675.dp)
         )
@@ -66,8 +68,8 @@ fun ReminderBottomBar(
         ) {
             ConfirmButton(
                 text = "Add reminder",
-                bgColor = Color(0xff0060FE),
-                textColor = Color.White,
+                bgColor = Blue,
+                textColor = White,
                 modifier = Modifier
                     .fillMaxWidth(
                         if (reminders.isNotEmpty()) 0.7f else 1f
@@ -79,7 +81,7 @@ fun ReminderBottomBar(
             )
             if (reminders.isNotEmpty()) {
                 Card (
-                    colors = CardDefaults.cardColors(Color(0xff0060FE)),
+                    colors = CardDefaults.cardColors(Blue),
                     shape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -98,7 +100,7 @@ fun ReminderBottomBar(
                         Icon(
                             Icons.Rounded.Edit,
                             contentDescription = "",
-                            tint = Color.White
+                            tint = White
                         )
                     }
                 }

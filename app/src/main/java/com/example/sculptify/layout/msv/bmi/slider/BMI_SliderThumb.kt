@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.BMI_Thumb_Gray
 
 @Composable
 fun BMI_SliderThumb(
@@ -20,7 +20,7 @@ fun BMI_SliderThumb(
     Icon(
         painter = painterResource(id = R.drawable.bmi_thumb),
         contentDescription = "",
-        tint = Color(0xff58606B),
+        tint = BMI_Thumb_Gray,
         modifier = Modifier
             .width(50.dp)
             .padding(bottom = 60.dp)

@@ -18,9 +18,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +31,7 @@ fun MPV_ModifyGenderButton(
     animationDuration: Int = 50,
     scaleDown: Float = 0.9f
 ) {
-    val buttonColor = if (selected) Color(0xff0000ff) else Color(0xff0060FE).copy(alpha = 0.2f)
+    val buttonColor = if (selected) Blue else Blue.copy(alpha = 0.2f)
 
     val interactionSource = MutableInteractionSource()
 

@@ -17,10 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.ConfirmDeletion
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun MPV_BottomButtonsLayout(
@@ -42,8 +44,8 @@ fun MPV_BottomButtonsLayout(
         ) {
             ConfirmButton(
                 text = "Sign out",
-                bgColor = Color(0xff1C1C1E),
-                textColor = Color.White,
+                bgColor = Dark_Gray,
+                textColor = White,
                 onClick = {
                     onSignOutClick()
                 },
@@ -53,8 +55,8 @@ fun MPV_BottomButtonsLayout(
             )
             ConfirmButton(
                 text = "Delete account",
-                bgColor = Color(0xff1C1C1E),
-                textColor = Color.Red,
+                bgColor = Dark_Gray,
+                textColor = Red,
                 onClick = {
                     isDeletionOpen = !isDeletionOpen
                 },
@@ -75,7 +77,7 @@ fun MPV_BottomButtonsLayout(
             Row (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Red)
+                    .background(Red)
             ) {
                 ConfirmDeletion(
                     onClick = {

@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -33,6 +32,11 @@ import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.AuthField_Gray
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -53,7 +57,7 @@ fun MPV_ModifyPassword(
 
     Column (
         modifier = Modifier
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .padding(horizontal = 15.675.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -74,7 +78,7 @@ fun MPV_ModifyPassword(
                         id = if (isHiddenPw) R.drawable.password_hidden else R.drawable.password_revealed
                     ),
                     contentDescription = "password icon",
-                    tint = Color.White,
+                    tint = White,
                     modifier = Modifier.clickable {
                         isHiddenPw = !isHiddenPw
                     },
@@ -82,14 +86,14 @@ fun MPV_ModifyPassword(
             },
             textStyle = TextStyle(
                 fontSize = 20.sp,
-                color = Color.White,
+                color = White,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Normal
             ),
             modifier = Modifier
                 .padding(40.dp, 10.dp, 40.dp, 0.dp)
                 .fillMaxWidth(),
-            containerColor = Color(0xff202020)
+            containerColor = AuthField_Gray
         )
         AuthField(
             value = confirmPwValue,
@@ -100,14 +104,14 @@ fun MPV_ModifyPassword(
             trailingIcon = null,
             textStyle = TextStyle(
                 fontSize = 20.sp,
-                color = Color.White,
+                color = White,
                 fontFamily = balooFontFamily,
                 fontWeight = FontWeight.Normal
             ),
             modifier = Modifier
                 .padding(40.dp, 10.dp, 40.dp, 10.dp)
                 .fillMaxWidth(),
-            containerColor = Color(0xff202020)
+            containerColor = AuthField_Gray
         )
         if (pwValue.isEmpty()) {
             weakPasswordError = ""
@@ -122,7 +126,7 @@ fun MPV_ModifyPassword(
                 CustomText(
                     text = weakPasswordError,
                     fontSize = 16.sp,
-                    color = Color.Red,
+                    color = Red,
                     modifier = Modifier.padding(0.dp, 0.dp, 15.675.dp, 0.dp),
                     textAlign = TextAlign.Center
                 )
@@ -141,11 +145,11 @@ fun MPV_ModifyPassword(
                 ConfirmButton(
                     text = "Modify Password",
                     bgColor = if (pwValue.isNotEmpty() && confirmPwValue.isNotEmpty()) {
-                        Color(0xff0000ff)
+                        Blue
                     } else {
-                        Color(0xff0060FE).copy(alpha = 0.2f)
+                        Blue.copy(alpha = 0.2f)
                     },
-                    textColor = Color.White,
+                    textColor = White,
                     onClick = {
                         if (pwValue != confirmPwValue) {
                             Toast

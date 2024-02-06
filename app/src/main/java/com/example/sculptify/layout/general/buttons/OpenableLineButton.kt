@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +32,9 @@ import com.example.sculptify.layout.settings.workout.WS_TimerSettings
 import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
 import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.main.WORKOUT_SETTINGS_ROUTE
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
@@ -62,7 +64,7 @@ fun OpenableLineButton(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xff1C1C1E))
+                .background(Dark_Gray)
                 .height(56.dp)
                 .padding(horizontal = 15.675.dp)
                 .clickable {
@@ -92,7 +94,7 @@ fun OpenableLineButton(
                         text = "********",
                         modifier = Modifier
                             .padding(top = 7.dp),
-                        color = Color(0xFF909090)
+                        color = Light_Gray
                     )
                 }
                 Icon(
@@ -102,7 +104,7 @@ fun OpenableLineButton(
                         .padding(0.dp, 3.dp, 0.dp, 0.dp),
                     painter = painterResource(id = R.drawable.arrow),
                     contentDescription = "arrow",
-                    tint = Color.White
+                    tint = White
                 )
             }
         }

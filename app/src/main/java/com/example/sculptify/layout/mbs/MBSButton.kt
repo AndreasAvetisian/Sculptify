@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.data.meMBS.MeMBSButton
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.White
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -73,7 +73,7 @@ fun MBSButton(
             ) {
                 Icon(
                     painter = painterResource(id = button.icon),
-                    tint = Color.White,
+                    tint = White,
                     contentDescription = ""
                 )
                 CustomText(
@@ -86,7 +86,7 @@ fun MBSButton(
                     .scale(scaleX = -1f, scaleY = 1f),
                 painter = painterResource(id = R.drawable.arrow),
                 contentDescription = "arrow",
-                tint = Color.White
+                tint = White
             )
         }
     }

@@ -12,11 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.White
 import java.util.Locale
 @Composable
 fun MV_RecentSwipeTab() {
@@ -33,7 +35,7 @@ fun MV_RecentSwipeTab() {
         CustomText(
             text = MV_SwipeMenuTabItems[0].description,
             fontSize = 14.sp,
-            color = Color(0xff909090)
+            color = Light_Gray
         )
     }
     Column (
@@ -51,14 +53,14 @@ fun MV_RecentSwipeTab() {
             Column(
                 modifier = Modifier
                     .size(70.dp)
-                    .background(Color.White),
+                    .background(White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     painter = painterResource(id = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentIconId),
                     contentDescription = "",
-                    tint = Color.Red
+                    tint = Red
                 )
             }
             Column (
@@ -72,7 +74,7 @@ fun MV_RecentSwipeTab() {
                 CustomText(
                     text = MV_SwipeMenuTabItems[0].swipeMenuContent[0].contentDate,
                     fontSize = 14.sp,
-                    color = Color(0xff909090)
+                    color = Light_Gray
                 )
             }
         }
@@ -85,14 +87,14 @@ fun MV_RecentSwipeTab() {
             Column(
                 modifier = Modifier
                     .size(70.dp)
-                    .background(Color.White),
+                    .background(White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     painter = painterResource(id = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentIconId),
                     contentDescription = "",
-                    tint = Color.Red
+                    tint = Red
                 )
             }
             Column (
@@ -106,7 +108,7 @@ fun MV_RecentSwipeTab() {
                 CustomText(
                     text = MV_SwipeMenuTabItems[0].swipeMenuContent[1].contentDate,
                     fontSize = 14.sp,
-                    color = Color(0xff909090)
+                    color = Light_Gray
                 )
             }
         }

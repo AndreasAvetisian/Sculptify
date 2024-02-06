@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
 
 @Composable
 fun MV_Workout(
@@ -26,7 +27,7 @@ fun MV_Workout(
     padding: Dp
 ) {
     Card (
-        colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+        colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()

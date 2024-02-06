@@ -1,8 +1,8 @@
-package com.example.sculptify.layout.msv.bmi
+package com.example.sculptify.layout.dayStreakActiveDaysView.adv
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
@@ -10,25 +10,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
-import com.example.sculptify.ui.theme.White
+import com.example.sculptify.ui.theme.Light_Gray
 
 @Composable
-fun BMI_EditRow() {
+fun ADV_ModifyButton(
+    onClick: () -> Unit
+) {
     Row (
         modifier = Modifier
-            .fillMaxWidth(),
+            .clickable {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Center
     ) {
-        CustomText(text = "BMI")
+        CustomText(
+            text = "Weekly Goal",
+            fontSize = 16.sp,
+            textAlign = TextAlign.Center
+        )
         Icon(
             Icons.Rounded.Edit,
             contentDescription = "",
-            tint = White,
-            modifier = Modifier.size(20.dp)
+            tint = Light_Gray,
+            modifier = Modifier
+                .size(16.dp)
         )
-
     }
 }

@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -33,6 +32,11 @@ import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.MyStatistics_TabItems
 import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Dark_Orange
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun TopBarWithTabRow(
@@ -57,7 +61,7 @@ fun TopBarWithTabRow(
                     onBackButtonClick()
                 },
             shape = RoundedCornerShape(15.dp),
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E))
+            colors = CardDefaults.cardColors(Dark_Gray)
         ) {
             Row(
                 modifier = Modifier
@@ -72,7 +76,7 @@ fun TopBarWithTabRow(
                         .height(16.dp),
                     painter = painterResource(id = R.drawable.arrow),
                     contentDescription = "arrow",
-                    tint = Color.White
+                    tint = White
                 )
             }
         }
@@ -80,7 +84,7 @@ fun TopBarWithTabRow(
         TabRow(
             modifier = Modifier.fillMaxWidth(),
             selectedTabIndex = selectedTabIndex,
-            containerColor = Color.Transparent,
+            containerColor = Transparent,
             divider = {},
             indicator = { tabPositions ->
 
@@ -94,7 +98,7 @@ fun TopBarWithTabRow(
                 val selectedTabPosition = tabPositions[selectedTabIndex]
 
                 TabRowDefaults.Indicator(
-                    color = if (route == STATISTICS_ROUTE) Color(0xffFF4E28) else Color(0xff0060FE),
+                    color = if (route == STATISTICS_ROUTE) Dark_Orange else Blue,
                     modifier = Modifier
                         .padding(
                             start = 30.dp,

@@ -11,11 +11,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import com.example.sculptify.data.settings.general.reminder.timePicker.PickerStyle
+import com.example.sculptify.ui.theme.Blue
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -108,7 +108,7 @@ fun <T>DraggablePicker(
             drawRect(
                 Rect(1500, top.toInt(), size.width.toInt() - 1500, bot.toInt()),
                 Paint().apply {
-                    color = Color(0xff0060FE).copy(0.2f).toArgb()
+                    color = Blue.copy(0.2f).toArgb()
                 }
             )
         }

@@ -11,11 +11,11 @@ import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.meMBS.MeMBSButton
 import com.example.sculptify.layout.mbs.MBSButton
+import com.example.sculptify.ui.theme.Dark_Gray
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +37,7 @@ fun MeView(
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .height(380.dp)
             .padding(15.675.dp, 0.dp, 15.675.dp, 15.675.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -14,9 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun ConfirmDeletion(
@@ -28,7 +31,7 @@ fun ConfirmDeletion(
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xff1C1C1E)),
+            .background(Dark_Gray),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -37,7 +40,7 @@ fun ConfirmDeletion(
                 .fillMaxWidth()
                 .padding(horizontal = 15.675.dp)
                 .height(56.dp)
-                .background(Color(0xff1C1C1E)),
+                .background(Dark_Gray),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -49,16 +52,16 @@ fun ConfirmDeletion(
                     checked = checkedState.value,
                     onCheckedChange = { checkedState.value = it },
                     colors = CheckboxDefaults.colors(
-                        checkedColor = Color(0xff0000ff),
-                        uncheckedColor = Color.White,
-                        checkmarkColor = Color.White
+                        checkedColor = Blue,
+                        uncheckedColor = White,
+                        checkmarkColor = White
                     )
                 )
             }
             ConfirmButton(
                 text = "Delete",
-                bgColor = if (checkedState.value) Color.Red else Color.Red.copy(0.2f),
-                textColor = Color.White,
+                bgColor = if (checkedState.value) Red else Red.copy(0.2f),
+                textColor = White,
                 onClick = {
                     if (checkedState.value) {
                         onClick()

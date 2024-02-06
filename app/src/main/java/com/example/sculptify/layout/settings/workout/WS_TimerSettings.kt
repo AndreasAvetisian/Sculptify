@@ -16,12 +16,13 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmOpenableLineButton
 import com.example.sculptify.layout.general.buttons.CounterInput
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.WS_Green
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
@@ -42,7 +43,7 @@ fun WS_TimerSettings() {
 
     Column (
         modifier = Modifier
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .padding(horizontal = 15.675.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -66,7 +67,7 @@ fun WS_TimerSettings() {
             paddingTop = 10.dp,
             buttonWidth = 180.dp,
             circleSize = 60.dp,
-            thumbColor = Color(0xff49714A)
+            thumbColor = WS_Green
         )
         CounterInput(
             title = "Countdown Before Start",
@@ -86,13 +87,13 @@ fun WS_TimerSettings() {
             paddingTop = 10.dp,
             buttonWidth = 180.dp,
             circleSize = 60.dp,
-            thumbColor = Color(0xff49714A)
+            thumbColor = WS_Green
         )
         ConfirmOpenableLineButton(
             bgColor = if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {
-                Color(0xff49714A)
+                WS_Green
             } else {
-                Color(0xff49714A).copy(0.2f)
+                WS_Green.copy(0.2f)
             },
             onClick = {
                 if (currentRBEValue != rbeValue || currentCBSValue != cbsValue) {

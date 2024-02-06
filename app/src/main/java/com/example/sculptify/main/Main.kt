@@ -46,6 +46,7 @@ import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.ReminderView
 import com.example.sculptify.pages.settings.GeneralSettingsView
 import com.example.sculptify.pages.settings.WorkoutSettingsView
+import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.ReminderViewModel
 import com.example.sculptify.viewModels.UserViewModel
@@ -152,21 +153,21 @@ fun MainScaffoldView() {
                         },
                     nextBgColor =
                         if (regEmail.isNotEmpty() && regPw.isNotEmpty() && currentRoute == EMAIL_AND_PASSWORD && weakPwError.isEmpty()) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty() && currentRoute == NAME_AND_YOB) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty() && currentRoute == HEIGHT_AND_WEIGHT) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (regGender.isNotEmpty() && currentRoute == GENDER_SELECTION) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (currentRoute == SIGN_UP_ROUTE) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (currentRoute == WEEKLY_GOAL) {
-                            Color(0xff0060FE)
+                            Blue
                         } else if (currentRoute == CONFIRM_REGISTRATION) {
-                            Color(0xff0060FE)
+                            Blue
                         } else {
-                            Color(0xff0060FE).copy(alpha = 0.2f)
+                            Blue.copy(alpha = 0.2f)
                         },
                     nextOnClick = {
                         when (currentRoute) {

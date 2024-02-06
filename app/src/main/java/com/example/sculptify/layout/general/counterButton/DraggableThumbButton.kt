@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +28,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.enumClasses.DragDirection
+import com.example.sculptify.layout.general.customText.CustomText
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -118,8 +117,10 @@ fun DraggableThumbButton(
 
                                         // calculate the drag factor so the more the thumb
                                         // is closer to the border, the more effort it takes to drag it
-                                        val dragFactor = 2 - (thumbOffsetX.value / dragLimitHorizontalPx).absoluteValue
-                                        val delta = pointerInputChange.positionChange().x * dragFactor
+                                        val dragFactor =
+                                            2 - (thumbOffsetX.value / dragLimitHorizontalPx).absoluteValue
+                                        val delta =
+                                            pointerInputChange.positionChange().x * dragFactor
 
                                         val targetValue = thumbOffsetX.value + delta
                                         val targetValueWithinBounds =
@@ -160,10 +161,8 @@ fun DraggableThumbButton(
                 }
             }
     ) {
-        Text(
+        CustomText(
             text = value,
-            color = Color.White,
-            style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
             fontSize = fontSize
         )

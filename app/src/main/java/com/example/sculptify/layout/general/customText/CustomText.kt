@@ -8,13 +8,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
 fun CustomText(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = Color.White,
+    color: Color = White,
     fontSize: TextUnit = 20.sp,
     fontWeight: FontWeight = FontWeight.Bold,
     textAlign: TextAlign = TextAlign.Start

@@ -82,7 +82,6 @@ fun DayStreak_ActiveDaysView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.75f)
-//                    .background(Color.Green)
             ) {index ->
                 when (index) {
                     0 -> { DayStreakView() }

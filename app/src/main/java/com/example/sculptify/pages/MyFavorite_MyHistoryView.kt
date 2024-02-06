@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -32,6 +31,9 @@ import com.example.sculptify.data.myFavoriteMyHistory.MyFavMyHisTabItem
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.ui.theme.Black
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Transparent
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -65,7 +67,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(Color.Black)
+            .background(Black)
     ) {
         TopBarView(
             title = "My",
@@ -77,13 +79,12 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
         Column (
             modifier = Modifier
                 .fillMaxSize()
-//                .background(Color.Cyan)
         ) {
             TabRow(
                 modifier = Modifier
                     .fillMaxWidth(),
                 selectedTabIndex = selectedTabIndex,
-                containerColor = Color.Transparent,
+                containerColor = Transparent,
                 divider = {},
                 indicator = { tabPositions ->
 
@@ -94,7 +95,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                     val selectedTabPosition = tabPositions[selectedTabIndex]
 
                     TabRowDefaults.Indicator(
-                        color = Color(0xff0060FE),
+                        color = Blue,
                         modifier = Modifier
                             .padding(
                                 start = 0.dp,

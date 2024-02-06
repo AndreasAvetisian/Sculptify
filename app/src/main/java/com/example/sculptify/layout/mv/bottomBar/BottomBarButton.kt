@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +29,11 @@ import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.selectedTabIndexForMyStatistics
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Bright_Green
+import com.example.sculptify.ui.theme.Dark_Orange
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun BottomBarButton(
@@ -42,12 +46,12 @@ fun BottomBarButton(
     val background =
         if (selected) {
             when(screen.route) {
-                MAIN_ROUTE -> Color(0xff0060FE)
-                STATISTICS_ROUTE -> Color(0xffFF4E28)
-                else -> Color(0xff00FF00)
+                MAIN_ROUTE -> Blue
+                STATISTICS_ROUTE -> Dark_Orange
+                else -> Bright_Green
             }
         } else {
-            Color.Transparent
+            Transparent
         }
 
     Row (
@@ -84,7 +88,7 @@ fun BottomBarButton(
                 Icon(
                     painter = painterResource(id = screen.icon),
                     contentDescription = "icon",
-                    tint = Color.White
+                    tint = White
                 )
                 AnimatedVisibility(visible = selected) {
                     CustomText(

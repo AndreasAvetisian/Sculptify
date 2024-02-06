@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -25,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.dsv.DS_Slider
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Orange
 import com.example.sculptify.viewModels.UserViewModel
 
 @SuppressLint("UnrememberedMutableState")
@@ -62,7 +62,7 @@ fun DayStreakView() {
                 Icon(
                     painter = painterResource(id = R.drawable.fire_flame),
                     contentDescription = "",
-                    tint = Color(0xffFF4E28)
+                    tint = Dark_Orange
                 )
                 CustomText(
                     text = dayStreakValue,

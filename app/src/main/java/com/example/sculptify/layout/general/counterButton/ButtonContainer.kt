@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.R
+import com.example.sculptify.ui.theme.Black
+import com.example.sculptify.ui.theme.White
 import kotlin.math.absoluteValue
 
 private const val ICON_BUTTON_ALPHA_INITIAL = 0.3f
@@ -48,7 +49,7 @@ fun ButtonContainer(
             .fillMaxSize()
             .clip(RoundedCornerShape(64.dp))
             .background(
-                Color.Black.copy(
+                Black.copy(
                     alpha = if (thumbOffsetX.absoluteValue > 0.0f) {
                         // horizontal
                         (CONTAINER_BACKGROUND_ALPHA_INITIAL + ((thumbOffsetX.absoluteValue / horizontalHighlightLimitPx) / 20f))
@@ -67,7 +68,7 @@ fun ButtonContainer(
             contentDescription = "Decrease count",
             onClick = onValueDecreaseClick,
             enabled = !clearButtonVisible,
-            tintColor = Color.White.copy(
+            tintColor = White.copy(
                 alpha = if (clearButtonVisible) {
                     0.0f
                 } else if (thumbOffsetX < 0) {
@@ -88,7 +89,7 @@ fun ButtonContainer(
             contentDescription = "Increase count",
             onClick = onValueIncreaseClick,
             enabled = !clearButtonVisible,
-            tintColor = Color.White.copy(
+            tintColor = White.copy(
                 alpha = if (clearButtonVisible) {
                     0.0f
                 } else if (thumbOffsetX > 0) {

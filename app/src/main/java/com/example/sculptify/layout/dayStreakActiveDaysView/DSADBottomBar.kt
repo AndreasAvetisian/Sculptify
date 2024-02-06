@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +26,8 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
 import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun DSADBottomBar(
@@ -50,7 +51,7 @@ fun DSADBottomBar(
                 .padding(bottom = 10.dp),
         )
         Card (
-            colors = CardDefaults.cardColors(Color(0xff0060FE)),
+            colors = CardDefaults.cardColors(Blue),
             shape = MaterialTheme.shapes.extraLarge,
             modifier = Modifier
                 .fillMaxWidth()
@@ -68,7 +69,7 @@ fun DSADBottomBar(
                 Icon(
                     Icons.Rounded.Add,
                     contentDescription = "",
-                    tint = Color.White,
+                    tint = White,
                     modifier = Modifier
                         .size(
                             if (!DayStreak_ActiveDays_TabItems[selectedTabIndexForDSAD].isActivatedButton) {

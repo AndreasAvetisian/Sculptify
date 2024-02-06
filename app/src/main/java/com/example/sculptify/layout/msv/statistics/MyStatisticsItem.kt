@@ -10,9 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
 
 @Composable
 fun MyStatisticsItem(
@@ -20,7 +21,7 @@ fun MyStatisticsItem(
     value: String
 ) {
     Card (
-        colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+        colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
@@ -36,7 +37,7 @@ fun MyStatisticsItem(
             CustomText(text = title)
             CustomText(
                 text = value,
-                color = Color(0xff909090)
+                color = Light_Gray
             )
         }
     }

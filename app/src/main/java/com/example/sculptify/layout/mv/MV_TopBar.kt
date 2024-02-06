@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Light_Gray
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -32,7 +32,7 @@ fun MV_TopBar() {
         CustomText(
             text = currentDateAndTime.uppercase(Locale.ROOT),
             fontSize = 18.sp,
-            color = Color(0xff909090)
+            color = Light_Gray
         )
         CustomText(
             text = "SCULPTIFY - HOME WORKOUT",

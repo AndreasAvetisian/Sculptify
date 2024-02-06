@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,7 +56,7 @@ fun MV_Button(
     }
 
     Card (
-        colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+        colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.extraLarge,
         modifier = Modifier
             .scale(scale = scale.value)
@@ -112,7 +114,7 @@ fun MV_Button(
                 CustomText(
                     text = stat,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xff909090),
+                    color = Light_Gray,
                     fontSize = 16.sp
                 )
             }

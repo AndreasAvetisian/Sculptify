@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun ConfirmOpenableLineButton(
@@ -15,7 +16,7 @@ fun ConfirmOpenableLineButton(
 ) {
     ConfirmButton(
         text = "Save",
-        textColor = Color.White,
+        textColor = White,
         bgColor = bgColor,
         onClick = {
             onClick()

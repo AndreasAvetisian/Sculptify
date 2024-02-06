@@ -8,10 +8,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Orange
+import com.example.sculptify.ui.theme.Light_Orange
 import com.example.sculptify.viewModels.WorkoutsViewModel
 
 @Composable
@@ -38,17 +40,17 @@ fun MV_ClassicWorkouts() {
 
         MV_RenderWorkouts(
             workouts = beginnerWorkouts,
-            bgColor = Color(0xff0060FE),
+            bgColor = Blue,
             padding = 10.dp
         )
         MV_RenderWorkouts(
             workouts = intermediateWorkouts,
-            bgColor = Color(0xffFF8E00),
+            bgColor = Light_Orange,
             padding = 25.dp
         )
         MV_RenderWorkouts(
             workouts = advancedWorkouts,
-            bgColor = Color(0xffFF4E28),
+            bgColor = Dark_Orange,
             padding = 25.dp
         )
     }

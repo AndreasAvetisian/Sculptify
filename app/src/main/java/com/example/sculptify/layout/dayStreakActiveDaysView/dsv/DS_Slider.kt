@@ -19,11 +19,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.R
+import com.example.sculptify.ui.theme.DS_Gray
+import com.example.sculptify.ui.theme.Dark_Orange
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.viewModels.UserViewModel
 import kotlin.math.roundToInt
 
@@ -71,7 +73,7 @@ fun DS_Slider() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Card (
-                    colors = CardDefaults.cardColors(Color(0xFF3D3D3D)),
+                    colors = CardDefaults.cardColors(DS_Gray),
                     shape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -85,7 +87,7 @@ fun DS_Slider() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Card (
-                    colors = CardDefaults.cardColors(Color(0xFFFFFFFF)),
+                    colors = CardDefaults.cardColors(White),
                     shape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier
                         .fillMaxWidth(
@@ -169,7 +171,7 @@ fun DS_Slider() {
                 Icon(
                     painter = painterResource(id = R.drawable.flag_ds_icon),
                     contentDescription = "",
-                    tint = Color(0xffFF4E28),
+                    tint = Dark_Orange,
                     modifier = Modifier
                         .width(
                             if ((weeklyGoalValue == 7f && dayStreakValue == 7f) || dayStreakValue > weeklyGoalValue) {
@@ -195,7 +197,7 @@ fun DS_Slider() {
         },
         thumb = {
             Card (
-                colors = CardDefaults.cardColors(Color(0xffFF4E28)),
+                colors = CardDefaults.cardColors(Dark_Orange),
                 shape = MaterialTheme.shapes.extraLarge,
                 modifier = Modifier
                     .size(35.dp)

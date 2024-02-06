@@ -19,7 +19,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +32,9 @@ import com.example.sculptify.layout.mpv.MPV_ModifyGender
 import com.example.sculptify.layout.mpv.MPV_ModifyInput
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.MY_PROFILE_ROUTE
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.UserViewModel
 import com.google.firebase.Firebase
@@ -100,7 +102,7 @@ fun MyProfileView(
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xff1C1C1E))
+                    .background(Dark_Gray)
                     .padding(15.675.dp, 0.dp, 15.675.dp, 0.dp)
             ) {
                 MPV_ModifyInput(
@@ -165,7 +167,7 @@ fun MyProfileView(
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF1C1C1C))
+                    .background(Dark_Gray)
             ) {
                 Column (
                     modifier = Modifier
@@ -222,15 +224,15 @@ fun MyProfileView(
             ) {
                 ConfirmButton(
                     text = "Save",
-                    textColor = Color.White,
+                    textColor = White,
                     bgColor = if (
                         firstNameValue.isNotEmpty() ||
                         genderValue.isNotEmpty() ||
                         yobValue.isNotEmpty()
                         ) {
-                            Color(0xff0000ff)
+                            Blue
                         } else {
-                            Color(0xff0060FE).copy(alpha = 0.2f)
+                            Blue.copy(alpha = 0.2f)
                         },
                     onClick = {
                         if (

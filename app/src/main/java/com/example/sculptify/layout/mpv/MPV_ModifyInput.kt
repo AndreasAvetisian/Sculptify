@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.balooFontFamily
 
 @Composable
@@ -52,7 +56,7 @@ fun MPV_ModifyInput(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red),
+                .background(Red),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextField(
@@ -62,29 +66,29 @@ fun MPV_ModifyInput(
                     CustomText(
                         text = placeholder,
                         fontSize = 16.sp,
-                        color = Color(0xff909090)
+                        color = Light_Gray
                     )
                 },
                 singleLine = true,
                 readOnly = readOnly,
                 shape = RoundedCornerShape(0.dp),
                 colors = TextFieldDefaults.colors(
-                    cursorColor = Color.White,
-                    focusedTextColor = Color(0xFF909090),
-                    unfocusedTextColor = Color(0xFF909090),
-                    disabledTextColor = Color(0xFF909090),
-                    focusedPlaceholderColor = Color(0xFF909090),
-                    unfocusedPlaceholderColor = Color(0xFF909090),
-                    disabledPlaceholderColor = Color(0xFF909090),
-                    focusedContainerColor = Color(0xFF1C1C1C),
-                    unfocusedContainerColor = Color(0xFF1C1C1C),
-                    disabledContainerColor = Color(0xFF1C1C1C),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.White,
-                    disabledLabelColor = Color.White,
+                    cursorColor = White,
+                    focusedTextColor = Light_Gray,
+                    unfocusedTextColor = Light_Gray,
+                    disabledTextColor = Light_Gray,
+                    focusedPlaceholderColor = Light_Gray,
+                    unfocusedPlaceholderColor = Light_Gray,
+                    disabledPlaceholderColor = Light_Gray,
+                    focusedContainerColor = Dark_Gray,
+                    unfocusedContainerColor = Dark_Gray,
+                    disabledContainerColor = Dark_Gray,
+                    focusedIndicatorColor = Transparent,
+                    unfocusedIndicatorColor = Transparent,
+                    disabledIndicatorColor = Transparent,
+                    focusedLabelColor = White,
+                    unfocusedLabelColor = White,
+                    disabledLabelColor = White,
                 ),
                 modifier = Modifier
                     .height(56.dp),
@@ -96,7 +100,7 @@ fun MPV_ModifyInput(
                                 .padding(0.dp, 3.dp, 40.dp, 0.dp),
                             painter = painterResource(id = R.drawable.arrow),
                             contentDescription = "arrow",
-                            tint = Color.White
+                            tint = White
                         )
                     }
                 },

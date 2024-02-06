@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.data.mv.BottomBarScreen
+import com.example.sculptify.ui.theme.Dark_Gray
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,22 +29,11 @@ fun BottomBar(navController: NavHostController) {
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navStackBackEntry?.destination
 
-//    val currentRoute = currentDestination?.route
-//
-//    var showBottomSheet by remember { mutableStateOf(false) }
-//
-//    val sheetState = rememberModalBottomSheetState()
-//    val scope = rememberCoroutineScope()
-//
-//    val onBottomSheetDismiss: () -> Unit = {
-//        showBottomSheet = false
-//    }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .padding(horizontal = 15.675.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically

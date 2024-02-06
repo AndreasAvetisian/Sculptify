@@ -26,13 +26,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.R
 import com.example.sculptify.data.mv.MVSwipeMenuContentItem
 import com.example.sculptify.data.mv.MVSwipeMenuTabItem
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Transparent
 
 
 val MV_SwipeMenuTabItems = listOf(
@@ -94,7 +96,7 @@ fun MV_SwipeMenu() {
             .fillMaxWidth(0.6f)
             .padding(bottom = 20.dp),
         selectedTabIndex = selectedTabIndex,
-        containerColor = Color.Transparent,
+        containerColor = Transparent,
         divider = {},
         indicator = { tabPositions ->
 
@@ -105,7 +107,7 @@ fun MV_SwipeMenu() {
             val selectedTabPosition = tabPositions[selectedTabIndex]
 
             TabRowDefaults.Indicator(
-                color = Color(0xff0060FE),
+                color = Blue,
                 modifier = Modifier
                     .padding(
                         start = 25.dp,
@@ -141,7 +143,7 @@ fun MV_SwipeMenu() {
             .height(300.dp)
     ) {index ->
         Card (
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+            colors = CardDefaults.cardColors(Dark_Gray),
             shape = MaterialTheme.shapes.large,
             modifier = Modifier
                 .fillMaxWidth()

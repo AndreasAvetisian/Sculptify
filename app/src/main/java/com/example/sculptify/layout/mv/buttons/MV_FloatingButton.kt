@@ -22,12 +22,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.mbs.MBS
+import com.example.sculptify.ui.theme.Black
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,13 +51,13 @@ fun MV_FloatingButton(navController: NavHostController) {
         horizontalArrangement = Arrangement.End
     ) {
         Card (
-            colors = CardDefaults.cardColors(Color(0xff0060FE)),
+            colors = CardDefaults.cardColors(Blue),
             shape = MaterialTheme.shapes.extraLarge,
             modifier = Modifier
                 .size(50.dp, 50.dp)
                 .border(
                     width = 4.dp,
-                    color = Color.Black,
+                    color = Black,
                     shape = MaterialTheme.shapes.extraLarge,
                 )
                 .clickable {
@@ -71,7 +73,7 @@ fun MV_FloatingButton(navController: NavHostController) {
                 Icon(
                     painter = painterResource(id = R.drawable.profile_icon),
                     contentDescription = "",
-                    tint = Color.White
+                    tint = White
                 )
             }
         }

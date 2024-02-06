@@ -15,11 +15,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun TopBarView(
@@ -42,7 +44,7 @@ fun TopBarView(
                     onClick()
                 },
             shape = RoundedCornerShape(15.dp),
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E))
+            colors = CardDefaults.cardColors(Dark_Gray)
         ) {
             Row (
                 modifier = Modifier
@@ -57,7 +59,7 @@ fun TopBarView(
                         .height(16.dp),
                     painter = painterResource(id = R.drawable.arrow),
                     contentDescription = "arrow",
-                    tint = Color.White
+                    tint = White
                 )
             }
         }
@@ -66,7 +68,7 @@ fun TopBarView(
             modifier = Modifier
                 .width(30.dp)
                 .height(30.dp),
-            colors = CardDefaults.cardColors(Color.Transparent)
+            colors = CardDefaults.cardColors(Transparent)
         ) {}
     }
 }

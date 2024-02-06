@@ -12,12 +12,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.Medium_Gray
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun MV_WorkoutItem(
@@ -35,7 +37,7 @@ fun MV_WorkoutItem(
             Column (
                 modifier = Modifier
                     .size(70.dp)
-                    .background(Color.White)
+                    .background(White)
             ) {
                 // Picture
             }
@@ -55,7 +57,7 @@ fun MV_WorkoutItem(
                 CustomText(
                     text = time,
                     fontSize = 16.sp,
-                    color = Color(0xff909090)
+                    color = Light_Gray
                 )
             }
         }
@@ -63,7 +65,7 @@ fun MV_WorkoutItem(
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right_circle),
                 contentDescription = "",
-                tint = Color(0xff262626)
+                tint = Medium_Gray
             )
         }
     }

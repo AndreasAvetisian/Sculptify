@@ -5,7 +5,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeeklyGoal
@@ -14,6 +13,7 @@ import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
 import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.main.STATISTICS_ROUTE
 import com.example.sculptify.pages.MeView
+import com.example.sculptify.ui.theme.Dark_Gray
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +32,7 @@ fun MBS(
             onDismiss()
         },
         sheetState = sheetState,
-        containerColor = Color(0xFF1C1C1E)
+        containerColor = Dark_Gray
     ) {
         when (currentRoute) {
             MAIN_ROUTE -> {

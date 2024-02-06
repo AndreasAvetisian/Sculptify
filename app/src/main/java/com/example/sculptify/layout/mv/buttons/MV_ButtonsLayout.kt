@@ -10,12 +10,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Orange
 import com.example.sculptify.viewModels.UserViewModel
 
 
@@ -48,7 +49,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             },
             data = dayStreakValue.toString(),
             iconId = R.drawable.day_streak_main_icon,
-            iconColor = Color(0xffff4e28),
+            iconColor = Dark_Orange,
             title = "Day Streak",
             stat = "Personal best: $pbs",
             width = 0.5f,
@@ -62,7 +63,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             },
             data = "0/$weeklyGoalValue",
             iconId = R.drawable.active_days_main_icon,
-            iconColor = Color(0xff0060FE),
+            iconColor = Blue,
             title = "This week",
             stat = "in Total: 0",
             width = 1f,

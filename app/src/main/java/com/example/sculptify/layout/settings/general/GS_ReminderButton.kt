@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.White
 
 @Composable
 fun GS_ReminderButton(
@@ -25,7 +26,7 @@ fun GS_ReminderButton(
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .height(56.dp)
             .clickable {
                 onClick()
@@ -47,7 +48,7 @@ fun GS_ReminderButton(
                     .padding(0.dp, 3.dp, 0.dp, 0.dp),
                 painter = painterResource(id = R.drawable.arrow),
                 contentDescription = "arrow",
-                tint = Color.White
+                tint = White
             )
         }
     }

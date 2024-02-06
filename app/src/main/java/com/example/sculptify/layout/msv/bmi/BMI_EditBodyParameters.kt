@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.CounterInput
+import com.example.sculptify.ui.theme.Dark_Orange
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -76,7 +77,7 @@ fun BMI_EditBodyParameters(
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
             circleSize = 110.dp,
-            thumbColor = Color(0xffFF4E28)
+            thumbColor = Dark_Orange
         )
         CounterInput(
             title = "Weight",
@@ -96,14 +97,14 @@ fun BMI_EditBodyParameters(
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
             circleSize = 110.dp,
-            thumbColor = Color(0xffFF4E28)
+            thumbColor = Dark_Orange
         )
         ConfirmButton(
             text = "Save",
             bgColor = if (currentHeightValue != userHeight || currentWeightValue != userWeight) {
-                Color(0xffFF4E28)
+                Dark_Orange
             } else {
-                Color(0xffFF4E28).copy(0.2f)
+                Dark_Orange.copy(0.2f)
             },
             textColor = Color.White,
             modifier = Modifier

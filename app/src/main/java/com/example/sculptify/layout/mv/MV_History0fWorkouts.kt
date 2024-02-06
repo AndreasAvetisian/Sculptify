@@ -15,12 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
 
 @Composable
 fun MV_HistoryOfWorkouts() {
@@ -30,7 +31,7 @@ fun MV_HistoryOfWorkouts() {
             .padding(top = 15.675.dp, bottom = 20.dp)
     ) {
         Card (
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+            colors = CardDefaults.cardColors(Dark_Gray),
             shape = MaterialTheme.shapes.large,
             modifier = Modifier
                 .fillMaxWidth()
@@ -45,14 +46,14 @@ fun MV_HistoryOfWorkouts() {
                 Icon(
                     painter = painterResource(id = R.drawable.history_of_workouts),
                     contentDescription = "",
-                    tint = Color(0xff0060FE),
+                    tint = Blue,
                     modifier = Modifier
                         .size(20.dp)
                 )
                 CustomText(
                     text = "History of Workouts",
                     fontSize = 18.sp,
-                    color = Color(0xff0060FE),
+                    color = Blue,
                     modifier = Modifier
                         .padding(start = 5.dp, top = 2.dp)
                 )

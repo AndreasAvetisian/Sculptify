@@ -16,12 +16,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Black
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Bright_Green
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
 
 @Composable
 fun AchievementItem(
@@ -30,7 +34,7 @@ fun AchievementItem(
     isActivated: Boolean
 ) {
     Card (
-        colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+        colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.extraLarge,
         modifier = Modifier
             .fillMaxWidth()
@@ -49,7 +53,7 @@ fun AchievementItem(
             ) {
                 Card (
                     colors = CardDefaults.cardColors(
-                        if (isActivated) Color(0xff0060FE) else Color(0xff0060FE).copy(0.2f)
+                        if (isActivated) Blue else Blue.copy(0.2f)
                     ),
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.size(70.dp)
@@ -68,7 +72,7 @@ fun AchievementItem(
                                 }
                             ),
                             contentDescription = "",
-                            tint = Color.Black,
+                            tint = Black,
                             modifier = Modifier.size(55.dp)
                         )
                     }
@@ -82,7 +86,7 @@ fun AchievementItem(
                     )
                     CustomText(
                         text = description,
-                        color = Color(0xff909090),
+                        color = Light_Gray,
                         fontSize = 14.sp
                     )
                 }
@@ -104,9 +108,9 @@ fun AchievementItem(
                     contentDescription = "",
                     tint =
                     if (isActivated) {
-                        Color(0xff00ff00)
+                        Bright_Green
                     } else {
-                        Color(0xff787878)
+                        Light_Gray
                     },
                     modifier = Modifier.size(35.dp)
                 )

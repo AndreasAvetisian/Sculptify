@@ -6,6 +6,11 @@ import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
 import com.example.sculptify.main.MY_FAVORITE_MY_HISTORY_ROUTE
 import com.example.sculptify.main.MY_PROFILE_ROUTE
 import com.example.sculptify.main.WORKOUT_SETTINGS_ROUTE
+import com.example.sculptify.ui.theme.GS_Orange
+import com.example.sculptify.ui.theme.MF_TomatoRed
+import com.example.sculptify.ui.theme.MH_Purple
+import com.example.sculptify.ui.theme.MP_SkyBlue
+import com.example.sculptify.ui.theme.WS_Green
 
 sealed class MeMBSButton(
     val route: String,
@@ -17,34 +22,34 @@ sealed class MeMBSButton(
         route = MY_PROFILE_ROUTE,
         text = "My Profile",
         icon = R.drawable.smile,
-        bgColor = Color(0xff4D67AC)
+        bgColor = MP_SkyBlue
     )
 
     data object MyFavorite: MeMBSButton(
         route = MY_FAVORITE_MY_HISTORY_ROUTE,
         text = "My Favorite",
         icon = R.drawable.favorite,
-        bgColor = Color(0xffF54336)
+        bgColor = MF_TomatoRed
     )
 
     data object MyHistory: MeMBSButton(
         route = MY_FAVORITE_MY_HISTORY_ROUTE,
         text = "My History",
         icon = R.drawable.history_of_workouts,
-        bgColor = Color(0xFFAD16E4)
+        bgColor = MH_Purple
     )
 
     data object WorkoutSettings: MeMBSButton(
         route = WORKOUT_SETTINGS_ROUTE,
         text = "Workout Settings",
         icon = R.drawable.workout_settings,
-        bgColor = Color(0xff49714A)
+        bgColor = WS_Green
     )
 
     data object GeneralSettings: MeMBSButton(
         route = GENERAL_SETTINGS_ROUTE,
         text = "General Settings",
         icon = R.drawable.general_settings,
-        bgColor = Color(0xffFF8E00)
+        bgColor = GS_Orange
     )
 }

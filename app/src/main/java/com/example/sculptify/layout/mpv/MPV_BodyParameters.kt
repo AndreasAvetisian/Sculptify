@@ -17,12 +17,13 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmOpenableLineButton
 import com.example.sculptify.layout.general.buttons.CounterInput
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.viewModels.UserViewModel
 
 @Composable
@@ -43,7 +44,7 @@ fun MPV_BodyParameters() {
 
     Column (
         modifier = Modifier
-            .background(Color(0xff1C1C1E))
+            .background(Dark_Gray)
             .padding(horizontal = 15.675.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -67,7 +68,7 @@ fun MPV_BodyParameters() {
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
             circleSize = 110.dp,
-            thumbColor = Color(0xff0060FE)
+            thumbColor = Blue
         )
         CounterInput(
             title = "Weight",
@@ -87,13 +88,13 @@ fun MPV_BodyParameters() {
             paddingTop = 10.dp,
             buttonWidth = 240.dp,
             circleSize = 110.dp,
-            thumbColor = Color(0xff0060FE)
+            thumbColor = Blue
         )
         ConfirmOpenableLineButton(
             bgColor = if (currentHeightValue != userHeight || currentWeightValue != userWeight) {
-                Color(0xff0000ff)
+                Blue
             } else {
-                Color(0xff0000ff).copy(0.2f)
+                Blue.copy(0.2f)
             },
             onClick = {
                 if (currentHeightValue != userHeight || currentWeightValue != userWeight) {

@@ -24,7 +24,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -33,47 +32,55 @@ import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.layout.msv.bmi.BMI_Description
 import com.example.sculptify.layout.msv.bmi.BMI_EditRow
 import com.example.sculptify.layout.msv.bmi.slider.BMI_Slider
+import com.example.sculptify.ui.theme.BMI_Blue
+import com.example.sculptify.ui.theme.BMI_Cyan
+import com.example.sculptify.ui.theme.BMI_DarkBlue
+import com.example.sculptify.ui.theme.BMI_Orange
+import com.example.sculptify.ui.theme.BMI_Red
+import com.example.sculptify.ui.theme.BMI_Yellow
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Gray
 import com.example.sculptify.viewModels.UserViewModel
 
 val BodyMassIndex_Items = listOf(
     BodyMassIndexItem(
         index = 15f,
-        indicatorColor = Color(0xff2340D4),
+        indicatorColor = BMI_DarkBlue,
         description = "Severely underweight",
         width = 0.04f,
         range = 0f..16f
     ),
     BodyMassIndexItem(
         index = 16f,
-        indicatorColor = Color(0xff127FFF),
+        indicatorColor = BMI_Blue,
         description = "Underweight",
         width = 0.104f,
         range = 16f..18.5f
     ),
     BodyMassIndexItem(
         index = 18.5f,
-        indicatorColor = Color(0xff03C8E0),
+        indicatorColor = BMI_Cyan,
         description = "Healthy weight",
         width = 0.3023f,
         range = 18.5f..25f
     ),
     BodyMassIndexItem(
         index = 25f,
-        indicatorColor = Color(0xffFFCA06),
+        indicatorColor = BMI_Yellow,
         description = "Overweight",
         width = 0.33f,
         range = 25f..30f
     ),
     BodyMassIndexItem(
         index = 30f,
-        indicatorColor = Color(0xffFF9307),
+        indicatorColor = BMI_Orange,
         description = "Moderately obese",
         width = 0.5f,
         range = 30f..35f
     ),
     BodyMassIndexItem(
         index = 40f,
-        indicatorColor = Color(0xffFF0232),
+        indicatorColor = BMI_Red,
         description = "Severely obese",
         width = 1f,
         range = 35f..250f
@@ -107,7 +114,7 @@ fun MyBMIView(navController: NavHostController) {
 
 
     val selectedBMIItem = BodyMassIndex_Items.firstOrNull { bmi in it.range }
-    val indicatorColor = selectedBMIItem?.indicatorColor ?: Color.Gray
+    val indicatorColor = selectedBMIItem?.indicatorColor ?: Gray
     val description = selectedBMIItem?.description ?: "Unknown"
 
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -129,7 +136,7 @@ fun MyBMIView(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
     ) {
         Card (
-            colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+            colors = CardDefaults.cardColors(Dark_Gray),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .fillMaxWidth()

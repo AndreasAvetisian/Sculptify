@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import com.example.sculptify.ui.theme.Blue
 
 @Composable
 fun FocusRectangle(
@@ -21,7 +21,7 @@ fun FocusRectangle(
             drawRoundRect(
                 size = Size(size.width, size.height),
                 style = Stroke(width = 20f, join = StrokeJoin.Round),
-                color = Color(0xff0060FE),
+                color = Blue,
                 cornerRadius = CornerRadius(25f, 25f)
             )
         }

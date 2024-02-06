@@ -19,12 +19,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.ConfirmDeletion
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Red
 import com.example.sculptify.viewModels.UserViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -51,8 +52,8 @@ fun WS_DeleteAllDataButton() {
     ) {
         ConfirmButton(
             text = "Delete all data",
-            bgColor = Color(0xff1C1C1E),
-            textColor = Color.Red,
+            bgColor = Dark_Gray,
+            textColor = Red,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(35.dp),

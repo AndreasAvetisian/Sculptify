@@ -31,12 +31,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.Light_Gray
+import com.example.sculptify.ui.theme.Pale_Gray
+import com.example.sculptify.ui.theme.Red
+import com.example.sculptify.ui.theme.White
 import kotlinx.coroutines.coroutineScope
 
 @Composable
@@ -67,7 +72,7 @@ fun ReminderItem(
     }
 
     Card (
-        colors = CardDefaults.cardColors(Color(0xff1C1C1E)),
+        colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .height(160.dp)
@@ -89,7 +94,7 @@ fun ReminderItem(
                     horizontalAlignment = Alignment.End
                 ) {
                     Card (
-                        colors = CardDefaults.cardColors(Color.Red),
+                        colors = CardDefaults.cardColors(Red),
                         shape = MaterialTheme.shapes.large,
                         modifier = Modifier
                             .size(30.dp)
@@ -107,7 +112,7 @@ fun ReminderItem(
                             Icon(
                                 painter = painterResource(id = R.drawable.delete_icon),
                                 contentDescription = "circle delete button",
-                                tint = Color.White,
+                                tint = White,
                                 modifier = Modifier
                                     .size(20.dp)
                             )
@@ -140,19 +145,19 @@ fun ReminderItem(
                                 checked = isSwitchActive,
                                 onCheckedChange = onSwitchChanged,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
-                                    checkedTrackColor = Color(0xff0060FE),
-                                    checkedBorderColor = Color(0xff0060FE),
-                                    uncheckedThumbColor = Color(0xff909090),
-                                    uncheckedTrackColor = Color(0xFFDFDFDF),
-                                    uncheckedBorderColor = Color(0xFFDFDFDF)
+                                    checkedThumbColor = White,
+                                    checkedTrackColor = Blue,
+                                    checkedBorderColor = Blue,
+                                    uncheckedThumbColor = Light_Gray,
+                                    uncheckedTrackColor = Pale_Gray,
+                                    uncheckedBorderColor = Pale_Gray
                                 )
                             )
                         }
                     }
                     Divider(
                         thickness = 2.dp,
-                        color = Color(0xff909090),
+                        color = Light_Gray,
                         modifier = Modifier
                             .fillMaxWidth()
                     )
@@ -202,7 +207,7 @@ fun ReminderItem(
                     Icon(
                         painterResource(id = R.drawable.arrow),
                         contentDescription = "",
-                        tint = Color(0xff909090),
+                        tint = Light_Gray,
                         modifier = Modifier
                             .rotate(180f)
                             .size(20.dp)
@@ -214,7 +219,7 @@ fun ReminderItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .background(Color.Red),
+                        .background(Red),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
