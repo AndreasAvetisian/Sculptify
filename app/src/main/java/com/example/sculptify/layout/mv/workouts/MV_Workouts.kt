@@ -11,13 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.customText.CustomText
-import com.example.sculptify.ui.theme.Blue
-import com.example.sculptify.ui.theme.Dark_Orange
-import com.example.sculptify.ui.theme.Light_Orange
+import com.example.sculptify.ui.theme.Advanced_Dark_Red
+import com.example.sculptify.ui.theme.Advanced_Red
+import com.example.sculptify.ui.theme.Beginner_Dark_Green
+import com.example.sculptify.ui.theme.Beginner_Green
+import com.example.sculptify.ui.theme.Intermediate_Dark_Orange
+import com.example.sculptify.ui.theme.Intermediate_Orange
 import com.example.sculptify.viewModels.WorkoutsViewModel
 
 @Composable
-fun MV_ClassicWorkouts() {
+fun MV_Workouts() {
     val workoutsVM: WorkoutsViewModel = viewModel()
 
     LaunchedEffect(true) {
@@ -32,7 +35,7 @@ fun MV_ClassicWorkouts() {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        CustomText(text = "Classic Workouts")
+        CustomText(text = "Workouts")
 
         val beginnerWorkouts = workoutsData.entries.filter { it.key == "Beginner" }
         val intermediateWorkouts = workoutsData.entries.filter { it.key == "Intermediate" }
@@ -40,17 +43,20 @@ fun MV_ClassicWorkouts() {
 
         MV_RenderWorkouts(
             workouts = beginnerWorkouts,
-            bgColor = Blue,
+            difficultyColor = Beginner_Green,
+            titleColor = Beginner_Dark_Green,
             padding = 10.dp
         )
         MV_RenderWorkouts(
             workouts = intermediateWorkouts,
-            bgColor = Light_Orange,
+            difficultyColor = Intermediate_Orange,
+            titleColor = Intermediate_Dark_Orange,
             padding = 25.dp
         )
         MV_RenderWorkouts(
             workouts = advancedWorkouts,
-            bgColor = Dark_Orange,
+            difficultyColor = Advanced_Red,
+            titleColor = Advanced_Dark_Red,
             padding = 25.dp
         )
     }

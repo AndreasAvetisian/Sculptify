@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -17,7 +16,7 @@ import com.example.sculptify.layout.mv.MV_TopBar
 import com.example.sculptify.layout.mv.buttons.MV_ButtonsLayout
 import com.example.sculptify.layout.mv.buttons.MV_FloatingButton
 import com.example.sculptify.layout.mv.swipeMenu.MV_SwipeMenu
-import com.example.sculptify.layout.mv.workouts.MV_ClassicWorkouts
+import com.example.sculptify.layout.mv.workouts.MV_Workouts
 import com.example.sculptify.viewModels.UserViewModel
 
 @SuppressLint("SimpleDateFormat")
@@ -30,7 +29,7 @@ fun MainView(
         userVM.getUserData()
     }
 
-    val scrollState = rememberLazyListState()
+//    val scrollState = rememberLazyListState()
 
     Column (
         modifier = Modifier
@@ -46,8 +45,8 @@ fun MainView(
                 MV_ButtonsLayout(navController)
                 MV_SwipeMenu()
                 MV_HistoryOfWorkouts()
-                MV_ClassicWorkouts()
-            } // item
+                MV_Workouts()
+            }
         }
     }
     MV_FloatingButton(navController)

@@ -16,14 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Dark_Gray
 
 @Composable
 fun MV_Workout(
     title: String,
+    titleColor: Color,
+    difficultyColor: Color,
     workoutsList: Map<String, Any>,
-    bgColor: Color,
     padding: Dp
 ) {
     Card (
@@ -40,31 +42,49 @@ fun MV_Workout(
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(bgColor)
+                    .background(difficultyColor)
                     .padding(15.675.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
                 CustomText(
                     text = "5 Workouts",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = titleColor
                 )
                 CustomText(
                     text = title,
                     fontSize = 24.sp,
+                    color = titleColor
                 )
             }
-            workoutsList.forEach { (_, workoutDetails) ->
-                val workoutDetailsMap = workoutDetails as? Map<String, Any>
-                val focusArea = workoutDetailsMap?.get("focusArea") as? String
-                val level = workoutDetailsMap?.get("level") as? String
-                val time = workoutDetailsMap?.get("time") as? String
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.675.dp, 15.675.dp, 15.675.dp, 0.dp)
+            ) {
+                workoutsList.forEach { (_, workoutDetails) ->
+                    val workoutDetailsMap = workoutDetails as? Map<String, Any>
+                    val focusArea = workoutDetailsMap?.get("focusArea") as? String
+                    val level = workoutDetailsMap?.get("level") as? String
+                    val time = workoutDetailsMap?.get("time") as? String
 
-                MV_WorkoutItem(
-                    title = "$focusArea - $level",
-                    time = time.toString()
-                )
+                    MV_WorkoutItem(
+                        title = "$focusArea - $level",
+                        time = time.toString(),
+                        difficultyColor = difficultyColor,
+                        iconID =
+                            when(focusArea) {
+                                "Chest" -> R.drawable.chest
+                                "Abs" -> R.drawable.abs
+                                "Shoulder & Back" -> R.drawable.shoulderandback
+                                "Arm" -> R.drawable.arm
+                                else -> R.drawable.leg
+                            }
+                    )
+                }
             }
+
         }
     }
 }

@@ -7,16 +7,18 @@ import androidx.compose.ui.unit.Dp
 @Composable
 fun MV_RenderWorkouts(
     workouts: List<Map.Entry<String, Any>>,
-    bgColor: Color,
+    difficultyColor: Color,
+    titleColor: Color,
     padding: Dp
 ) {
     workouts.forEach { (workoutName, workoutDetails) ->
         if (workoutDetails is Map<*, *>) {
             MV_Workout(
                 title = workoutName,
+                titleColor = titleColor,
                 workoutsList = workoutDetails as Map<String, Any>,
-                bgColor = bgColor,
-                padding = padding
+                padding = padding,
+                difficultyColor = difficultyColor,
             )
         }
     }

@@ -1,6 +1,5 @@
 package com.example.sculptify.layout.mv.buttons
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,12 +23,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.sculptify.R
 import com.example.sculptify.layout.mbs.MBS
-import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.White
 
@@ -54,12 +52,7 @@ fun MV_FloatingButton(navController: NavHostController) {
             colors = CardDefaults.cardColors(Blue),
             shape = MaterialTheme.shapes.extraLarge,
             modifier = Modifier
-                .size(50.dp, 50.dp)
-                .border(
-                    width = 4.dp,
-                    color = Black,
-                    shape = MaterialTheme.shapes.extraLarge,
-                )
+                .size(40.dp)
                 .clickable {
                     showBottomSheet = true
                 }
@@ -71,9 +64,11 @@ fun MV_FloatingButton(navController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.profile_icon),
+                    Icons.Rounded.Menu,
                     contentDescription = "",
-                    tint = White
+                    tint = White,
+                    modifier = Modifier
+                        .size(25.dp)
                 )
             }
         }
