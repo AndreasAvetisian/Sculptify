@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.MyStatistics_TabItems
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
-import com.example.sculptify.main.STATISTICS_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Dark_Orange
@@ -43,9 +43,9 @@ fun TopBarWithTabRow(
     indicatorWidth: Dp,
     indicatorHeight: Dp,
     selectedTabIndex: Int,
-    onBackButtonClick: () -> Unit,
     onTabSelected: (Int) -> Unit,
-    route: String
+    route: String,
+    navController: NavHostController
 ) {
     Row(
         modifier = Modifier
@@ -58,7 +58,7 @@ fun TopBarWithTabRow(
                 .width(30.dp)
                 .height(30.dp)
                 .clickable {
-                    onBackButtonClick()
+                    navController.popBackStack()
                 },
             shape = RoundedCornerShape(15.dp),
             colors = CardDefaults.cardColors(Dark_Gray)
@@ -98,7 +98,7 @@ fun TopBarWithTabRow(
                 val selectedTabPosition = tabPositions[selectedTabIndex]
 
                 TabRowDefaults.Indicator(
-                    color = if (route == STATISTICS_ROUTE) Dark_Orange else Blue,
+                    color = if (route == Screen.Statistics.route) Dark_Orange else Blue,
                     modifier = Modifier
                         .padding(
                             start = 30.dp,
@@ -111,7 +111,7 @@ fun TopBarWithTabRow(
             },
         ) {
             when (route) {
-                DAY_STREAK_ACTIVE_DAYS_ROUTE -> {
+                Screen.DSAD.route -> {
                     DayStreak_ActiveDays_TabItems.forEachIndexed { index, item ->
                         Tab(
                             selected = index == selectedTabIndex,

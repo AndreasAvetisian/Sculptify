@@ -13,8 +13,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.layout.general.buttons.OpenableLineButton
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.settings.workout.WS_DeleteAllDataButton
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.WORKOUT_SETTINGS_ROUTE
+import com.example.sculptify.screens.Screen
 
 @Composable
 fun WorkoutSettingsView(navController: NavHostController) {
@@ -30,14 +29,11 @@ fun WorkoutSettingsView(navController: NavHostController) {
         ) {
             TopBarView(
                 title = "Workout Settings",
-                onClick = {
-                    navController.popBackStack()
-                    navController.navigate(MAIN_ROUTE)
-                }
+                navController = navController
             )
             OpenableLineButton(
                 text = "Timer Settings",
-                route = WORKOUT_SETTINGS_ROUTE,
+                route = Screen.WorkoutSettings.route,
                 index = 1,
                 onClick = {
                     isOpen = !isOpen

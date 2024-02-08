@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
-import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.White
 
@@ -35,8 +35,10 @@ fun DSADBottomBar(
 ) {
     Column (
         modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth()
+            .height(120.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
     ) {
         CustomText(
             text = if (selectedTabIndexForDSAD == 0) {
@@ -57,7 +59,7 @@ fun DSADBottomBar(
                 .fillMaxWidth()
                 .height(60.dp)
                 .clickable {
-                    navController.navigate(MAIN_ROUTE)
+                    navController.navigate(Screen.Main.route)
                 }
         ) {
             Row (

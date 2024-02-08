@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.user.User
-import com.example.sculptify.main.AUTHENTICATION_ROUTE
-import com.example.sculptify.main.MAIN_ROUTE
+import com.example.sculptify.screens.Screen
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -53,7 +52,7 @@ class AuthenticationViewModel: ViewModel() {
                 .addOnSuccessListener {
                     Log.d(SignInTAG, "Logged in successfully")
                     _isAuthorized.value = true
-                    navController.navigate(MAIN_ROUTE)
+                    navController.navigate(Screen.Main.route)
                     _errorMessage.value = ""
                 }
                 .addOnFailureListener { error: Exception ->
@@ -87,7 +86,7 @@ class AuthenticationViewModel: ViewModel() {
                 .addOnSuccessListener { authResult ->
                     saveUserInformation(authResult.user!!.uid, regFirstName, regWeeklyGoal, regGender, regHeight, regWeight, regYearOfBirth)
                     logInUser(regEmail, regPw, navController)
-                    navController.navigate(MAIN_ROUTE)
+                    navController.navigate(Screen.Main.route)
                 }
                 .addOnFailureListener { error: Exception ->
                     when (error) {
@@ -149,7 +148,7 @@ class AuthenticationViewModel: ViewModel() {
         Log.d(SignOutTAG, "Logout successfully")
         _isAuthorized.value = false
         _errorMessage.value = ""
-        navController.navigate(AUTHENTICATION_ROUTE)
+        navController.navigate(Screen.Authentication.route)
     }
 
     fun deleteUser(navController: NavHostController) {
@@ -171,7 +170,7 @@ class AuthenticationViewModel: ViewModel() {
                     Log.d(DeleteUserTAG, "User deleted")
                     _isAuthorized.value = false
                 }
-            navController.navigate(AUTHENTICATION_ROUTE)
+            navController.navigate(Screen.Authentication.route)
         }
     }
 }

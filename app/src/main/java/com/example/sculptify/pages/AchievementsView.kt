@@ -18,7 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.layout.av.AchievementItem
 import com.example.sculptify.layout.general.topBars.TopBarView
-import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.viewModels.AchievementsViewModel
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -44,9 +43,7 @@ fun AchievementsView(navController: NavHostController) {
     ) {
         TopBarView(
             title = "Achievements",
-            onClick = {
-                navController.navigate(MAIN_ROUTE)
-            }
+            navController = navController
         )
         LazyColumn(
             modifier = Modifier

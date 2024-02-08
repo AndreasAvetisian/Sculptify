@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Dark_Gray
@@ -26,7 +27,8 @@ import com.example.sculptify.ui.theme.White
 @Composable
 fun TopBarView(
     title: String,
-    onClick: () -> Unit
+    navController: NavHostController,
+    onClick: () -> Unit = {}
 ) {
     Row (
         modifier = Modifier
@@ -41,6 +43,7 @@ fun TopBarView(
                 .width(30.dp)
                 .height(30.dp)
                 .clickable {
+                    navController.popBackStack()
                     onClick()
                 },
             shape = RoundedCornerShape(15.dp),

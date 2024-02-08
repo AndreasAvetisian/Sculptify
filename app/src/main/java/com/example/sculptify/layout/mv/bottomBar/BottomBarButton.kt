@@ -27,8 +27,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.data.mv.BottomBarScreen
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.selectedTabIndexForMyStatistics
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.STATISTICS_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Bright_Green
 import com.example.sculptify.ui.theme.Dark_Orange
@@ -46,8 +45,8 @@ fun BottomBarButton(
     val background =
         if (selected) {
             when(screen.route) {
-                MAIN_ROUTE -> Blue
-                STATISTICS_ROUTE -> Dark_Orange
+                Screen.Main.route -> Blue
+                Screen.Statistics.route -> Dark_Orange
                 else -> Bright_Green
             }
         } else {
@@ -73,7 +72,7 @@ fun BottomBarButton(
                         popUpTo(navController.graph.findStartDestination().id)
                         launchSingleTop = true
 
-                        if (screen.route == STATISTICS_ROUTE) {
+                        if (screen.route == Screen.Statistics.route) {
                             selectedTabIndexForMyStatistics = 0
                         }
                     }

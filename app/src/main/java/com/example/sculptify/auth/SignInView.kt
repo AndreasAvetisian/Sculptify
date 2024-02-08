@@ -39,7 +39,7 @@ import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.auth.ErrorMessage
 import com.example.sculptify.layout.auth.SignInButton
 import com.example.sculptify.layout.general.customText.CustomText
-import com.example.sculptify.main.SIGN_UP_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 
@@ -185,7 +185,7 @@ fun AuthenticationView(
                         color = Color(0xff0060FE),
                         modifier = Modifier
                             .clickable {
-                                navController.navigate(SIGN_UP_ROUTE)
+                                navController.navigate(Screen.SignUp.route)
                             }
                     )
                 }

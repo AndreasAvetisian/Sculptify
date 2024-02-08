@@ -30,8 +30,7 @@ import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.mpv.MPV_BottomButtonsLayout
 import com.example.sculptify.layout.mpv.MPV_ModifyGender
 import com.example.sculptify.layout.mpv.MPV_ModifyInput
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.MY_PROFILE_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.White
@@ -94,10 +93,7 @@ fun MyProfileView(
         item {
             TopBarView(
                 title = "My Profile",
-                onClick = {
-                    navController.popBackStack()
-                    navController.navigate(MAIN_ROUTE)
-                }
+                navController = navController
             )
             Column (
                 modifier = Modifier
@@ -121,7 +117,7 @@ fun MyProfileView(
             ) {
                 OpenableLineButton(
                     text = "Modify Password",
-                    route = MY_PROFILE_ROUTE,
+                    route = Screen.MyProfile.route,
                     index = 0,
                     onClick = {
                         isModifyPasswordOpen = !isModifyPasswordOpen
@@ -153,7 +149,7 @@ fun MyProfileView(
             ) {
                 OpenableLineButton(
                     text = "Body Parameters",
-                    route = MY_PROFILE_ROUTE,
+                    route = Screen.MyProfile.route,
                     index = 1,
                     onClick = {
                         isBodyParametersOpen = !isBodyParametersOpen

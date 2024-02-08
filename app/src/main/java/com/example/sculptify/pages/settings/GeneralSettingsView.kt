@@ -23,10 +23,8 @@ import com.example.sculptify.layout.general.buttons.OpenableLineButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.settings.general.GS_ReminderButton
-import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.REMINDER_ROUTE
 import com.example.sculptify.main.VERSION
+import com.example.sculptify.screens.Screen
 
 @Composable
 fun GeneralSettingsView(navController: NavHostController) {
@@ -38,9 +36,7 @@ fun GeneralSettingsView(navController: NavHostController) {
     ) {
         TopBarView(
             title = "General Settings",
-            onClick = {
-                navController.navigate(MAIN_ROUTE)
-            }
+            navController = navController
         )
         LazyColumn(
             modifier = Modifier
@@ -49,7 +45,7 @@ fun GeneralSettingsView(navController: NavHostController) {
             item {
                 GS_ReminderButton(
                     onClick = {
-                        navController.navigate(REMINDER_ROUTE)
+                        navController.navigate(Screen.Reminder.route)
                     }
                 )
 
@@ -57,7 +53,7 @@ fun GeneralSettingsView(navController: NavHostController) {
 
                 OpenableLineButton(
                     text = "Read Me",
-                    route = GENERAL_SETTINGS_ROUTE,
+                    route = Screen.GeneralSettings.route,
                     index = 1,
                     onClick = {
                         isOpen = !isOpen

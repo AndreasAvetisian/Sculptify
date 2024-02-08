@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Orange
 import com.example.sculptify.viewModels.UserViewModel
@@ -45,7 +45,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
         MV_Button(
             onClick = {
                 selectedTabIndexForDSAD = 0
-                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
+                navController.navigate(Screen.DSAD.route)
             },
             data = dayStreakValue.toString(),
             iconId = R.drawable.day_streak_main_icon,
@@ -59,7 +59,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
         MV_Button(
             onClick = {
                 selectedTabIndexForDSAD = 1
-                navController.navigate(DAY_STREAK_ACTIVE_DAYS_ROUTE)
+                navController.navigate(Screen.DSAD.route)
             },
             data = "0/$weeklyGoalValue",
             iconId = R.drawable.active_days_main_icon,

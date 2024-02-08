@@ -25,7 +25,6 @@ import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.settings.general.reminder.EmptyListIcon
 import com.example.sculptify.layout.settings.general.reminder.ReminderBottomBar
 import com.example.sculptify.layout.settings.general.reminder.ReminderItem
-import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
 import com.example.sculptify.viewModels.ReminderViewModel
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -58,8 +57,8 @@ fun ReminderView(
     ) {
         TopBarView(
             title = "Reminder",
+            navController = navController,
             onClick = {
-                navController.navigate(GENERAL_SETTINGS_ROUTE)
                 isEditClicked = false
             }
         )

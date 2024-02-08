@@ -19,10 +19,9 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.data.dayStreakActiveDayV.DayStreakActiveDaysTabItem
 import com.example.sculptify.layout.general.topBars.TopBarWithTabRow
 import com.example.sculptify.layout.mv.buttons.selectedTabIndexForDSAD
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
-import com.example.sculptify.main.MAIN_ROUTE
 import com.example.sculptify.pages.ActiveDaysView
 import com.example.sculptify.pages.DayStreakView
+import com.example.sculptify.screens.Screen
 
 val DayStreak_ActiveDays_TabItems = listOf(
     DayStreakActiveDaysTabItem(
@@ -63,30 +62,26 @@ fun DayStreak_ActiveDaysView(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
-            TopBarWithTabRow(
-                indicatorWidth = (deviceWidthDp / 2).dp,
-                indicatorHeight = (deviceHeightDp * 0.059).dp,
-                selectedTabIndex = selectedTabIndexForDSAD,
-                onBackButtonClick = {
-                    navController.navigate(MAIN_ROUTE)
-                },
-                onTabSelected = {
-                    selectedTabIndexForDSAD = it
-                },
-                route = DAY_STREAK_ACTIVE_DAYS_ROUTE
-            )
+        TopBarWithTabRow(
+            indicatorWidth = (deviceWidthDp / 2).dp,
+            indicatorHeight = (deviceHeightDp * 0.059).dp,
+            selectedTabIndex = selectedTabIndexForDSAD,
+            onTabSelected = {
+                selectedTabIndexForDSAD = it
+            },
+            route = Screen.DSAD.route,
+            navController = navController
+        )
 
-            HorizontalPager(
-                state = dayStreakActiveDayPagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.75f)
-            ) {index ->
-                when (index) {
-                    0 -> { DayStreakView() }
-                    1 -> { ActiveDaysView(navController) }
-                }
+        HorizontalPager(
+            state = dayStreakActiveDayPagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+        ) {index ->
+            when (index) {
+                0 -> { DayStreakView() }
+                1 -> { ActiveDaysView(navController) }
             }
         }
 

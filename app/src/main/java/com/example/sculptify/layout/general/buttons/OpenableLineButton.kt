@@ -29,9 +29,7 @@ import com.example.sculptify.layout.mpv.MPV_BodyParameters
 import com.example.sculptify.layout.mpv.MPV_ModifyPassword
 import com.example.sculptify.layout.settings.general.GS_ReadMe
 import com.example.sculptify.layout.settings.workout.WS_TimerSettings
-import com.example.sculptify.main.GENERAL_SETTINGS_ROUTE
-import com.example.sculptify.main.MY_PROFILE_ROUTE
-import com.example.sculptify.main.WORKOUT_SETTINGS_ROUTE
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Light_Gray
 import com.example.sculptify.ui.theme.White
@@ -124,7 +122,7 @@ fun OpenableLineButton(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 when(route) {
-                    MY_PROFILE_ROUTE -> {
+                    Screen.MyProfile.route -> {
                         when(index) {
                             0 -> {
                                 MPV_ModifyPassword(
@@ -138,8 +136,8 @@ fun OpenableLineButton(
                             1 -> { MPV_BodyParameters()  }
                         }
                     }
-                    WORKOUT_SETTINGS_ROUTE -> { WS_TimerSettings() }
-                    GENERAL_SETTINGS_ROUTE -> { GS_ReadMe() }
+                    Screen.WorkoutSettings.route -> { WS_TimerSettings() }
+                    Screen.GeneralSettings.route -> { GS_ReadMe() }
                 }
             }
         }

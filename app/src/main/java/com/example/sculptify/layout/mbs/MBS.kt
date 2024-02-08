@@ -9,10 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeeklyGoal
 import com.example.sculptify.layout.msv.bmi.BMI_EditBodyParameters
-import com.example.sculptify.main.DAY_STREAK_ACTIVE_DAYS_ROUTE
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.STATISTICS_ROUTE
 import com.example.sculptify.pages.MeView
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
 import kotlinx.coroutines.CoroutineScope
 
@@ -35,7 +33,7 @@ fun MBS(
         containerColor = Dark_Gray
     ) {
         when (currentRoute) {
-            MAIN_ROUTE -> {
+            Screen.Main.route -> {
                 MeView(
                     scope = scope,
                     sheetState = sheetState,
@@ -43,14 +41,14 @@ fun MBS(
                     navController = navController
                 )
             }
-            DAY_STREAK_ACTIVE_DAYS_ROUTE -> {
+            Screen.DSAD.route -> {
                 ADV_ModifyWeeklyGoal(
                     scope = scope,
                     sheetState = sheetState,
                     onDismiss = onDismiss
                 )
             }
-            STATISTICS_ROUTE -> {
+            Screen.Statistics.route -> {
                 BMI_EditBodyParameters(
                     scope = scope,
                     sheetState = sheetState,

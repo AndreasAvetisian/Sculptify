@@ -18,10 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.sculptify.data.statistics.MyStatisticsTabItem
 import com.example.sculptify.layout.general.topBars.TopBarWithTabRow
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.STATISTICS_ROUTE
 import com.example.sculptify.pages.MyBMIView
 import com.example.sculptify.pages.MyStatisticsView
+import com.example.sculptify.screens.Screen
 
 val MyStatistics_TabItems = listOf(
     MyStatisticsTabItem(
@@ -36,9 +35,7 @@ var selectedTabIndexForMyStatistics by mutableIntStateOf(0)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun StatisticsView(
-    navController: NavHostController
-) {
+fun StatisticsView(navController: NavHostController) {
     val deviceWidthDp = LocalConfiguration.current.screenWidthDp
     val deviceHeightDp = LocalConfiguration.current.screenHeightDp
 
@@ -63,13 +60,11 @@ fun StatisticsView(
             indicatorWidth = (deviceWidthDp / 2).dp,
             indicatorHeight = (deviceHeightDp * 0.059).dp,
             selectedTabIndex = selectedTabIndexForMyStatistics,
-            onBackButtonClick = {
-                navController.navigate(MAIN_ROUTE)
-            },
             onTabSelected = {
                 selectedTabIndexForMyStatistics = it
             },
-            route = STATISTICS_ROUTE
+            route = Screen.Statistics.route,
+            navController = navController
         )
         HorizontalPager(
             state = myStatisticsPagerState,
@@ -77,12 +72,8 @@ fun StatisticsView(
                 .fillMaxWidth()
         ) {index ->
             when (index) {
-                0 -> {
-                    MyStatisticsView()
-                }
-                1 -> {
-                    MyBMIView(navController)
-                }
+                0 -> { MyStatisticsView() }
+                1 -> { MyBMIView(navController) }
             }
         }
     }

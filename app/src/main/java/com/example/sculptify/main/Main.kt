@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -46,6 +45,8 @@ import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.ReminderView
 import com.example.sculptify.pages.settings.GeneralSettingsView
 import com.example.sculptify.pages.settings.WorkoutSettingsView
+import com.example.sculptify.screens.Screen
+import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.viewModels.AuthenticationViewModel
 import com.example.sculptify.viewModels.ReminderViewModel
@@ -54,28 +55,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlin.math.roundToInt
 
-const val AUTHENTICATION_ROUTE = "authentication"
-// -------------------------------------SignUp--------------------------------------------
-const val SIGN_UP_ROUTE = "sign up"
-const val EMAIL_AND_PASSWORD = "email and password"
-const val NAME_AND_YOB = "name and year of birth"
-const val HEIGHT_AND_WEIGHT = "height and weight"
-const val GENDER_SELECTION = "gender selection"
-const val WEEKLY_GOAL = "weekly goal"
-const val CONFIRM_REGISTRATION = "confirm registration"
-// ---------------------------------------------------------------------------------------
-const val MAIN_ROUTE = "main"
-const val DAY_STREAK_ACTIVE_DAYS_ROUTE = "day streak and active days"
-const val STATISTICS_ROUTE = "statistics"
-const val ACHIEVEMENTS_ROUTE = "achievements"
-const val ME_ROUTE = "me"
-const val MY_PROFILE_ROUTE = "my profile"
-const val MY_FAVORITE_MY_HISTORY_ROUTE = "my favorite and my history"
-const val WORKOUT_SETTINGS_ROUTE = "workout settings"
-const val GENERAL_SETTINGS_ROUTE = "general settings"
-const val REMINDER_ROUTE = "reminder"
 const val VERSION = "1.0.0"
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -115,86 +95,76 @@ fun MainScaffoldView() {
         },
         bottomBar = {
             if (
-                currentRoute == MAIN_ROUTE ||
-                currentRoute == STATISTICS_ROUTE ||
-                currentRoute == ACHIEVEMENTS_ROUTE
+                currentRoute == Screen.Main.route ||
+                currentRoute == Screen.Statistics.route ||
+                currentRoute == Screen.Achievements.route
             ) {
                 BottomBar(navController)
             } else if (
-                currentRoute == SIGN_UP_ROUTE ||
-                currentRoute == EMAIL_AND_PASSWORD ||
-                currentRoute == NAME_AND_YOB ||
-                currentRoute == HEIGHT_AND_WEIGHT ||
-                currentRoute == GENDER_SELECTION ||
-                currentRoute == WEEKLY_GOAL ||
-                currentRoute == CONFIRM_REGISTRATION
+                currentRoute == Screen.SignUp.route ||
+                currentRoute == Screen.EmailAndPassword.route ||
+                currentRoute == Screen.NameAndYOB.route ||
+                currentRoute == Screen.HeightAndWeight.route ||
+                currentRoute == Screen.GenderSelection.route ||
+                currentRoute == Screen.WeeklyGoal.route ||
+                currentRoute == Screen.ConfirmRegistration.route
             ){
                 SignUpBottomBar(
-                    backText = if (currentRoute == SIGN_UP_ROUTE) "LOG IN" else "BACK",
+                    backText = if (currentRoute == Screen.SignUp.route) "LOG IN" else "BACK",
                     backOnClick = {
-                        when (currentRoute) {
-                            SIGN_UP_ROUTE -> {
-                                authVM.setErrorMessage("")
-                                navController.navigate(AUTHENTICATION_ROUTE)
-                            }
-                            EMAIL_AND_PASSWORD -> { navController.navigate(SIGN_UP_ROUTE) }
-                            NAME_AND_YOB -> { navController.navigate(EMAIL_AND_PASSWORD) }
-                            HEIGHT_AND_WEIGHT -> { navController.navigate(NAME_AND_YOB) }
-                            GENDER_SELECTION -> { navController.navigate(HEIGHT_AND_WEIGHT) }
-                            WEEKLY_GOAL -> { navController.navigate(GENDER_SELECTION) }
-                            CONFIRM_REGISTRATION -> { navController.navigate(WEEKLY_GOAL) }
-                        }
+                        navController.popBackStack()
+                        if (currentRoute == Screen.SignUp.route) authVM.setErrorMessage("")
                     },
                     nextText =
                         when (currentRoute) {
-                            SIGN_UP_ROUTE -> "I'M READY"
-                            CONFIRM_REGISTRATION -> "CREATE AN ACCOUNT"
+                            Screen.SignUp.route -> "I'M READY"
+                            Screen.ConfirmRegistration.route -> "CREATE AN ACCOUNT"
                             else -> "NEXT"
                         },
                     nextBgColor =
-                        if (regEmail.isNotEmpty() && regPw.isNotEmpty() && currentRoute == EMAIL_AND_PASSWORD && weakPwError.isEmpty()) {
+                        if (regEmail.isNotEmpty() && regPw.isNotEmpty() && currentRoute == Screen.EmailAndPassword.route && weakPwError.isEmpty()) {
                             Blue
-                        } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty() && currentRoute == NAME_AND_YOB) {
+                        } else if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty() && currentRoute == Screen.NameAndYOB.route) {
                             Blue
-                        } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty() && currentRoute == HEIGHT_AND_WEIGHT) {
+                        } else if (regHeight.isNotEmpty() && regWeight.isNotEmpty() && currentRoute == Screen.HeightAndWeight.route) {
                             Blue
-                        } else if (regGender.isNotEmpty() && currentRoute == GENDER_SELECTION) {
+                        } else if (regGender.isNotEmpty() && currentRoute == Screen.GenderSelection.route) {
                             Blue
-                        } else if (currentRoute == SIGN_UP_ROUTE) {
+                        } else if (currentRoute == Screen.SignUp.route) {
                             Blue
-                        } else if (currentRoute == WEEKLY_GOAL) {
+                        } else if (currentRoute == Screen.WeeklyGoal.route) {
                             Blue
-                        } else if (currentRoute == CONFIRM_REGISTRATION) {
+                        } else if (currentRoute == Screen.ConfirmRegistration.route) {
                             Blue
                         } else {
                             Blue.copy(alpha = 0.2f)
                         },
                     nextOnClick = {
                         when (currentRoute) {
-                            SIGN_UP_ROUTE -> { navController.navigate(EMAIL_AND_PASSWORD) }
-                            EMAIL_AND_PASSWORD -> {
+                            Screen.SignUp.route -> { navController.navigate(Screen.EmailAndPassword.route) }
+                            Screen.EmailAndPassword.route -> {
                                 if (regEmail.isNotEmpty() && regPw.isNotEmpty() && weakPwError.isEmpty()) {
-                                    navController.navigate(NAME_AND_YOB)
+                                    navController.navigate(Screen.NameAndYOB.route)
                                     weakPwError = ""
                                 }
                             }
-                            NAME_AND_YOB -> {
+                            Screen.NameAndYOB.route -> {
                                 if (regFirstName.isNotEmpty() && regYearOfBirth.isNotEmpty()) {
-                                    navController.navigate(HEIGHT_AND_WEIGHT)
+                                    navController.navigate(Screen.HeightAndWeight.route)
                                 }
                             }
-                            HEIGHT_AND_WEIGHT -> {
+                            Screen.HeightAndWeight.route -> {
                                 if (regHeight.isNotEmpty() && regWeight.isNotEmpty()) {
-                                    navController.navigate(GENDER_SELECTION)
+                                    navController.navigate(Screen.GenderSelection.route)
                                 }
                             }
-                            GENDER_SELECTION -> {
+                            Screen.GenderSelection.route -> {
                                 if (regGender.isNotEmpty()) {
-                                    navController.navigate(WEEKLY_GOAL)
+                                    navController.navigate(Screen.WeeklyGoal.route)
                                 }
                             }
-                            WEEKLY_GOAL -> { navController.navigate(CONFIRM_REGISTRATION) }
-                            CONFIRM_REGISTRATION -> {
+                            Screen.WeeklyGoal.route -> { navController.navigate(Screen.ConfirmRegistration.route) }
+                            Screen.ConfirmRegistration.route -> {
                                  if (regEmail.isNotEmpty() && regPw.isNotEmpty()) {
                                     authVM.signUpUser(
                                         regEmail = regEmail,
@@ -233,28 +203,28 @@ fun MainContentView(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = if (isAuthorized) MAIN_ROUTE else AUTHENTICATION_ROUTE,
-        modifier = Modifier.background(Color.Black)
+        startDestination = if (isAuthorized) Screen.Main.route else Screen.Authentication.route,
+        modifier = Modifier.background(Black)
     ){
-        composable( route = AUTHENTICATION_ROUTE ) { AuthenticationView(navController, authVM) }
+        composable( route = Screen.Authentication.route ) { AuthenticationView(navController, authVM) }
         // -------------------------------------SignUp--------------------------------------------
-        composable( route = SIGN_UP_ROUTE ) { SignUpView() }
-        composable( route = EMAIL_AND_PASSWORD ) { EmailAndPassword() }
-        composable( route = NAME_AND_YOB ) { NameAndYOB() }
-        composable( route = HEIGHT_AND_WEIGHT ) { HeightAndWeight() }
-        composable( route = GENDER_SELECTION ) { GenderSelection() }
-        composable( route = WEEKLY_GOAL ) { WeeklyGoal() }
-        composable( route = CONFIRM_REGISTRATION ) { ConfirmRegistration() }
+        composable( route = Screen.SignUp.route ) { SignUpView() }
+        composable( route = Screen.EmailAndPassword.route ) { EmailAndPassword() }
+        composable( route = Screen.NameAndYOB.route ) { NameAndYOB() }
+        composable( route = Screen.HeightAndWeight.route ) { HeightAndWeight() }
+        composable( route = Screen.GenderSelection.route ) { GenderSelection() }
+        composable( route = Screen.WeeklyGoal.route ) { WeeklyGoal() }
+        composable( route = Screen.ConfirmRegistration.route ) { ConfirmRegistration() }
         // ---------------------------------------------------------------------------------------
-        composable( route = MAIN_ROUTE ){ MainView(navController) }
-        composable( route = DAY_STREAK_ACTIVE_DAYS_ROUTE ){ DayStreak_ActiveDaysView(navController) }
-        composable( route = STATISTICS_ROUTE ){ StatisticsView(navController) }
-        composable( route = ACHIEVEMENTS_ROUTE ){ AchievementsView(navController) }
-        composable( route = ME_ROUTE ){ MeMBS_NavControllerHandler(navController) }
-        composable( route = MY_PROFILE_ROUTE ) { MyProfileView(navController) }
-        composable( route = MY_FAVORITE_MY_HISTORY_ROUTE ) { MyFavorite_MyHistoryView(navController) }
-        composable( route = WORKOUT_SETTINGS_ROUTE ) { WorkoutSettingsView(navController) }
-        composable( route = GENERAL_SETTINGS_ROUTE ) { GeneralSettingsView(navController) }
-        composable( route = REMINDER_ROUTE ) { ReminderView(navController, reminderVM) }
+        composable( route = Screen.Main.route ){ MainView(navController) }
+        composable( route = Screen.DSAD.route ){ DayStreak_ActiveDaysView(navController) }
+        composable( route = Screen.Statistics.route ){ StatisticsView(navController) }
+        composable( route = Screen.Achievements.route ){ AchievementsView(navController) }
+        composable( route = Screen.Me.route ){ MeMBS_NavControllerHandler(navController) }
+        composable( route = Screen.MyProfile.route ) { MyProfileView(navController) }
+        composable( route = Screen.MFMH.route ) { MyFavorite_MyHistoryView(navController) }
+        composable( route = Screen.WorkoutSettings.route ) { WorkoutSettingsView(navController) }
+        composable( route = Screen.GeneralSettings.route ) { GeneralSettingsView(navController) }
+        composable( route = Screen.Reminder.route ) { ReminderView(navController, reminderVM) }
     }
 }

@@ -1,9 +1,7 @@
 package com.example.sculptify.data.mv
 
 import com.example.sculptify.R
-import com.example.sculptify.main.ACHIEVEMENTS_ROUTE
-import com.example.sculptify.main.MAIN_ROUTE
-import com.example.sculptify.main.STATISTICS_ROUTE
+import com.example.sculptify.screens.Screen
 
 sealed class BottomBarScreen(
     val route: String,
@@ -14,7 +12,7 @@ sealed class BottomBarScreen(
 
     // for home
     data object Main: BottomBarScreen(
-        route = MAIN_ROUTE,
+        route = Screen.Main.route,
         title = "Main",
         icon = R.drawable.history_of_workouts,
         widthDistribution = 0.33f
@@ -22,7 +20,7 @@ sealed class BottomBarScreen(
 
     // for report
     data object Statistics: BottomBarScreen(
-        route = STATISTICS_ROUTE,
+        route = Screen.Statistics.route,
         title = "Statistics",
         icon = R.drawable.statistics_icon,
         widthDistribution = 0.5f
@@ -30,7 +28,7 @@ sealed class BottomBarScreen(
 
     // for report
     data object Achievements: BottomBarScreen(
-        route = ACHIEVEMENTS_ROUTE,
+        route = Screen.Achievements.route,
         title = "Achievements",
         icon = R.drawable.achievements_icon,
         widthDistribution = 1f
