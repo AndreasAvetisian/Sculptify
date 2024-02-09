@@ -22,6 +22,7 @@ import com.example.sculptify.auth.EmailAndPassword
 import com.example.sculptify.auth.GenderSelection
 import com.example.sculptify.auth.HeightAndWeight
 import com.example.sculptify.auth.NameAndYOB
+import com.example.sculptify.auth.NewSignUpView
 import com.example.sculptify.auth.SignUpView
 import com.example.sculptify.auth.WeeklyGoal
 import com.example.sculptify.auth.regEmail
@@ -208,6 +209,9 @@ fun MainContentView(navController: NavHostController) {
     ){
         composable( route = Screen.Authentication.route ) { AuthenticationView(navController, authVM) }
         // -------------------------------------SignUp--------------------------------------------
+
+        composable( route = Screen.NewSignUp.route ) { NewSignUpView(navController) }
+
         composable( route = Screen.SignUp.route ) { SignUpView() }
         composable( route = Screen.EmailAndPassword.route ) { EmailAndPassword() }
         composable( route = Screen.NameAndYOB.route ) { NameAndYOB() }

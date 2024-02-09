@@ -18,9 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
 
-var regEmail by mutableStateOf("")
-var regPw by mutableStateOf("")
-var isHiddenPw by mutableStateOf(true)
 var regFirstName by mutableStateOf("")
 var regWeeklyGoal by mutableFloatStateOf(3f)
 var regGender by mutableStateOf("")

@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -23,11 +25,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -40,9 +45,11 @@ import com.example.sculptify.layout.auth.ErrorMessage
 import com.example.sculptify.layout.auth.SignInButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.screens.Screen
+import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthenticationView(
     navController: NavHostController,
@@ -69,6 +76,8 @@ fun AuthenticationView(
             )
         )
     }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var email by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
@@ -122,7 +131,6 @@ fun AuthenticationView(
                     value = email,
                     onValueChange = { email = it },
                     label = "Email",
-                    keyboardType = KeyboardType.Email,
                     visualTransformation = VisualTransformation.None,
                     trailingIcon = null,
                     textStyle = TextStyle(
@@ -134,13 +142,19 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Dark_Gray,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
                 AuthField(
                     value = pw,
                     onValueChange = { pw = it},
                     label = "Password",
-                    keyboardType = KeyboardType.Password,
                     visualTransformation = if (isHiddenPw) PasswordVisualTransformation() else  VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -163,7 +177,14 @@ fun AuthenticationView(
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Dark_Gray,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
                 SignInButton(
                     bgColor = if (email.isNotEmpty() && pw.isNotEmpty())
@@ -185,7 +206,7 @@ fun AuthenticationView(
                         color = Color(0xff0060FE),
                         modifier = Modifier
                             .clickable {
-                                navController.navigate(Screen.SignUp.route)
+                                navController.navigate(Screen.NewSignUp.route)
                             }
                     )
                 }

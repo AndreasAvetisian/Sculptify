@@ -9,17 +9,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -33,8 +38,11 @@ import com.example.sculptify.ui.theme.balooFontFamily
 
 var weakPwError by mutableStateOf("")
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailAndPassword() {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column (
         modifier = Modifier
@@ -63,7 +71,6 @@ fun EmailAndPassword() {
                     value = regEmail,
                     onValueChange = { regEmail = it},
                     label = "",
-                    keyboardType = KeyboardType.Email,
                     visualTransformation = VisualTransformation.None,
                     trailingIcon = null,
                     textStyle = TextStyle(
@@ -75,7 +82,14 @@ fun EmailAndPassword() {
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Color(0xff1C1C1E),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
                 CustomText(
                     text = "Password:",
@@ -85,7 +99,6 @@ fun EmailAndPassword() {
                     value = regPw,
                     onValueChange = { regPw = it},
                     label = "",
-                    keyboardType = KeyboardType.Password,
                     visualTransformation = if (isHiddenPw) PasswordVisualTransformation() else  VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -108,7 +121,14 @@ fun EmailAndPassword() {
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Color(0xff1C1C1E),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
                 if (regPw.isEmpty()) {
                     weakPwError = ""

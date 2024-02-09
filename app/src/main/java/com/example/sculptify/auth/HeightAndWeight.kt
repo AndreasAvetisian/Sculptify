@@ -8,14 +8,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -26,8 +31,11 @@ import com.example.sculptify.layout.auth.AuthField
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.balooFontFamily
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HeightAndWeight() {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +65,6 @@ fun HeightAndWeight() {
                         if (it.length <= 3) regHeight = it
                     },
                     label = "",
-                    keyboardType = KeyboardType.Number,
                     visualTransformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -80,7 +87,14 @@ fun HeightAndWeight() {
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .width(200.dp),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Color(0xff1C1C1E),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
                 CustomText(
                     text = "and weight is",
@@ -92,7 +106,6 @@ fun HeightAndWeight() {
                         regWeight = it
                     },
                     label = "",
-                    keyboardType = KeyboardType.Number,
                     visualTransformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -115,7 +128,14 @@ fun HeightAndWeight() {
                     modifier = Modifier
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .width(200.dp),
-                    containerColor = Color(0xff1C1C1E)
+                    containerColor = Color(0xff1C1C1E),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
                 )
             }
         }

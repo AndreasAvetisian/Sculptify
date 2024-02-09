@@ -3,6 +3,7 @@ package com.example.sculptify.screens
 sealed class Screen(val route: String) {
     data object Authentication : Screen("authentication")
     data object SignUp : Screen("sign up")
+    data object NewSignUp : Screen("new sign up")
     data object EmailAndPassword : Screen("email and password")
     data object NameAndYOB : Screen("name and year of birth")
     data object HeightAndWeight : Screen("height and weight")

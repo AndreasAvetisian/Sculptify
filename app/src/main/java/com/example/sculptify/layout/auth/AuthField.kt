@@ -9,30 +9,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    keyboardType: KeyboardType,
     visualTransformation: VisualTransformation,
-    trailingIcon: @Composable (() -> Unit)?,
+    trailingIcon: @Composable (() -> Unit)? = {},
     textStyle: TextStyle,
-    modifier: Modifier,
-    containerColor: Color
+    containerColor: Color,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -44,13 +39,8 @@ fun AuthField(
                 fontWeight = FontWeight.Normal
             )
         },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = { keyboardController?.hide() }
-        ),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         singleLine = true,
         modifier = modifier,
         colors = TextFieldDefaults.colors(
