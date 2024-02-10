@@ -9,25 +9,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.White
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
+    labelColor: Color = White,
     visualTransformation: VisualTransformation,
     trailingIcon: @Composable (() -> Unit)? = {},
     textStyle: TextStyle,
     containerColor: Color,
-    keyboardOptions: KeyboardOptions,
-    keyboardActions: KeyboardActions
+    keyboardType: KeyboardType,
+    imeAction: ImeAction
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -35,12 +43,11 @@ fun AuthField(
         label = {
             CustomText(
                 text = label,
+                color = labelColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal
             )
         },
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
         singleLine = true,
         modifier = modifier,
         colors = TextFieldDefaults.colors(
@@ -57,6 +64,13 @@ fun AuthField(
         ),
         textStyle = textStyle,
         shape = MaterialTheme.shapes.large,
-        trailingIcon = trailingIcon
+        trailingIcon = trailingIcon,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { keyboardController?.hide() }
+        ),
     )
 }

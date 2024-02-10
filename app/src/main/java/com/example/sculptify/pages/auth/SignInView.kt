@@ -1,4 +1,4 @@
-package com.example.sculptify.auth
+package com.example.sculptify.pages.auth
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -25,10 +23,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,15 +37,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.auth.AuthField
-import com.example.sculptify.layout.auth.ErrorMessage
-import com.example.sculptify.layout.auth.SignInButton
+import com.example.sculptify.layout.auth.signIn.ErrorMessage
+import com.example.sculptify.layout.auth.signIn.SignInButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.AuthenticationViewModel
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthenticationView(
     navController: NavHostController,
@@ -76,8 +71,6 @@ fun AuthenticationView(
             )
         )
     }
-
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     var email by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
@@ -143,13 +136,8 @@ fun AuthenticationView(
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
                     containerColor = Dark_Gray,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = { keyboardController?.hide() }
-                    ),
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
                 )
                 AuthField(
                     value = pw,
@@ -178,13 +166,8 @@ fun AuthenticationView(
                         .padding(40.dp, 10.dp, 40.dp, 10.dp)
                         .fillMaxWidth(),
                     containerColor = Dark_Gray,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = { keyboardController?.hide() }
-                    ),
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
                 )
                 SignInButton(
                     bgColor = if (email.isNotEmpty() && pw.isNotEmpty())

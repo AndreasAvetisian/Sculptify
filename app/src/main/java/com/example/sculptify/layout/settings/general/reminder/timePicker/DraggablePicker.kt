@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.example.sculptify.data.settings.general.reminder.timePicker.PickerStyle
 import com.example.sculptify.ui.theme.Blue
 import kotlin.math.abs
@@ -25,7 +27,10 @@ fun <T>DraggablePicker(
     list: List<T>,
     showAmount: Int = 10,
     style: PickerStyle = PickerStyle(),
-    onValueChanged: (T) -> Unit
+    onValueChanged: (T) -> Unit,
+    fontSize: TextUnit = 36.sp,
+    pickerHeight: Float = 200f,
+    textPadding: Float = 25f
 ) {
 
     val listCount by remember {
@@ -102,11 +107,10 @@ fun <T>DraggablePicker(
     ) {
 
         val top = 0f
-        val bot = size.height
 
         drawContext.canvas.nativeCanvas.apply {
             drawRect(
-                Rect(1500, top.toInt(), size.width.toInt() - 1500, bot.toInt()),
+                Rect(1500, top.toInt(), size.width.toInt() - 1500, pickerHeight.toInt()),
                 Paint().apply {
                     color = Blue.copy(0.2f).toArgb()
                 }
@@ -118,14 +122,14 @@ fun <T>DraggablePicker(
                     ((listCount - 1 + correctionValue - showAmount)/2 * spaceForEachItem)
 
             drawContext.canvas.nativeCanvas.apply {
-                val y = style.lineLength + style.textSize.toPx()
+                val y = textPadding + fontSize.toPx()
 
                 drawText(
                     list[i].toString(),
                     currentX,
                     y,
                     Paint().apply {
-                        textSize = style.textSize.toPx()
+                        textSize = fontSize.toPx()
                         textAlign = Paint.Align.CENTER
                         isFakeBoldText = true
                         color = style.textColor.toArgb()

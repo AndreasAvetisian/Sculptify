@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import com.example.sculptify.ui.theme.Black
 
 @Composable
 fun CounterButton(
@@ -21,7 +23,10 @@ fun CounterButton(
     height: Dp,
     circleSize: Dp,
     fontSize: TextUnit,
-    thumbColor: Color
+    thumbColor: Color,
+    containerColor: Color = Black,
+    dragHorizontalLimit: Int = 72,
+    iconSize: Dp = 40.dp
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -36,7 +41,9 @@ fun CounterButton(
             thumbOffsetY = thumbOffsetY.value,
             onValueDecreaseClick = onValueDecreaseClick,
             onValueIncreaseClick = onValueIncreaseClick,
-            modifier = Modifier
+            modifier = Modifier,
+            bgColor = containerColor,
+            iconSize = iconSize
         )
 
         DraggableThumbButton(
@@ -48,7 +55,8 @@ fun CounterButton(
             modifier = Modifier.align(Alignment.Center),
             size = circleSize,
             fontSize = fontSize,
-            thumbColor = thumbColor
+            thumbColor = thumbColor,
+            dragHorizontalLimit = dragHorizontalLimit
         )
     }
 }

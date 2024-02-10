@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.auth
+package com.example.sculptify.layout.auth.signIn
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import com.example.sculptify.ui.theme.White
 
 @Composable
@@ -24,7 +24,8 @@ fun IconControlButton(
     modifier: Modifier = Modifier,
     tintColor: Color = White,
     clickTintColor: Color = White,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    size: Dp
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -34,14 +35,14 @@ fun IconControlButton(
         interactionSource = interactionSource,
         enabled = enabled,
         modifier = modifier
-            .size(40.dp)
+            .size(size)
     ) {
         Icon(
             painter = painterResource(id = iconId),
             contentDescription = contentDescription,
             tint = if (isPressed) clickTintColor else tintColor,
             modifier = Modifier
-                .size(40.dp)
+                .size(size)
                 .rotate(rotateAngle)
         )
     }

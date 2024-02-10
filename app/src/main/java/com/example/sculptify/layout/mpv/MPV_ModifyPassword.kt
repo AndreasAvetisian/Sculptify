@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,10 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -45,7 +41,6 @@ import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.balooFontFamily
 import com.example.sculptify.viewModels.UserViewModel
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MPV_ModifyPassword(
     pwValue: String,
@@ -58,8 +53,6 @@ fun MPV_ModifyPassword(
 
     var isHiddenPw by remember { mutableStateOf(true) }
     var weakPasswordError by remember { mutableStateOf("") }
-
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     val context = LocalContext.current
 
@@ -101,13 +94,8 @@ fun MPV_ModifyPassword(
                 .padding(40.dp, 10.dp, 40.dp, 0.dp)
                 .fillMaxWidth(),
             containerColor = AuthField_Gray,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide() }
-            ),
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Next
         )
         AuthField(
             value = confirmPwValue,
@@ -125,13 +113,8 @@ fun MPV_ModifyPassword(
                 .padding(40.dp, 10.dp, 40.dp, 10.dp)
                 .fillMaxWidth(),
             containerColor = AuthField_Gray,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide() }
-            ),
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
         )
         if (pwValue.isEmpty()) {
             weakPasswordError = ""

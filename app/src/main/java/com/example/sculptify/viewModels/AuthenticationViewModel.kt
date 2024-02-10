@@ -26,12 +26,23 @@ class AuthenticationViewModel: ViewModel() {
     private val _errorMessage = MutableStateFlow("")
     val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
 
+    private val _successMessage = MutableStateFlow("")
+    val successMessage: StateFlow<String> = _successMessage.asStateFlow()
+
     fun setErrorMessage(message: String) {
         _errorMessage.value = message
     }
 
+    fun setSuccessMessage(message: String) {
+        _successMessage.value = message
+    }
+
     fun getErrorMessage(): String {
         return errorMessage.value
+    }
+
+    fun getSuccessMessage(): String {
+        return successMessage.value
     }
 
     companion object {
@@ -53,7 +64,8 @@ class AuthenticationViewModel: ViewModel() {
                     Log.d(SignInTAG, "Logged in successfully")
                     _isAuthorized.value = true
                     navController.navigate(Screen.Main.route)
-                    _errorMessage.value = ""
+                    setErrorMessage("")
+                    setSuccessMessage("Account created successfully")
                 }
                 .addOnFailureListener { error: Exception ->
                     when (error) {

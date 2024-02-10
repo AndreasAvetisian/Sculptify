@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.auth
+package com.example.sculptify.layout.auth.signIn
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

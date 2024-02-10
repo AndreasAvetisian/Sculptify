@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-private const val DRAG_LIMIT_HORIZONTAL_DP = 72
 private const val START_DRAG_THRESHOLD_DP = 2
 private const val DRAG_LIMIT_HORIZONTAL_THRESHOLD_FACTOR = 0.9f
 private const val COUNTER_DELAY_INITIAL_MS = 500L
@@ -52,9 +51,10 @@ fun DraggableThumbButton(
     modifier: Modifier = Modifier,
     size: Dp,
     fontSize: TextUnit,
-    thumbColor: Color
+    thumbColor: Color,
+    dragHorizontalLimit: Int
 ) {
-    val dragLimitHorizontalPx = DRAG_LIMIT_HORIZONTAL_DP.dp.dpToPx()
+    val dragLimitHorizontalPx = dragHorizontalLimit.dp.dpToPx()
     val startDragThreshold = START_DRAG_THRESHOLD_DP.dp.dpToPx()
     val scope = rememberCoroutineScope()
 

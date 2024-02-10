@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.auth
+package com.example.sculptify.layout.auth.signUp
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.sculptify.pages.auth.isEditClicked
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 
 @Composable
@@ -31,7 +32,7 @@ fun SignUpBottomBar(
                 backOnClick()
             },
             modifier = Modifier
-                .width(100.dp)
+                .width(if (isEditClicked) 0.dp else 100.dp)
                 .padding(end = 10.dp)
                 .height(60.dp)
         )

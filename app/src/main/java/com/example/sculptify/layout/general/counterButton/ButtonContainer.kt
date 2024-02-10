@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.R
-import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.White
 import kotlin.math.absoluteValue
 
@@ -32,6 +33,8 @@ fun ButtonContainer(
     onValueIncreaseClick: () -> Unit,
     modifier: Modifier = Modifier,
     clearButtonVisible: Boolean = false,
+    bgColor: Color,
+    iconSize: Dp
 ) {
     // at which point the icon should be fully visible
     val horizontalHighlightLimitPx = DRAG_HORIZONTAL_ICON_HIGHLIGHT_LIMIT_DP.dp.dpToPx()
@@ -49,7 +52,7 @@ fun ButtonContainer(
             .fillMaxSize()
             .clip(RoundedCornerShape(64.dp))
             .background(
-                Black.copy(
+                bgColor.copy(
                     alpha = if (thumbOffsetX.absoluteValue > 0.0f) {
                         // horizontal
                         (CONTAINER_BACKGROUND_ALPHA_INITIAL + ((thumbOffsetX.absoluteValue / horizontalHighlightLimitPx) / 20f))
@@ -79,7 +82,8 @@ fun ButtonContainer(
                 } else {
                     ICON_BUTTON_ALPHA_INITIAL
                 }
-            )
+            ),
+            size = iconSize
         )
 
         // increase button
@@ -100,7 +104,8 @@ fun ButtonContainer(
                 } else {
                     ICON_BUTTON_ALPHA_INITIAL
                 }
-            )
+            ),
+            size = iconSize
         )
     }
 }
