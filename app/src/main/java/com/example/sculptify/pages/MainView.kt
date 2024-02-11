@@ -45,7 +45,7 @@ fun MainView(
                 MV_ButtonsLayout(navController)
                 MV_SwipeMenu()
                 MV_HistoryOfWorkouts()
-                MV_Workouts()
+                MV_Workouts(navController)
             }
         }
     }

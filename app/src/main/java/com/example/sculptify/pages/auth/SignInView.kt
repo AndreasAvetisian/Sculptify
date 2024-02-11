@@ -189,7 +189,7 @@ fun AuthenticationView(
                         color = Color(0xff0060FE),
                         modifier = Modifier
                             .clickable {
-                                navController.navigate(Screen.NewSignUp.route)
+                                navController.navigate(Screen.SignUp.route)
                             }
                     )
                 }

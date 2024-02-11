@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.mv.workouts
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,8 @@ fun MV_WorkoutItem(
     title: String,
     time: String,
     difficultyColor: Color,
-    iconID: Int
+    iconID: Int,
+    onClick: () -> Unit
     ) {
     Card (
         colors = CardDefaults.cardColors(Medium_Gray),
@@ -39,6 +41,9 @@ fun MV_WorkoutItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 15.675.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Row (
             modifier = Modifier

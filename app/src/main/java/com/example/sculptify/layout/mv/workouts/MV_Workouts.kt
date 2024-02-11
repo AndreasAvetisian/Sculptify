@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Advanced_Dark_Red
 import com.example.sculptify.ui.theme.Advanced_Red
@@ -20,7 +21,7 @@ import com.example.sculptify.ui.theme.Intermediate_Orange
 import com.example.sculptify.viewModels.WorkoutsViewModel
 
 @Composable
-fun MV_Workouts() {
+fun MV_Workouts(navController: NavHostController) {
     val workoutsVM: WorkoutsViewModel = viewModel()
 
     LaunchedEffect(true) {
@@ -45,19 +46,22 @@ fun MV_Workouts() {
             workouts = beginnerWorkouts,
             difficultyColor = Beginner_Green,
             titleColor = Beginner_Dark_Green,
-            padding = 10.dp
+            padding = 10.dp,
+            navController = navController
         )
         MV_RenderWorkouts(
             workouts = intermediateWorkouts,
             difficultyColor = Intermediate_Orange,
             titleColor = Intermediate_Dark_Orange,
-            padding = 25.dp
+            padding = 25.dp,
+            navController = navController
         )
         MV_RenderWorkouts(
             workouts = advancedWorkouts,
             difficultyColor = Advanced_Red,
             titleColor = Advanced_Dark_Red,
-            padding = 25.dp
+            padding = 25.dp,
+            navController = navController
         )
     }
 }

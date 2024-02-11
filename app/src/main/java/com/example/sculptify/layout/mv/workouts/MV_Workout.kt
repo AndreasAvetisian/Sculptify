@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.mv.workouts
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Dark_Gray
@@ -26,20 +28,21 @@ fun MV_Workout(
     titleColor: Color,
     difficultyColor: Color,
     workoutsList: Map<String, Any>,
-    padding: Dp
+    padding: Dp,
+    navController: NavHostController
 ) {
-    Card (
+    Card(
         colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = padding)
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(difficultyColor)
@@ -58,7 +61,7 @@ fun MV_Workout(
                     color = titleColor
                 )
             }
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(15.675.dp, 15.675.dp, 15.675.dp, 0.dp)
@@ -68,19 +71,26 @@ fun MV_Workout(
                     val focusArea = workoutDetailsMap?.get("focusArea") as? String
                     val level = workoutDetailsMap?.get("level") as? String
                     val time = workoutDetailsMap?.get("time") as? String
+                    val exercises = workoutDetailsMap?.get("exercises") as? List<Map<String, Any>>
 
                     MV_WorkoutItem(
                         title = "$focusArea - $level",
                         time = time.toString(),
                         difficultyColor = difficultyColor,
                         iconID =
-                            when(focusArea) {
-                                "Chest" -> R.drawable.chest
-                                "Abs" -> R.drawable.abs
-                                "Shoulder & Back" -> R.drawable.shoulderandback
-                                "Arm" -> R.drawable.arm
-                                else -> R.drawable.leg
-                            }
+                        when (focusArea) {
+                            "Chest" -> R.drawable.chest
+                            "Abs" -> R.drawable.abs
+                            "Shoulder & Back" -> R.drawable.shoulderandback
+                            "Arm" -> R.drawable.arm
+                            else -> R.drawable.leg
+                        },
+                        onClick = {
+                            Log.d("HELLO", exercises!!::class.simpleName.toString())
+                            navController.navigate(
+                                "workout/${focusArea}/${level}/${time}/${exercises}"
+                            )
+                        }
                     )
                 }
             }
