@@ -10,6 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sculptify.data.auth.RegEditDataItem
+import com.example.sculptify.layout.auth.signUp.EditDataButton
+import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.pages.auth.isAccountBeingCreated
 import com.example.sculptify.pages.auth.regConfirmPw
 import com.example.sculptify.pages.auth.regEmail
@@ -21,12 +24,29 @@ import com.example.sculptify.pages.auth.regPw
 import com.example.sculptify.pages.auth.regWeeklyGoal
 import com.example.sculptify.pages.auth.regWeight
 import com.example.sculptify.pages.auth.regYearOfBirth
-import com.example.sculptify.layout.auth.signUp.EditDataButton
-import com.example.sculptify.layout.general.customText.CustomText
 
 @Composable
 fun Confirmation() {
-    Column (
+    val dataItems = listOf(
+        RegEditDataItem("Email: $regEmail") { regPageCounter = 1 },
+        RegEditDataItem("Password: ********") {
+            regPageCounter = 1
+            regPw = ""
+            regConfirmPw = ""
+        },
+        RegEditDataItem("Name: $regFirstName") { regPageCounter = 2 },
+        RegEditDataItem("Year of Birth: $regYearOfBirth") { regPageCounter = 2 },
+        RegEditDataItem("Height: $regHeight cm") { regPageCounter = 2 },
+        RegEditDataItem("Weight: $regWeight kg") { regPageCounter = 2 },
+        RegEditDataItem("Gender: $regGender") { regPageCounter = 2 },
+        RegEditDataItem(
+            "Weekly Goal: $regWeeklyGoal ${
+                if (regWeeklyGoal == 1) "time/week" else "times/week"
+            }"
+        ) { regPageCounter = 3 }
+    )
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(15.675.dp),
@@ -34,57 +54,17 @@ fun Confirmation() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (!isAccountBeingCreated) {
-            CustomText(
-                text = "Confirm your data:",
-                fontSize = 30.sp
-            )
-            Column (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+            CustomText(text = "Confirm your data:", fontSize = 30.sp)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                EditDataButton(
-                    text = "Email: $regEmail",
-                    onClick = { regPageCounter = 1 }
-                )
-                EditDataButton(
-                    text = "Password: ********",
-                    onClick = {
-                        regPageCounter = 1
-                        regPw = ""
-                        regConfirmPw = ""
-                    }
-                )
-                EditDataButton(
-                    text = "Name: $regFirstName",
-                    onClick = { regPageCounter = 2 }
-                )
-                EditDataButton(
-                    text = "Year of Birth: $regYearOfBirth",
-                    onClick = { regPageCounter = 2 }
-                )
-                EditDataButton(
-                    text = "Height: $regHeight cm",
-                    onClick = { regPageCounter = 2 }
-                )
-                EditDataButton(
-                    text = "Weight: $regWeight kg",
-                    onClick = { regPageCounter = 2 }
-                )
-                EditDataButton(
-                    text = "Gender: $regGender",
-                    onClick = { regPageCounter = 2 }
-                )
-                EditDataButton(
-                    text = "Weekly Goal: $regWeeklyGoal ${ if (regWeeklyGoal == 1) "time/week" else "times/week" }",
-                    onClick = { regPageCounter = 3 }
-                )
+                dataItems.forEach { item ->
+                    EditDataButton(text = item.text, onClick = item.onClick)
+                }
             }
         } else {
-            CustomText(
-                text = "Creating an account...",
-                fontSize = 30.sp
-            )
+            CustomText(text = "Creating an account...", fontSize = 30.sp)
         }
     }
 }

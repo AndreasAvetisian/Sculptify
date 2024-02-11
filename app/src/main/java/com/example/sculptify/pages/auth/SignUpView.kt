@@ -119,6 +119,7 @@ fun SignUpView(navController: NavHostController) {
                     ) Blue else Blue.copy(0.2f)
                     2 -> if (
                         regFirstName.isNotEmpty() &&
+                        regYearOfBirth.isNotEmpty() &&
                         regGender.isNotEmpty()
                     ) Blue else Blue.copy(0.2f)
                     3 -> Blue
@@ -145,6 +146,7 @@ fun SignUpView(navController: NavHostController) {
                         2 -> {
                             if (
                                 regFirstName.isNotEmpty() &&
+                                regYearOfBirth.isNotEmpty() &&
                                 regGender.isNotEmpty()
                             ) regPageCounter++
                             if (isEditClicked) regPageCounter = 4
@@ -186,7 +188,8 @@ fun SignUpView(navController: NavHostController) {
                             }
                         }
                     }
-                }
+                },
+                currentPage = regPageCounter
             )
         }
     }
