@@ -58,7 +58,7 @@ fun ReminderView(
         TopBarView(
             title = "Reminder",
             navController = navController,
-            onClick = {
+            onBackClick = {
                 isEditClicked = false
             }
         )

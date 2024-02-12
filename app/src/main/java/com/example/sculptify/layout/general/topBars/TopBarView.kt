@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -21,6 +24,7 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Dark_Gray
+import com.example.sculptify.ui.theme.MF_TomatoRed
 import com.example.sculptify.ui.theme.Transparent
 import com.example.sculptify.ui.theme.White
 
@@ -28,7 +32,10 @@ import com.example.sculptify.ui.theme.White
 fun TopBarView(
     title: String,
     navController: NavHostController,
-    onClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    withTwoButtons: Boolean = false,
+    onFavClick: () -> Unit = {},
+    isClicked: Boolean = false
 ) {
     Row (
         modifier = Modifier
@@ -40,11 +47,10 @@ fun TopBarView(
     ) {
         Card (
             modifier = Modifier
-                .width(30.dp)
-                .height(30.dp)
+                .size(30.dp)
                 .clickable {
                     navController.popBackStack()
-                    onClick()
+                    onBackClick()
                 },
             shape = RoundedCornerShape(15.dp),
             colors = CardDefaults.cardColors(Dark_Gray)
@@ -69,9 +75,30 @@ fun TopBarView(
         CustomText(text = title)
         Card (
             modifier = Modifier
-                .width(30.dp)
-                .height(30.dp),
-            colors = CardDefaults.cardColors(Transparent)
-        ) {}
+                .size(30.dp)
+                .clickable {
+                    onFavClick()
+                },
+            colors = CardDefaults.cardColors(if (withTwoButtons) Dark_Gray else Transparent)
+        ) {
+            if (withTwoButtons) {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        Icons.Outlined.Favorite,
+                        modifier = Modifier
+                            .width(16.dp)
+                            .height(16.dp),
+                        contentDescription = "arrow",
+                        tint = if (isClicked) MF_TomatoRed else White
+                    )
+                }
+            }
+        }
     }
 }

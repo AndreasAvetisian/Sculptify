@@ -22,6 +22,7 @@ val Medium_Gray = Color(0xFF303030)
 val Dark_Gray = Color(0xff1C1C1E)
 val DS_Gray = Color(0xFF3D3D3D)
 val AuthField_Gray = Color(0xff202020)
+val Divider_Gray = Color(0xFF292929)
 
 val Blue = Color(0xff0060FE)
 
