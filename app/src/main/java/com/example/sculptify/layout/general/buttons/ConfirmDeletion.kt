@@ -24,7 +24,8 @@ import com.example.sculptify.ui.theme.White
 @Composable
 fun ConfirmDeletion(
     onClick: () -> Unit,
-    text: String
+    text: String,
+    route: String
 ) {
     val checkedState = remember { mutableStateOf(false) }
 
@@ -59,7 +60,7 @@ fun ConfirmDeletion(
                 )
             }
             ConfirmButton(
-                text = "Delete",
+                text = if (route == "my profile") "Delete" else "Reset",
                 bgColor = if (checkedState.value) Red else Red.copy(0.2f),
                 textColor = White,
                 onClick = {

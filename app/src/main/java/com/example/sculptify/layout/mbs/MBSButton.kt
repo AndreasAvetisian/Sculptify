@@ -25,6 +25,8 @@ import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.data.meMBS.MeMBSButton
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.layout.myFavMyHisView.selectedTabIndexForMFMH
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.White
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -57,6 +59,12 @@ fun MBSButton(
                 navController.navigate(button.route) {
                     popUpTo(navController.graph.findStartDestination().id)
                     launchSingleTop = true
+                }
+                selectedTabIndexForMFMH =
+                    if (button.text == "My Favorite" && button.route == Screen.MFMH.route) {
+                    0
+                } else {
+                    1
                 }
             }
     ) {

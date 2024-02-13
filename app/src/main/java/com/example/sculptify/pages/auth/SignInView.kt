@@ -111,12 +111,11 @@ fun AuthenticationView(
         ) {
             Column (
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomText(
                     modifier = Modifier
-                        .padding(0.dp, 0.dp, 0.dp, 50.dp),
+                        .padding(vertical = 80.dp),
                     text = "SCULPTIFY",
                     fontSize = 60.sp
                 )

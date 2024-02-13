@@ -55,8 +55,8 @@ fun SignUpBottomBar(
                     ) {
                         Spacer(
                             modifier = Modifier
-                                .width(if (pageIndex == currentPage) 30.dp else 8.dp)
-                                .height(8.dp)
+                                .width(if (pageIndex == currentPage) 30.dp else 10.dp)
+                                .height(5.dp)
                         )
                     }
                 }

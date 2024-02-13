@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.ConfirmDeletion
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Red
 import com.example.sculptify.ui.theme.White
@@ -84,7 +85,8 @@ fun MPV_BottomButtonsLayout(
                         onDeleteAccountClick()
                         isDeletionOpen = false
                     },
-                    text = "Confirm account deletion"
+                    text = "Confirm account deletion",
+                    route = Screen.MyProfile.route
                 )
             }
         }

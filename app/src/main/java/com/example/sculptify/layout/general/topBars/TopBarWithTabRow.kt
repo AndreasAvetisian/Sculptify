@@ -31,6 +31,7 @@ import com.example.sculptify.R
 import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays_TabItems
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.layout.msv.MyStatistics_TabItems
+import com.example.sculptify.layout.myFavMyHisView.MFMH_TabItems
 import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
@@ -113,6 +114,24 @@ fun TopBarWithTabRow(
             when (route) {
                 Screen.DSAD.route -> {
                     DayStreak_ActiveDays_TabItems.forEachIndexed { index, item ->
+                        Tab(
+                            selected = index == selectedTabIndex,
+                            onClick = {
+                                onTabSelected(index)
+                            },
+                            text = {
+                                CustomText(
+                                    text = item.title,
+                                    color = if (index == selectedTabIndex) {
+                                        item.selectedItem
+                                    } else item.unselectedItem
+                                )
+                            }
+                        )
+                    }
+                }
+                Screen.MFMH.route -> {
+                    MFMH_TabItems.forEachIndexed { index, item ->
                         Tab(
                             selected = index == selectedTabIndex,
                             onClick = {

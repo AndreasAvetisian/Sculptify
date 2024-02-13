@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.buttons.ConfirmDeletion
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Red
 import com.example.sculptify.viewModels.UserViewModel
@@ -51,7 +52,7 @@ fun WS_DeleteAllDataButton() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ConfirmButton(
-            text = "Delete all data",
+            text = "Reset all data",
             bgColor = Dark_Gray,
             textColor = Red,
             modifier = Modifier
@@ -73,7 +74,7 @@ fun WS_DeleteAllDataButton() {
     ) {
         ConfirmDeletion(
             onClick = {
-                userVM.deleteUserData()
+                userVM.resetUserData()
 
                 isPageRefreshed = true
 
@@ -87,7 +88,8 @@ fun WS_DeleteAllDataButton() {
                     )
                     .show()
             },
-            text = "Confirm deletion"
+            text = "Confirm",
+            route = Screen.WorkoutSettings.route
         )
     }
     if (isPageRefreshed) {

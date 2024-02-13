@@ -1,7 +1,11 @@
 package com.example.sculptify.pages
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +29,7 @@ import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.settings.general.reminder.EmptyListIcon
 import com.example.sculptify.layout.settings.general.reminder.ReminderBottomBar
 import com.example.sculptify.layout.settings.general.reminder.ReminderItem
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.viewModels.ReminderViewModel
 import com.example.sculptify.viewModels.UserViewModel
 
@@ -48,6 +53,16 @@ fun ReminderView(
 
     var clickedReminderId by remember { mutableStateOf<String?>(null) }
 
+    val heightAnimation = remember { Animatable(1f) }
+    LaunchedEffect(true) {
+        heightAnimation.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(
+                durationMillis = 500,
+                easing = LinearEasing
+            )
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -62,6 +77,7 @@ fun ReminderView(
                 isEditClicked = false
             }
         )
+        Spacer(modifier = Modifier.fillMaxHeight(heightAnimation.value))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -107,7 +123,9 @@ fun ReminderView(
                     }
                 } else {
                     item {
-                        EmptyListIcon()
+                        EmptyListIcon(
+                            route = Screen.Reminder.route
+                        )
                     }
                 }
             }

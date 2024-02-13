@@ -1,6 +1,8 @@
 package com.example.sculptify.main
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -20,9 +22,9 @@ import com.example.sculptify.layout.dayStreakActiveDaysView.DayStreak_ActiveDays
 import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.layout.msv.StatisticsView
 import com.example.sculptify.layout.mv.bottomBar.BottomBar
+import com.example.sculptify.layout.myFavMyHisView.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.AchievementsView
 import com.example.sculptify.pages.MainView
-import com.example.sculptify.pages.MyFavorite_MyHistoryView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.ReminderView
 import com.example.sculptify.pages.WorkoutDetailsView
@@ -92,10 +94,37 @@ fun MainContentView(navController: NavHostController) {
     val reminderVM: ReminderViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
 
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+
     NavHost(
         navController = navController,
         startDestination = if (isAuthorized) Screen.Main.route else Screen.Authentication.route,
-        modifier = Modifier.background(Black)
+        modifier = Modifier.background(Black),
+        enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(500)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(500)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(500)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(500)
+            )
+        },
     ){
         composable( route = Screen.Authentication.route ) { AuthenticationView(navController, authVM) }
         composable( route = Screen.SignUp.route ) { SignUpView(navController) }

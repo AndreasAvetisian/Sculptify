@@ -201,7 +201,7 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    fun deleteUserData() {
+    fun resetUserData() {
         try {
             val dataToUpdate = mapOf(
                 "rbe" to DEFAULT_RBE,

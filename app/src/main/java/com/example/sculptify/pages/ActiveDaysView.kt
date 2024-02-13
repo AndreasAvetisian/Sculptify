@@ -1,7 +1,12 @@
 package com.example.sculptify.pages
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,12 +58,24 @@ fun ActiveDaysView(navController: NavHostController) {
         showBottomSheet = false
     }
 
+    val heightAnimation = remember { Animatable(1f) }
+    LaunchedEffect(true) {
+        heightAnimation.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(
+                durationMillis = 500,
+                easing = LinearEasing
+            )
+        )
+    }
+
     Column (
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
+        Spacer(modifier = Modifier.fillMaxHeight(heightAnimation.value))
         CustomCPI(
             modifier = Modifier
                 .size(250.dp),

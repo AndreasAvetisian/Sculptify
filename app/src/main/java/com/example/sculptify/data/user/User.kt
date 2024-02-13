@@ -1,5 +1,6 @@
 package com.example.sculptify.data.user
 
+import com.example.sculptify.data.mf.FavoriteWorkout
 import com.example.sculptify.data.settings.general.reminder.Reminder
 import java.security.Timestamp
 
@@ -16,5 +17,6 @@ data class User(
     val yearOfBirth: Int = 0,
     val reminders: List<Reminder> = emptyList(),
     val userWorkoutStat: List<Map<Int, Timestamp>> = emptyList(),
+    val favoriteList: List<FavoriteWorkout> = emptyList(),
     val pbs: Int = 0 // Personal Best Streak
 )

@@ -1,9 +1,14 @@
 package com.example.sculptify.pages
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +48,17 @@ fun DayStreakView() {
 
     val dayStreakValue = userData["dayStreak"].toString()
 
+    val heightAnimation = remember { Animatable(1f) }
+    LaunchedEffect(true) {
+        heightAnimation.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(
+                durationMillis = 500,
+                easing = LinearEasing
+            )
+        )
+    }
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -49,6 +66,7 @@ fun DayStreakView() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        Spacer(modifier = Modifier.fillMaxHeight(heightAnimation.value))
         Column (
             modifier = Modifier
                 .fillMaxWidth(),
