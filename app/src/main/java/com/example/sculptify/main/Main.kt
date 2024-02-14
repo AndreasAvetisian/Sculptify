@@ -10,7 +10,10 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -94,8 +97,17 @@ fun MainContentView(navController: NavHostController) {
     val reminderVM: ReminderViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
 
-    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.destination?.route
+    var previousRoute by remember { mutableStateOf<String?>(null) }
+    var currentRoute by remember { mutableStateOf<String?>(null) }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val newRoute = currentDestination?.route
+
+    if (newRoute != currentRoute) {
+        previousRoute = currentRoute
+        currentRoute = newRoute
+    }
 
     NavHost(
         navController = navController,
@@ -103,13 +115,23 @@ fun MainContentView(navController: NavHostController) {
         modifier = Modifier.background(Black),
         enterTransition = {
             slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                towards =
+                if (previousRoute == Screen.Achievements.route && currentRoute == Screen.Statistics.route) {
+                    AnimatedContentTransitionScope.SlideDirection.Right
+                } else {
+                    AnimatedContentTransitionScope.SlideDirection.Left
+                },
                 animationSpec = tween(500)
             )
         },
         exitTransition = {
             slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                towards =
+                if (previousRoute == Screen.Achievements.route && currentRoute == Screen.Statistics.route) {
+                    AnimatedContentTransitionScope.SlideDirection.Right
+                } else {
+                    AnimatedContentTransitionScope.SlideDirection.Left
+                },
                 animationSpec = tween(500)
             )
         },

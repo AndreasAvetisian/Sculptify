@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
     data object Authentication : Screen("authentication")
     data object SignUp : Screen("new sign up")
     data object Main : Screen("main")
-    data object WorkoutDetails : Screen("workout/{focusArea}/{level}/{time}/{exercises}")
+    data object WorkoutDetails : Screen("workout/{workoutID}/{focusArea}/{level}/{time}/{exercises}")
     data object DSAD : Screen("day streak and active days")
     data object Statistics : Screen("statistics")
     data object Achievements : Screen("achievements")

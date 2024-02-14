@@ -1,7 +1,11 @@
 package com.example.sculptify.viewModels
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.sculptify.data.user.FavoriteListItem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
@@ -37,6 +41,7 @@ class UserViewModel: ViewModel() {
         private const val modifyTimerSettingsTAG = "ModifyTimerSettings"
         private const val modifyHeightAndWeightTAG = "ModifyHeightAndWeight"
         private const val deleteUserDataTAG = "DeleteUserData"
+        private const val addToFavoriteListTAG = "AddToFavoriteList"
 
         // Default values for deleteUserData
         private const val DEFAULT_RBE = 30
@@ -224,6 +229,49 @@ class UserViewModel: ViewModel() {
 
         } catch (e: Exception) {
             Log.d(deleteUserDataTAG, e.message.toString())
+        }
+    }
+
+    var isDialogShown by mutableStateOf(false)
+        set
+
+    fun onAddWorkoutToFavoriteClick() {
+        isDialogShown = true
+    }
+
+    fun onEditReminderClick() {
+        isDialogShown = false
+    }
+
+    fun onDismissDialog() {
+        isDialogShown = false
+    }
+
+    fun addToFavoriteList(workoutID: String) {
+        val favoriteListItem = FavoriteListItem(workoutID)
+
+        fAuth.currentUser?.uid?.let { userId ->
+            val userRef = fireStore.collection("users").document(userId)
+
+            fireStore.runTransaction { transaction ->
+                val snapshot = transaction.get(userRef)
+                val favoriteList = snapshot.get("favoriteList") as? MutableList<String> ?: mutableListOf()
+
+                val existsInList = favoriteList.contains(favoriteListItem.workoutID)
+
+                if (existsInList) {
+                    favoriteList.remove(favoriteListItem.workoutID)
+                } else {
+                    favoriteList.add(favoriteListItem.workoutID)
+                }
+
+                // Update the favoriteList field in Firestore
+                transaction.update(userRef, "favoriteList", favoriteList)
+            }.addOnSuccessListener {
+                Log.d("addToFavoriteList", "Favorite list item updated successfully")
+            }.addOnFailureListener { exception ->
+                Log.e("addToFavoriteList", "Error updating favorite list item", exception)
+            }
         }
     }
 }

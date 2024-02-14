@@ -68,6 +68,7 @@ fun MV_Workout(
             ) {
                 workoutsList.forEach { (_, workoutDetails) ->
                     val workoutDetailsMap = workoutDetails as? Map<String, Any>
+                    val workoutID = workoutDetailsMap?.get("workoutID") as? String
                     val focusArea = workoutDetailsMap?.get("focusArea") as? String
                     val level = workoutDetailsMap?.get("level") as? String
                     val time = workoutDetailsMap?.get("time") as? String
@@ -88,7 +89,7 @@ fun MV_Workout(
                         onClick = {
                             Log.d("HELLO", exercises!!::class.simpleName.toString())
                             navController.navigate(
-                                "workout/${focusArea}/${level}/${time}/${exercises}"
+                                "workout/${workoutID}/${focusArea}/${level}/${time}/${exercises}"
                             )
                         }
                     )

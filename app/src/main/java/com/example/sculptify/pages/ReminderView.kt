@@ -41,11 +41,11 @@ fun ReminderView(
 ) {
     val userVM: UserViewModel = viewModel()
 
-    val userData by userVM.userdata.collectAsState()
-
     LaunchedEffect(true) {
         userVM.getUserData()
     }
+
+    val userData by userVM.userdata.collectAsState()
 
     val reminders = userData["reminders"] as? List<Map<String, Any>> ?: emptyList()
 
