@@ -1,11 +1,7 @@
 package com.example.sculptify.viewModels
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.sculptify.data.user.FavoriteListItem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
@@ -26,6 +22,9 @@ class UserViewModel: ViewModel() {
 
     private val _userdata = MutableStateFlow<Map<String, Any>>(emptyMap())
     val userdata: StateFlow<Map<String, Any>> = _userdata.asStateFlow()
+//
+//    private val _favoriteList = MutableStateFlow<List<Map<String, Any>>>(emptyList())
+//    val favoriteList: StateFlow<List<Map<String, Any>>> = _favoriteList.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -232,42 +231,42 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    var isDialogShown by mutableStateOf(false)
-        set
-
-    fun onAddWorkoutToFavoriteClick() {
-        isDialogShown = true
-    }
-
-    fun onEditReminderClick() {
-        isDialogShown = false
-    }
-
-    fun onDismissDialog() {
-        isDialogShown = false
-    }
-
-    fun addToFavoriteList(workoutID: String) {
-        val favoriteListItem = FavoriteListItem(workoutID)
-
+    fun updateFavoriteList(
+        workoutID: String,
+        focusArea: String,
+        level: String,
+        time: String,
+        exercises: String
+    ) {
         fAuth.currentUser?.uid?.let { userId ->
             val userRef = fireStore.collection("users").document(userId)
 
             fireStore.runTransaction { transaction ->
                 val snapshot = transaction.get(userRef)
-                val favoriteList = snapshot.get("favoriteList") as? MutableList<String> ?: mutableListOf()
+                val favoriteList = snapshot.get("favoriteList") as? MutableList<Map<String, String>> ?: mutableListOf()
 
-                val existsInList = favoriteList.contains(favoriteListItem.workoutID)
-
-                if (existsInList) {
-                    favoriteList.remove(favoriteListItem.workoutID)
-                } else {
-                    favoriteList.add(favoriteListItem.workoutID)
+                // Check if the item already exists in the favoriteList
+                val existingItemIndex = favoriteList.indexOfFirst {
+                    it["workoutID"] == workoutID
                 }
 
-                // Update the favoriteList field in Firestore
+                if (existingItemIndex != -1) {
+                    favoriteList.removeAt(existingItemIndex)
+                } else {
+                    val favoriteListItemMap = mapOf(
+                        "workoutID" to workoutID,
+                        "focusArea" to focusArea,
+                        "level" to level,
+                        "time" to time,
+                        "exercises" to exercises
+                    )
+
+                    favoriteList.add(favoriteListItemMap)
+                }
+
                 transaction.update(userRef, "favoriteList", favoriteList)
             }.addOnSuccessListener {
+                getUserData()
                 Log.d("addToFavoriteList", "Favorite list item updated successfully")
             }.addOnFailureListener { exception ->
                 Log.e("addToFavoriteList", "Error updating favorite list item", exception)

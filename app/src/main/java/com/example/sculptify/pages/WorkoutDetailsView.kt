@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.sculptify.dialogs.FavoriteListDialog
 import com.example.sculptify.layout.general.topBars.TopBarView
 import com.example.sculptify.layout.wdv.WDV_Description
 import com.example.sculptify.layout.wdv.WDV_Divider
@@ -40,7 +39,7 @@ fun WorkoutDetailsView(
 
     val userData by userVM.userdata.collectAsState()
 
-    val favoriteList = userData["favoriteList"] as? List<String> ?: emptyList()
+    val favoriteList = userData["favoriteList"] as? List<Map<String, String>> ?: emptyList()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val arguments = navBackStackEntry?.arguments
@@ -55,7 +54,17 @@ fun WorkoutDetailsView(
 
     var showAllItems by remember { mutableStateOf(false) }
 
-    var isClickedValue = favoriteList.contains(workoutID)
+    var isWorkoutOnTheList by remember {
+        mutableStateOf(favoriteList.any { map ->
+            map["workoutID"] == workoutID
+        })
+    }
+
+    LaunchedEffect(favoriteList) {
+        isWorkoutOnTheList = favoriteList.any { map ->
+            map["workoutID"] == workoutID
+        }
+    }
 
     Column (
         modifier = Modifier
@@ -66,11 +75,15 @@ fun WorkoutDetailsView(
             navController = navController,
             withTwoButtons = true,
             onFavClick = {
-                userVM.addToFavoriteList(workoutID = workoutID)
-                userVM.onAddWorkoutToFavoriteClick()
-                isClickedValue = !isClickedValue
+                userVM.updateFavoriteList(
+                    workoutID = workoutID,
+                    focusArea = focusArea,
+                    level = level,
+                    time = time,
+                    exercises = exercises
+                )
             },
-            isClicked = isClickedValue
+            isClicked = isWorkoutOnTheList
         )
         WDV_Divider()
         LazyColumn(
@@ -105,9 +118,6 @@ fun WorkoutDetailsView(
         WDV_StartButton(
             onClick = {}
         )
-    }
-    if (userVM.isDialogShown) {
-        FavoriteListDialog(userVM)
     }
 }
 

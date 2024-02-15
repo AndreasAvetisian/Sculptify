@@ -68,7 +68,7 @@ fun MyFavorite_MyHistoryView(navController: NavHostController) {
                 .fillMaxSize()
         ) {index ->
             when (index) {
-                0 -> { MyFavoriteView() }
+                0 -> { MyFavoriteView(navController) }
                 1 -> { MyHistoryView() }
             }
         }
