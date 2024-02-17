@@ -40,6 +40,9 @@ class ReminderViewModel: ViewModel() {
     var editingReminderId by mutableStateOf<String?>(null)
         private set
 
+    private val _userdata = MutableStateFlow<Map<String, Any>>(emptyMap())
+    val userdata: StateFlow<Map<String, Any>> = _userdata.asStateFlow()
+
     var doesReminderAlreadyExist by mutableStateOf(false)
 
     fun onAddReminderClick() {
@@ -56,6 +59,28 @@ class ReminderViewModel: ViewModel() {
     fun onDismissDialog() {
         isCreateDialogShown = false
         isEditDialogShown = false
+    }
+
+    fun getUserData(){
+        fAuth.currentUser?.uid?.let { userId ->
+            fireStore
+                .collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val userDataMap = documentSnapshot.data ?: emptyMap()
+                        Log.d("GetUserData", "Retrieved user data: $userDataMap")
+                        _userdata.value = documentSnapshot.data ?: emptyMap()
+                    } else {
+                        Log.d("GetUserData", "User document does not exist.")
+                        _userdata.value = emptyMap()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("GetUserData", "Error retrieving user data", exception)
+                }
+        }
     }
 
     fun addReminder(
@@ -122,6 +147,7 @@ class ReminderViewModel: ViewModel() {
                                 Log.d(addReminderTAG, "Failed to add reminder.")
                             }
                     }
+                    getUserData()
                 }
         }
     }
