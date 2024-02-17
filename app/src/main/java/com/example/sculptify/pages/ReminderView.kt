@@ -47,7 +47,7 @@ fun ReminderView(
         userVM.getUserData()
     }
 
-    val reminders = userData["reminders"] as? List<Map<String, Any>> ?: emptyList()
+    val reminderList = userData["reminders"] as? List<Map<String, Any>> ?: emptyList()
 
     var isEditClicked by remember { mutableStateOf(false) }
 
@@ -88,8 +88,8 @@ fun ReminderView(
                     .fillMaxWidth()
                     .fillMaxHeight(0.875f),
             ) {
-                if (reminders.isNotEmpty()) {
-                    itemsIndexed(reminders) { _, reminder ->
+                if (reminderList.isNotEmpty()) {
+                    itemsIndexed(reminderList) { _, reminder ->
                         val reminderMap = reminder as? Map<String, Any>
                         val reminderTime = "${reminderMap?.get("hourValue") as Long}:${
                             reminder?.get("minuteValue").toString().padStart(2, '0')
@@ -97,7 +97,7 @@ fun ReminderView(
 
                         val reminderDays = reminderMap?.get("daysOfWeek") as List<String>
 
-                        val reminderIsSwitchActive = reminder?.get("active") as Boolean
+                        val reminderIsSwitchActive = reminderMap?.get("active") as Boolean
 
                         val time = "${reminder["hourValue"]}:${
                             reminder["minuteValue"].toString().padStart(2, '0')
@@ -118,7 +118,6 @@ fun ReminderView(
                                 clickedReminderId = reminder["id"] as String
                                 reminderVM.changeReminderState(clickedReminderId!!, currentSwitchState)
                             },
-                            isEditClicked = isEditClicked,
                             onEditClicked = {
                                 clickedReminderId = reminder["id"] as String
                                 reminderVM.onEditReminderClick(clickedReminderId!!)
@@ -142,16 +141,13 @@ fun ReminderView(
         ReminderBottomBar(
             onAddClick = {
                 reminderVM.onAddReminderClick()
-            },
-            onEditClick = {
-                isEditClicked = !isEditClicked
             }
         )
     }
     if (reminderVM.isCreateDialogShown || reminderVM.isEditDialogShown || reminderVM.doesReminderAlreadyExist) {
         val initialSelectedDays = if (reminderVM.isEditDialogShown) {
             val selectedReminderId = clickedReminderId ?: ""
-            reminders.find { it["id"] == selectedReminderId }?.get("daysOfWeek") as? List<String> ?: emptyList()
+            reminderList.find { it["id"] == selectedReminderId }?.get("daysOfWeek") as? List<String> ?: emptyList()
         } else {
             emptyList()
         }

@@ -2,7 +2,6 @@ package com.example.sculptify.layout.settings.workout
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,9 +28,8 @@ import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Red
 import com.example.sculptify.viewModels.UserViewModel
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun WS_DeleteAllDataButton() {
+fun WS_ResetAllDataButton() {
     val userVM: UserViewModel = viewModel()
 
     LaunchedEffect(true) {
@@ -83,7 +81,7 @@ fun WS_DeleteAllDataButton() {
                 Toast
                     .makeText(
                         context,
-                        "Data was deleted",
+                        "Data has been reset",
                         Toast.LENGTH_SHORT
                     )
                     .show()

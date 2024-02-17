@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.sculptify.layout.general.buttons.OpenableLineButton
 import com.example.sculptify.layout.general.topBars.TopBarView
-import com.example.sculptify.layout.settings.workout.WS_DeleteAllDataButton
+import com.example.sculptify.layout.settings.workout.WS_ResetAllDataButton
 import com.example.sculptify.screens.Screen
 
 @Composable
@@ -41,6 +41,6 @@ fun WorkoutSettingsView(navController: NavHostController) {
                 isOpen = isOpen
             )
         }
-        WS_DeleteAllDataButton()
+        WS_ResetAllDataButton()
     }
 }

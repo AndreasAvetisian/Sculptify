@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.wdv
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,10 @@ import com.example.sculptify.ui.theme.Light_Gray
 import java.util.Locale
 
 @Composable
-fun WDV_ExerciseItem(exercise: Map<String, String>) {
+fun WDV_ExerciseItem(
+    exercise: Map<String, String>,
+    onClick: () -> Unit
+) {
     val title = exercise["title"] ?: ""
     val duration = exercise["duration"] ?: ""
     val repetitions = exercise["repetitions"] ?: ""
@@ -31,6 +35,9 @@ fun WDV_ExerciseItem(exercise: Map<String, String>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Row (
             modifier = Modifier
