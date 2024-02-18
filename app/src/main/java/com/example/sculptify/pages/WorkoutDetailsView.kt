@@ -56,6 +56,7 @@ fun WorkoutDetailsView(
     val time = arguments?.getString("time") ?: ""
     val exercises = arguments?.getString("exercises") ?: ""
     val exerciseList = convertToList(exercises)
+    var exerciseMapForMBS by remember { mutableStateOf<Map<String, String>?>(null) }
 
     var showAllItems by remember { mutableStateOf(false) }
 
@@ -121,7 +122,11 @@ fun WorkoutDetailsView(
                 val exerciseMap = exercise as Map<String, String>
                 WDV_ExerciseItem(
                     exercise = exerciseMap,
-                    onClick = { showBottomSheet = true }
+                    onClick = { clickedExercise ->
+                        showBottomSheet = true
+                        // Set the clicked exercise map as the data for the MBS
+                        exerciseMapForMBS = clickedExercise
+                    }
                 )
             }
            
@@ -143,7 +148,8 @@ fun WorkoutDetailsView(
             sheetState = sheetState,
             scope = scope,
             onDismiss = onBottomSheetDismiss,
-            navController = navController
+            navController = navController,
+            data = exerciseMapForMBS!!
         )
     }
 }

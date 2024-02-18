@@ -23,7 +23,7 @@ import java.util.Locale
 @Composable
 fun WDV_ExerciseItem(
     exercise: Map<String, String>,
-    onClick: () -> Unit
+    onClick: (Map<String, String>) -> Unit
 ) {
     val title = exercise["title"] ?: ""
     val duration = exercise["duration"] ?: ""
@@ -36,7 +36,7 @@ fun WDV_ExerciseItem(
             .fillMaxWidth()
             .padding(bottom = 10.dp)
             .clickable {
-                onClick()
+                onClick(exercise)
             }
     ) {
         Row (

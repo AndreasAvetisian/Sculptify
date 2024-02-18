@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Blue
@@ -22,8 +23,13 @@ import kotlinx.coroutines.launch
 fun WDV_ExerciseInfo(
     scope: CoroutineScope,
     sheetState: SheetState,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    exercise: Map<String, String>,
 ) {
+    val instructions = exercise["instructions"]
+        ?.replace(";", ",")
+        ?.replace(":", ".\n \n")
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +46,8 @@ fun WDV_ExerciseInfo(
                 color = Blue
             )
             CustomText(
-                text = "Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello"
+                text = instructions.toString(),
+                fontSize = 18.sp
             )
         }
         Column (

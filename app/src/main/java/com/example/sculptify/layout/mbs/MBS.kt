@@ -25,7 +25,8 @@ fun MBS(
     navController: NavHostController,
     sheetState: SheetState,
     scope: CoroutineScope,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    data: Map<String, String> = emptyMap()
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
@@ -80,7 +81,8 @@ fun MBS(
                     WDV_ExerciseInfo(
                         scope = scope,
                         sheetState = sheetState,
-                        onDismiss = onDismiss
+                        onDismiss = onDismiss,
+                        exercise = data
                     )
                 }
             }
