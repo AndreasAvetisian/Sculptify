@@ -23,6 +23,7 @@ val Dark_Gray = Color(0xff1C1C1E)
 val DS_Gray = Color(0xFF3D3D3D)
 val AuthField_Gray = Color(0xff202020)
 val Divider_Gray = Color(0xFF292929)
+val FocusArea_Gray = Color(0xff2c2c2c)
 
 val Blue = Color(0xff0060FE)
 

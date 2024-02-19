@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
@@ -14,7 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
-import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Advanced_Red
+import com.example.sculptify.ui.theme.Beginner_Green
+import com.example.sculptify.ui.theme.Intermediate_Orange
+import com.example.sculptify.ui.theme.Transparent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -25,15 +29,26 @@ fun WDV_ExerciseInfo(
     sheetState: SheetState,
     onDismiss: () -> Unit,
     exercise: Map<String, String>,
+    workoutLevel: String
 ) {
     val instructions = exercise["instructions"]
         ?.replace(";", ",")
         ?.replace(":", ".\n \n")
 
+    val focusArea = exercise["focusArea"].toString()
+    val listOfFocusAreas = convertToList(focusArea)
+
+    val mainColor = when(workoutLevel) {
+        "Beginner" -> Beginner_Green
+        "Intermediate" -> Intermediate_Orange
+        "Advanced" -> Advanced_Red
+        else -> Transparent
+    }
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .height(600.dp),
+            .padding(15.675.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -43,7 +58,7 @@ fun WDV_ExerciseInfo(
         ) {
             CustomText(
                 text = "INSTRUCTIONS",
-                color = Blue
+                color = mainColor
             )
             CustomText(
                 text = instructions.toString(),
@@ -56,13 +71,24 @@ fun WDV_ExerciseInfo(
         ) {
             CustomText(
                 text = "FOCUS AREA",
-                color = Blue
+                color = mainColor
             )
-            // CODE HERE
+            WDV_EI_FocusAreaItems(
+                list = listOfFocusAreas,
+                indicatorColor = mainColor
+            )
         }
+    }
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.675.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         ConfirmButton(
             text = "Close",
-            bgColor = Blue,
+            bgColor = mainColor,
             textColor = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,4 +104,19 @@ fun WDV_ExerciseInfo(
             }
         )
     }
+}
+
+private fun convertToList(input: String): List<Map<String, String>> {
+    val items = input.split(";")
+    val resultList = mutableListOf<Map<String, String>>()
+
+    for (item in items) {
+        val pair = item.split(":")
+        val title = pair[0]
+        val dos = pair[1]
+        val map = mapOf("title" to title, "dos" to dos)
+        resultList.add(map)
+    }
+
+    return resultList
 }

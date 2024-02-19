@@ -10,13 +10,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
-import com.example.sculptify.ui.theme.Blue
 
 @Composable
 fun WDV_ShowAllExercises(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    color: Color
 ) {
     Row (
         modifier = Modifier
@@ -29,13 +30,13 @@ fun WDV_ShowAllExercises(
     ) {
         CustomText(
             text = "View all exercises",
-            color = Blue,
+            color = color,
             fontSize = 18.sp
         )
         Icon(
             Icons.Rounded.KeyboardArrowDown,
             contentDescription = "",
-            tint = Blue
+            tint = color
         )
     }
 }

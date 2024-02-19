@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.layout.general.buttons.ConfirmButton
-import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.White
 
 @Composable
 fun WDV_StartButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    bgColor: Color
 ) {
     Row (
         modifier = Modifier
@@ -21,7 +22,7 @@ fun WDV_StartButton(
     ) {
         ConfirmButton(
             text = "Start",
-            bgColor = Blue,
+            bgColor = bgColor,
             textColor = White,
             modifier = Modifier
                 .fillMaxWidth(),

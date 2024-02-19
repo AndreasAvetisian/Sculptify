@@ -90,15 +90,6 @@ fun ReminderView(
             ) {
                 if (reminderList.isNotEmpty()) {
                     itemsIndexed(reminderList) { _, reminder ->
-                        val reminderMap = reminder as? Map<String, Any>
-                        val reminderTime = "${reminderMap?.get("hourValue") as Long}:${
-                            reminder?.get("minuteValue").toString().padStart(2, '0')
-                        } ${reminder?.get("amOrPm") as String}"
-
-                        val reminderDays = reminderMap?.get("daysOfWeek") as List<String>
-
-                        val reminderIsSwitchActive = reminderMap?.get("active") as Boolean
-
                         val time = "${reminder["hourValue"]}:${
                             reminder["minuteValue"].toString().padStart(2, '0')
                         } ${reminder["amOrPm"]}"
@@ -107,11 +98,11 @@ fun ReminderView(
 
                         val isSwitchActive = reminder["active"] as Boolean
 
-                        var currentSwitchState by remember { mutableStateOf(reminderIsSwitchActive) }
+                        var currentSwitchState by remember { mutableStateOf(isSwitchActive) }
 
                         ReminderItem(
-                            time = reminderTime,
-                            days = reminderDays,
+                            time = time,
+                            days = days,
                             isSwitchActive = currentSwitchState,
                             onSwitchChanged = {
                                 currentSwitchState = it

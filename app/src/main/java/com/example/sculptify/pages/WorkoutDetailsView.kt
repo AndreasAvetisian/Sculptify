@@ -29,6 +29,10 @@ import com.example.sculptify.layout.wdv.WDV_Divider
 import com.example.sculptify.layout.wdv.WDV_ExerciseItem
 import com.example.sculptify.layout.wdv.WDV_ShowAllExercises
 import com.example.sculptify.layout.wdv.WDV_StartButton
+import com.example.sculptify.ui.theme.Advanced_Red
+import com.example.sculptify.ui.theme.Beginner_Green
+import com.example.sculptify.ui.theme.Intermediate_Orange
+import com.example.sculptify.ui.theme.Transparent
 import com.example.sculptify.viewModels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +60,7 @@ fun WorkoutDetailsView(
     val time = arguments?.getString("time") ?: ""
     val exercises = arguments?.getString("exercises") ?: ""
     val exerciseList = convertToList(exercises)
+
     var exerciseMapForMBS by remember { mutableStateOf<Map<String, String>?>(null) }
 
     var showAllItems by remember { mutableStateOf(false) }
@@ -80,6 +85,13 @@ fun WorkoutDetailsView(
     // Callback function to be passed to MeMBS
     val onBottomSheetDismiss: () -> Unit = {
         showBottomSheet = false
+    }
+
+    val mainColor = when(level) {
+        "Beginner" -> Beginner_Green
+        "Intermediate" -> Intermediate_Orange
+        "Advanced" -> Advanced_Red
+        else -> Transparent
     }
 
     Column (
@@ -133,14 +145,16 @@ fun WorkoutDetailsView(
             if (!showAllItems && exerciseList.size > 4) {
                 item {
                     WDV_ShowAllExercises(
-                        onClick = { showAllItems = true }
+                        onClick = { showAllItems = true },
+                        color = mainColor
                     )
                 }
             }
         }
         WDV_Divider()
         WDV_StartButton(
-            onClick = {}
+            onClick = {},
+            bgColor = mainColor
         )
     }
     if (showBottomSheet) {
@@ -149,12 +163,13 @@ fun WorkoutDetailsView(
             scope = scope,
             onDismiss = onBottomSheetDismiss,
             navController = navController,
-            data = exerciseMapForMBS!!
+            data = exerciseMapForMBS!!,
+            workoutLevel = level
         )
     }
 }
 
-fun convertToList(string: String): List<MutableMap<String, String>> {
+private fun convertToList(string: String): List<MutableMap<String, String>> {
     val maps = string
         .removeSurrounding("[", "]")
         .split("}, ")
