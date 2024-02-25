@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Sculptify.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#000000</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_splashscreen</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.Sculptify</item>
+    </style>
+</resources>

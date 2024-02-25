@@ -3,6 +3,7 @@ package com.example.sculptify.pages
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -78,7 +79,10 @@ fun ActiveDaysView(navController: NavHostController) {
         Spacer(modifier = Modifier.fillMaxHeight(heightAnimation.value))
         CustomCPI(
             modifier = Modifier
-                .size(250.dp),
+                .size(250.dp)
+                .clickable {
+                    showBottomSheet = true
+                },
             currentValue = 4,
             primaryColor = Blue,
             secondaryColor = Dark_Gray,

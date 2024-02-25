@@ -19,14 +19,10 @@ class UserViewModel: ViewModel() {
     private val _errorMessage = MutableStateFlow("")
     val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
 
-
     private val _userdata = MutableStateFlow<Map<String, Any>>(emptyMap())
     val userdata: StateFlow<Map<String, Any>> = _userdata.asStateFlow()
-//
-//    private val _favoriteList = MutableStateFlow<List<Map<String, Any>>>(emptyList())
-//    val favoriteList: StateFlow<List<Map<String, Any>>> = _favoriteList.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
+    private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _isError = MutableStateFlow(false)
@@ -50,7 +46,7 @@ class UserViewModel: ViewModel() {
     }
 
     fun getUserData(){
-        _isLoading.value = true
+        _isLoading.value = false
         _isError.value = false
         fAuth.currentUser?.uid?.let { userId ->
             fireStore
