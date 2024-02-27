@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.mv.buttons
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import com.example.sculptify.viewModels.UserViewModel
 
 var selectedTabIndexForDSAD by mutableIntStateOf(0)
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MV_ButtonsLayout(navController: NavHostController) {
     val userVM: UserViewModel = viewModel()
@@ -47,6 +49,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
                 selectedTabIndexForDSAD = 0
                 navController.navigate(Screen.DSAD.route)
             },
+            isLoading = userVM.isLoading.value,
             data = dayStreakValue.toString(),
             iconId = R.drawable.day_streak_main_icon,
             iconColor = Dark_Orange,
@@ -61,6 +64,7 @@ fun MV_ButtonsLayout(navController: NavHostController) {
                 selectedTabIndexForDSAD = 1
                 navController.navigate(Screen.DSAD.route)
             },
+            isLoading = userVM.isLoading.value,
             data = "0/$weeklyGoalValue",
             iconId = R.drawable.active_days_main_icon,
             iconColor = Blue,

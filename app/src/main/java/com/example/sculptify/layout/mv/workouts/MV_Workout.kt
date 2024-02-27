@@ -1,6 +1,5 @@
 package com.example.sculptify.layout.mv.workouts
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -87,9 +86,8 @@ fun MV_Workout(
                             else -> R.drawable.leg
                         },
                         onClick = {
-                            Log.d("HELLO", exercises!!::class.simpleName.toString())
                             navController.navigate(
-                                "workout/${workoutID}/${focusArea}/${level}/${time}/${exercises}"
+                                "workoutDetail/${workoutID}/${focusArea}/${level}/${time}/${exercises}"
                             )
                         }
                     )

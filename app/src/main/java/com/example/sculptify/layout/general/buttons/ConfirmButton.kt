@@ -17,14 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.ui.theme.White
 import kotlinx.coroutines.launch
 
 @Composable
 fun ConfirmButton(
     text: String,
     bgColor: Color,
-    textColor: Color,
+    textColor: Color = White,
+    fontSize: TextUnit = 20.sp,
     modifier: Modifier,
     onClick: () -> Unit,
     animationDuration: Int = 50,
@@ -67,7 +71,9 @@ fun ConfirmButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomText(
-                text = text
+                text = text,
+                color = textColor,
+                fontSize = fontSize
             )
         }
     }

@@ -60,6 +60,7 @@ fun WorkoutDetailsView(
     val time = arguments?.getString("time") ?: ""
     val exercises = arguments?.getString("exercises") ?: ""
     val exerciseList = convertToList(exercises)
+    val cbsValue = userData["cbs"]?.toString()?.toInt() ?: 0
 
     var exerciseMapForMBS by remember { mutableStateOf<Map<String, String>?>(null) }
 
@@ -153,7 +154,11 @@ fun WorkoutDetailsView(
         }
         WDV_Divider()
         WDV_StartButton(
-            onClick = {},
+            onClick = {
+                navController.navigate(
+                    "workout/${workoutID}/${focusArea}/${level}/${time}/${exercises}/${cbsValue}"
+                )
+            },
             bgColor = mainColor
         )
     }

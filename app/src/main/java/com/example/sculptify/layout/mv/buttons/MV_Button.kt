@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MV_Button(
     onClick: () -> Unit,
+    isLoading: Boolean,
     data: String,
     iconId: Int,
     iconColor: Color,
@@ -93,10 +95,17 @@ fun MV_Button(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CustomText(
-                    text = data,
-                    fontSize = 40.sp
-                )
+                if (isLoading) {
+                    Box (
+                        modifier = Modifier
+                            .size(80.dp, 40.dp)
+                    ) {}
+                } else {
+                    CustomText(
+                        text = data,
+                        fontSize = 40.sp
+                    )
+                }
                 Icon(
                     painter = painterResource(id = iconId),
                     contentDescription = "",

@@ -36,7 +36,7 @@ class UserViewModel: ViewModel() {
         private const val modifyTimerSettingsTAG = "ModifyTimerSettings"
         private const val modifyHeightAndWeightTAG = "ModifyHeightAndWeight"
         private const val deleteUserDataTAG = "DeleteUserData"
-        private const val addToFavoriteListTAG = "AddToFavoriteList"
+        private const val updateFavoriteListTAG = "updateFavoriteList"
 
         // Default values for deleteUserData
         private const val DEFAULT_RBE = 30
@@ -46,8 +46,6 @@ class UserViewModel: ViewModel() {
     }
 
     fun getUserData(){
-        _isLoading.value = false
-        _isError.value = false
         fAuth.currentUser?.uid?.let { userId ->
             fireStore
                 .collection("users")
@@ -263,9 +261,9 @@ class UserViewModel: ViewModel() {
                 transaction.update(userRef, "favoriteList", favoriteList)
             }.addOnSuccessListener {
                 getUserData()
-                Log.d("addToFavoriteList", "Favorite list item updated successfully")
+                Log.d(updateFavoriteListTAG, "Favorite list item updated successfully")
             }.addOnFailureListener { exception ->
-                Log.e("addToFavoriteList", "Error updating favorite list item", exception)
+                Log.e(updateFavoriteListTAG, "Error updating favorite list item", exception)
             }
         }
     }
