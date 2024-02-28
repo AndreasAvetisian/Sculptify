@@ -1,21 +1,11 @@
 package com.example.sculptify.layout.wv
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,40 +29,10 @@ fun CountdownBeforeStart(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .background(Dark_Gray.copy(0.8f))
-            .padding(horizontal = 15.675.dp, vertical = 70.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
+            .background(Dark_Gray.copy(0.8f)),
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row (
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Card (
-                colors = CardDefaults.cardColors(Dark_Gray.copy(0.8f)),
-                shape = MaterialTheme.shapes.extraLarge,
-                modifier = Modifier
-                    .size(40.dp)
-            ) {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable {
-                            onCancelClick()
-                        },
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        Icons.Rounded.Close,
-                        contentDescription = "",
-                        tint = White
-                    )
-                }
-            }
-        }
         Column (
             modifier = Modifier
                 .fillMaxWidth(),

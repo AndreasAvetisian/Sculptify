@@ -31,7 +31,7 @@ import com.example.sculptify.pages.MainView
 import com.example.sculptify.pages.MyProfileView
 import com.example.sculptify.pages.ReminderView
 import com.example.sculptify.pages.WorkoutDetailsView
-import com.example.sculptify.pages.WorkoutView
+import com.example.sculptify.pages.WorkoutScreen
 import com.example.sculptify.pages.auth.AuthenticationView
 import com.example.sculptify.pages.auth.SignUpView
 import com.example.sculptify.pages.settings.GeneralSettingsView
@@ -153,7 +153,7 @@ fun MainContentView(navController: NavHostController) {
         composable( route = Screen.SignUp.route ) { SignUpView(navController) }
         composable( route = Screen.Main.route ){ MainView(navController) }
         composable( route = Screen.WorkoutDetails.route ){ WorkoutDetailsView(navController) }
-        composable( route = Screen.Workout.route ){ WorkoutView(navController) }
+        composable( route = Screen.Workout.route ){ WorkoutScreen(navController) }
         composable( route = Screen.DSAD.route ){ DayStreak_ActiveDaysView(navController) }
         composable( route = Screen.Statistics.route ){ StatisticsView(navController) }
         composable( route = Screen.Achievements.route ){ AchievementsView(navController) }

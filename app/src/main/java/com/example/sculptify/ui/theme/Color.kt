@@ -24,6 +24,8 @@ val DS_Gray = Color(0xFF3D3D3D)
 val AuthField_Gray = Color(0xff202020)
 val Divider_Gray = Color(0xFF292929)
 val FocusArea_Gray = Color(0xff2c2c2c)
+val Workout_Gray = Color(0xffCDCDCD)
+val Workout_Timer_Gray = Color(0xff717171)
 
 val Blue = Color(0xff0060FE)
 
