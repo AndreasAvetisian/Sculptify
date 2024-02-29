@@ -20,10 +20,9 @@ import com.example.sculptify.ui.theme.White
 import java.util.Locale
 
 @Composable
-fun CountdownBeforeStart(
+fun WV_CBS( // Countdown Before Start
     count: String,
     list: List<MutableMap<String, String>>,
-    onCancelClick: () -> Unit,
     onStartClick: () -> Unit
 ) {
     Column (
