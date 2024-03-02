@@ -1,17 +1,24 @@
 package com.example.sculptify.layout.wv
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sculptify.R
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Black
@@ -23,6 +30,7 @@ import java.util.Locale
 fun WV_CBS( // Countdown Before Start
     count: String,
     list: List<MutableMap<String, String>>,
+    onExerciseDescriptionClick: () -> Unit,
     onStartClick: () -> Unit
 ) {
     Column (
@@ -51,10 +59,27 @@ fun WV_CBS( // Countdown Before Start
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold
             )
-            CustomText(
-                text = list[0]["title"].toString().uppercase(Locale.ROOT),
-                fontSize = 24.sp
-            )
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CustomText(
+                    text = list[0]["title"].toString().uppercase(Locale.ROOT),
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(end = 5.dp)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.question_circle),
+                    contentDescription = "",
+                    tint = White,
+                    modifier = Modifier
+                        .size(26.dp)
+                        .clickable { onExerciseDescriptionClick() }
+                )
+            }
+
         }
         ConfirmButton(
             text = "Start!",

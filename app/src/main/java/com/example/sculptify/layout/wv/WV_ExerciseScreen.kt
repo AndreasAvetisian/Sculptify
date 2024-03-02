@@ -31,7 +31,6 @@ import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.pages.formatTime
 import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Blue
-import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.Workout_Gray
 import com.example.sculptify.ui.theme.Workout_Timer_Gray
 import java.util.Locale
@@ -40,13 +39,15 @@ import java.util.Locale
 fun WV_ExerciseScreen(
     exerciseIndex: Int,
     exerciseAmount: Int,
+    exercisesCompleted: Int,
     isCountdownActive: Boolean,
     isCancelMenuOpen: Boolean,
     onCancelMenuClick: () -> Unit,
     elapsedSeconds: Long,
     exerciseTitle: String,
     exerciseValue: String,
-    onCompleteClick: () -> Unit
+    onCompleteClick: () -> Unit,
+    onExerciseDescriptionClick: () -> Unit,
 ) {
     Column (
         modifier = Modifier
@@ -67,9 +68,10 @@ fun WV_ExerciseScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                repeat(exerciseAmount) {
+                repeat(exerciseAmount) { index ->
+                    val cardColor = if (index < exercisesCompleted) Black else Workout_Gray
                     Card (
-                        colors = CardDefaults.cardColors(Workout_Gray),
+                        colors = CardDefaults.cardColors(cardColor),
                         shape = MaterialTheme.shapes.extraLarge,
                         modifier = Modifier
                             .weight(1f)
@@ -108,7 +110,7 @@ fun WV_ExerciseScreen(
                             Icon(
                                 Icons.Rounded.Close,
                                 contentDescription = "",
-                                tint = if (isCountdownActive) White else Black
+                                tint = Black
                             )
                         }
                     }
@@ -156,13 +158,14 @@ fun WV_ExerciseScreen(
                 ) {
                     Row (
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clickable { onExerciseDescriptionClick() },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
                         CustomText(
                             text = exerciseTitle.uppercase(Locale.ROOT),
-                            fontSize = if (exerciseTitle.length < 24) 30.sp else 20.sp,
+                            fontSize = if (exerciseTitle.length < 25) 30.sp else 20.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(end = 5.dp)
                         )

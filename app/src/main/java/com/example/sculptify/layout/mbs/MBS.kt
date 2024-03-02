@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeeklyGoal
 import com.example.sculptify.layout.msv.bmi.BMI_EditBodyParameters
 import com.example.sculptify.layout.wdv.WDV_ExerciseInfo
+import com.example.sculptify.layout.wv.WV_ExerciseInfo
 import com.example.sculptify.pages.MeView
 import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
@@ -24,7 +25,9 @@ fun MBS(
     scope: CoroutineScope,
     onDismiss: () -> Unit,
     data: Map<String, String> = emptyMap(),
-    workoutLevel: String = ""
+    workoutLevel: String = "",
+    workoutInstruction: String = "",
+    exerciseFocusAreas: String = ""
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
@@ -67,6 +70,15 @@ fun MBS(
                     onDismiss = onDismiss,
                     exercise = data,
                     workoutLevel = workoutLevel
+                )
+            }
+            Screen.Workout.route -> {
+                WV_ExerciseInfo(
+                    scope = scope,
+                    sheetState = sheetState,
+                    onDismiss = onDismiss,
+                    workoutInstruction = workoutInstruction,
+                    exerciseFocusAreas = exerciseFocusAreas,
                 )
             }
         }

@@ -1,20 +1,7 @@
 package com.example.sculptify.pages
 
-import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -24,22 +11,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.sculptify.layout.general.buttons.ConfirmButton
-import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.layout.wv.WV_CBS
 import com.example.sculptify.layout.wv.WV_CancelMenu
 import com.example.sculptify.layout.wv.WV_ExerciseScreen
-import com.example.sculptify.ui.theme.Blue
-import com.example.sculptify.ui.theme.White
+import com.example.sculptify.layout.wv.WV_RestScreen
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutView(
     navController: NavHostController
@@ -71,6 +53,17 @@ fun WorkoutView(
 
     var isCancelMenuOpen by remember { mutableStateOf(false) }
 
+    //-------------------------------MBS-------------------------------
+
+    var showBottomSheet by remember { mutableStateOf(false) }
+
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+
+    val onBottomSheetDismiss: () -> Unit = {
+        showBottomSheet = false
+    }
+
     //------------------------Countdown Before Start------------------------
     var count by remember { mutableIntStateOf(cbsValue ?: 15) }
 
@@ -82,8 +75,8 @@ fun WorkoutView(
 
     var isCountdownActive by remember { mutableStateOf(true) }
 
-    LaunchedEffect(isCountdownActive) {
-        if (isCountdownActive) {
+    LaunchedEffect(isCountdownActive && !showBottomSheet) {
+        if (isCountdownActive && !showBottomSheet) {
             countdown(value = count) { newCount ->
                 count = newCount
                 if (count == 0) {
@@ -137,6 +130,8 @@ fun WorkoutView(
     var isExerciseOn by remember { mutableStateOf(true) }
 
     val exerciseTitle = exerciseList[exerciseIndex]["title"].toString()
+    val exerciseInstruction = exerciseList[exerciseIndex]["instructions"].toString()
+    val exerciseFocusAreas = exerciseList[exerciseIndex]["focusArea"].toString()
     val exerciseDuration = exerciseList[exerciseIndex]["duration"] ?: ""
     val exerciseRepetitions = exerciseList[exerciseIndex]["repetitions"] ?: ""
 
@@ -159,12 +154,11 @@ fun WorkoutView(
 
     val percentageAsInt = roundedPercentage.toFloat().toInt()
 
-    Log.d("AAAAAAAAAAAAAAAAAAAAAAA", "$exercisesCompleted $exerciseAmount")
-
     if (isExerciseOn) {
         WV_ExerciseScreen(
             exerciseIndex = exerciseIndex,
             exerciseAmount = exerciseAmount,
+            exercisesCompleted = exercisesCompleted,
             isCountdownActive = isCountdownActive,
             isCancelMenuOpen = isCancelMenuOpen,
             onCancelMenuClick = {
@@ -181,110 +175,26 @@ fun WorkoutView(
                     exercisesCompleted++
                     isExerciseOn = false
                 }
-            }
+            },
+            onExerciseDescriptionClick = { showBottomSheet = true },
         )
     } else {
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Blue),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Column (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 110.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CustomText(
-                    text = "Rest",
-                    fontSize = 30.sp
-                )
-                CustomText(
-                    text = "00:10",
-                    fontSize = 70.sp
-                )
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    ConfirmButton(
-                        text = "+20s",
-                        bgColor = Color(0xff3483FE),
-                        modifier = Modifier
-                            .size(110.dp, 40.dp),
-                        onClick = { /*TODO*/ }
-                    )
-                    Spacer(modifier = Modifier.width(30.dp))
-                    ConfirmButton(
-                        text = "SKIP",
-                        bgColor = White,
-                        textColor = Blue,
-                        modifier = Modifier
-                            .size(110.dp, 40.dp),
-                        onClick = {
-                            isExerciseOn = true
-                        }
-                    )
-                }
-            }
-            Column {
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.675.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    CustomText(text = "NEXT $nextExerciseIndex/$exerciseAmount")
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        CustomText(text = exerciseTitle)
-                        CustomText(text = exerciseValue)
-                    }
-                }
-                Card (
-                    colors = CardDefaults.cardColors(White),
-                    shape = RoundedCornerShape(
-                        topStart = 40.dp,
-                        topEnd = 40.dp,
-                        bottomEnd = 0.dp,
-                        bottomStart = 0.dp
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(320.dp)
-                ) {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Card (
-                            modifier = Modifier
-                                .size(200.dp)
-                        ) {
-                            // Image here
-                        }
-                    }
-                }
-            }
-        }
+        WV_RestScreen(
+            onAddMoreTimeClick = {  },
+            onSkipClick = { isExerciseOn = true },
+            onExerciseDescriptionClick = { showBottomSheet = true },
+            nextExerciseIndex = nextExerciseIndex,
+            exerciseAmount = exerciseAmount,
+            exerciseTitle = exerciseTitle,
+            exerciseValue = exerciseValue
+        )
     }
 
     if (isCountdownActive) {
         WV_CBS(
             count = count.toString(),
             list = exerciseList,
+            onExerciseDescriptionClick = { showBottomSheet = true },
             onStartClick = {
                 isCountdownActive = false
             }
@@ -301,6 +211,17 @@ fun WorkoutView(
             onQuitClick = { navController.popBackStack() },
             percentage = percentageAsInt,
             exercisesLeft = exercisesLeft
+        )
+    }
+
+    if (showBottomSheet) {
+        MBS(
+            sheetState = sheetState,
+            scope = scope,
+            onDismiss = onBottomSheetDismiss,
+            navController = navController,
+            workoutInstruction = exerciseInstruction,
+            exerciseFocusAreas = exerciseFocusAreas
         )
     }
 }
