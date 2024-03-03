@@ -17,6 +17,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +34,19 @@ import androidx.compose.ui.unit.sp
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.pages.countdown
+import com.example.sculptify.pages.formatTime
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.White
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun WV_RestScreen(
-    onAddMoreTimeClick: () -> Unit,
+    initialRestingTimeSeconds: Int,
     onSkipClick: () -> Unit,
     onExerciseDescriptionClick: () -> Unit,
     nextExerciseIndex: Int,
@@ -40,6 +54,22 @@ fun WV_RestScreen(
     exerciseTitle: String,
     exerciseValue: String
 ) {
+    var remainingTime by remember { mutableIntStateOf(initialRestingTimeSeconds) }
+    val formattedTime = remember { mutableStateOf(formatTime(remainingTime.toLong())) }
+
+    var countdownJob: Job? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(remainingTime) {
+        countdownJob = countdown(remainingTime) { newTime ->
+            remainingTime = newTime
+            formattedTime.value = formatTime(newTime.toLong())
+
+            if (remainingTime == 0) {
+                onSkipClick()
+            }
+        }
+    }
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +89,7 @@ fun WV_RestScreen(
                 fontSize = 30.sp
             )
             CustomText(
-                text = "00:10",
+                text = formattedTime.value,
                 fontSize = 70.sp
             )
             Row (
@@ -73,7 +103,9 @@ fun WV_RestScreen(
                     bgColor = Color(0xff3483FE),
                     modifier = Modifier
                         .size(110.dp, 40.dp),
-                    onClick = { onAddMoreTimeClick() }
+                    onClick = {
+                        remainingTime += 20
+                    }
                 )
                 Spacer(modifier = Modifier.width(30.dp))
                 ConfirmButton(
@@ -153,5 +185,24 @@ fun WV_RestScreen(
                 }
             }
         }
+    }
+}
+
+private fun animateTimeChange(
+    targetTime: Int,
+    remainingTime: MutableState<Int>,
+    formattedTime: MutableState<String>
+) {
+    val increment = 1
+
+    CoroutineScope(Dispatchers.Default).launch {
+        var newTime = remainingTime.value
+        while (newTime < targetTime) {
+            delay(50) // Adjust speed as needed
+            newTime += increment
+            if (newTime > targetTime) newTime = targetTime // Ensure it doesn't overshoot
+            formattedTime.value = formatTime(newTime.toLong())
+        }
+        remainingTime.value = newTime
     }
 }

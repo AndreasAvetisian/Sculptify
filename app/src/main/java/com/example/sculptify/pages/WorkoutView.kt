@@ -120,7 +120,7 @@ fun WorkoutView(
             }
         }
     }
-    //----------------------------------------------------------------
+    //----------------------------------------------------------------------
 
     var exerciseIndex by remember { mutableIntStateOf(0) }
     val nextExerciseIndex = exerciseIndex + 1
@@ -141,6 +141,8 @@ fun WorkoutView(
         "x $exerciseRepetitions"
     }
 
+    //----------------Completed Exercises Indicator-------------------------
+
     var exercisesCompleted by remember { mutableIntStateOf(0) }
     val exercisesLeft = exerciseAmount - exercisesCompleted
 
@@ -153,6 +155,12 @@ fun WorkoutView(
     val roundedPercentage = String.format("%.2f", percentageAsDecimal)
 
     val percentageAsInt = roundedPercentage.toFloat().toInt()
+
+    //----------------------------------------------------------------------
+
+    // Code for resting time here
+
+    //----------------------------------------------------------------------
 
     if (isExerciseOn) {
         WV_ExerciseScreen(
@@ -180,7 +188,7 @@ fun WorkoutView(
         )
     } else {
         WV_RestScreen(
-            onAddMoreTimeClick = {  },
+            initialRestingTimeSeconds = 30,
             onSkipClick = { isExerciseOn = true },
             onExerciseDescriptionClick = { showBottomSheet = true },
             nextExerciseIndex = nextExerciseIndex,
@@ -251,15 +259,17 @@ private fun convertToList(string: String): List<MutableMap<String, String>> {
     return list
 }
 
-suspend fun countdown(
+fun CoroutineScope.countdown(
     value: Int,
     onUpdate: (Int) -> Unit
-) {
-    var count = value
-    while (count >= 0) {
-        onUpdate(count)
-        count--
-        delay(1000) // Delay for 1 second
+): Job {
+    return launch {
+        var count = value
+        while (count >= 0) {
+            onUpdate(count)
+            count--
+            delay(1000) // Delay for 1 second
+        }
     }
 }
 
