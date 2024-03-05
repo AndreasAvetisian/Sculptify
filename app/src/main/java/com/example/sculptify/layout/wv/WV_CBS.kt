@@ -33,6 +33,18 @@ fun WV_CBS( // Countdown Before Start
     onExerciseDescriptionClick: () -> Unit,
     onStartClick: () -> Unit
 ) {
+    val exerciseTitle = list[0]["title"]
+
+    val exerciseDuration = list[0]["duration"] ?: ""
+    val exerciseRepetitions = list[0]["repetitions"] ?: ""
+
+    val exerciseValue = if (exerciseDuration.isNotEmpty()) {
+        "${if (exerciseDuration.toInt() < 60) "00" else "01"}:$exerciseDuration"
+    } else {
+        "x $exerciseRepetitions"
+    }
+
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +78,7 @@ fun WV_CBS( // Countdown Before Start
                 horizontalArrangement = Arrangement.Center
             ) {
                 CustomText(
-                    text = list[0]["title"].toString().uppercase(Locale.ROOT),
+                    text = exerciseTitle.toString().uppercase(Locale.ROOT),
                     fontSize = 24.sp,
                     modifier = Modifier.padding(end = 5.dp)
                 )
@@ -79,6 +91,10 @@ fun WV_CBS( // Countdown Before Start
                         .clickable { onExerciseDescriptionClick() }
                 )
             }
+            CustomText(
+                text = exerciseValue,
+                fontSize = 24.sp
+            )
 
         }
         ConfirmButton(

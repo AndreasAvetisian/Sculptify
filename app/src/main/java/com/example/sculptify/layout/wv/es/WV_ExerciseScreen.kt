@@ -18,6 +18,7 @@ fun WV_ExerciseScreen(
     exercisesCompleted: Int,
     isCountdownActive: Boolean,
     isCancelMenuOpen: Boolean,
+    showBottomSheet: Boolean,
     onCancelMenuClick: () -> Unit,
     elapsedSeconds: Long,
     exerciseTitle: String,
@@ -25,6 +26,28 @@ fun WV_ExerciseScreen(
     onCompleteClick: () -> Unit,
     onExerciseDescriptionClick: () -> Unit,
 ) {
+//    val exerciseDurationAsInt = exerciseDuration.toIntOrNull()
+//
+//    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 30) }
+//    val formattedTime = remember { mutableStateOf(formatTime(remainingExerciseTime.toLong())) }
+//
+//    var countdownJob: Job? by remember { mutableStateOf(null) }
+//
+//    LaunchedEffect(!isCountdownActive && !showBottomSheet && !isCancelMenuOpen) {
+//        countdownJob = countdown(remainingExerciseTime) { newTime ->
+//            if (!isCountdownActive && !showBottomSheet && !isCancelMenuOpen) {
+//                remainingExerciseTime = newTime
+//                formattedTime.value = formatTime(newTime.toLong())
+//
+//                if (remainingExerciseTime == 0 && exercisesCompleted != exerciseAmount) {
+////                    exerciseIndex++
+////                    exercisesCompleted++
+////                    isExerciseOn = false
+//                }
+//            }
+//        }
+//    }
+
     Column (
         modifier = Modifier
             .fillMaxSize()

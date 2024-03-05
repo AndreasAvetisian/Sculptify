@@ -153,28 +153,10 @@ fun WorkoutView(
 
     //---------------------------Exercise countdown---------------------------
 
-    val exerciseDurationAsInt = exerciseDuration.toIntOrNull()
 
-    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 30) }
-    val formattedTime = remember { mutableStateOf(formatTime(remainingExerciseTime.toLong())) }
-
-    var countdownJob: Job? by remember { mutableStateOf(null) }
-
-    LaunchedEffect(remainingExerciseTime) {
-        countdownJob = countdown(remainingExerciseTime) { newTime ->
-            remainingExerciseTime = newTime
-            formattedTime.value = formatTime(newTime.toLong())
-
-            if (remainingExerciseTime == 0 && exercisesCompleted != exerciseAmount) {
-                exerciseIndex++
-                exercisesCompleted++
-                isExerciseOn = false
-            }
-        }
-    }
 
     val exerciseValue = if (exerciseDuration.isNotEmpty()) {
-        formattedTime.value
+        if (exerciseDuration.toInt() < 60) "00:$exerciseDuration" else "01:00"
     } else {
         "x $exerciseRepetitions"
     }
@@ -189,6 +171,7 @@ fun WorkoutView(
             exercisesCompleted = exercisesCompleted,
             isCountdownActive = isCountdownActive,
             isCancelMenuOpen = isCancelMenuOpen,
+            showBottomSheet = showBottomSheet,
             onCancelMenuClick = {
                 isStopwatchRunning = false
                 isCancelMenuOpen = true
