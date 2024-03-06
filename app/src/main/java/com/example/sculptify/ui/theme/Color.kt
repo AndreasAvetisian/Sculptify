@@ -28,6 +28,7 @@ val Workout_Gray = Color(0xffCDCDCD)
 val Workout_Timer_Gray = Color(0xff717171)
 
 val Blue = Color(0xff0060FE)
+val Dark_Blue = Color(0xff0034B1)
 
 val Light_Orange = Color(0xffFF8E00)
 val Dark_Orange = Color(0xffFF4E28)

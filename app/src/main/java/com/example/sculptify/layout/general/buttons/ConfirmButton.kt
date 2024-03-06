@@ -7,12 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.White
@@ -38,7 +33,8 @@ fun ConfirmButton(
     onClick: () -> Unit,
     animationDuration: Int = 50,
     scaleDown: Float = 0.9f,
-    withText: Boolean = true
+    withText: Boolean = true,
+    iconID: Int = 0
 ) {
     val interactionSource = MutableInteractionSource()
 
@@ -81,14 +77,6 @@ fun ConfirmButton(
                     text = text,
                     color = textColor,
                     fontSize = fontSize
-                )
-            } else {
-                Icon(
-                    Icons.Rounded.Check,
-                    contentDescription = "",
-                    tint = White,
-                    modifier = Modifier
-                        .size(40.dp)
                 )
             }
         }

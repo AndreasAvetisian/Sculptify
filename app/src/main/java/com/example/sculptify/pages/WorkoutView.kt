@@ -164,6 +164,12 @@ fun WorkoutView(
 
     //----------------------------------------------------------------------
 
+    val exerciseCompleteAction = {
+        exerciseIndex++
+        exercisesCompleted++
+        isExerciseOn = false
+    }
+
     if (isExerciseOn) {
         WV_ExerciseScreen(
             exerciseIndex = exerciseIndex,
@@ -179,15 +185,17 @@ fun WorkoutView(
             },
             elapsedSeconds = elapsedSeconds,
             exerciseTitle = exerciseTitle,
-            exerciseValue = exerciseValue,
+            exerciseDuration = exerciseDuration,
+            exerciseRepetitions = exerciseRepetitions,
             onCompleteClick = {
                 if (exercisesCompleted != exerciseAmount) {
-                    exerciseIndex++
-                    exercisesCompleted++
-                    isExerciseOn = false
+                    exerciseCompleteAction()
                 }
             },
             onExerciseDescriptionClick = { showBottomSheet = true },
+            onExerciseFinished = {
+                exerciseCompleteAction()
+            }
         )
     } else {
         WV_RestScreen(

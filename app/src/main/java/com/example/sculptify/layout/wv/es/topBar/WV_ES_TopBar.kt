@@ -18,7 +18,8 @@ fun WV_ES_TopBar(
     isCancelMenuOpen: Boolean,
     onCancelMenuClick: () -> Unit,
     exerciseIndex: Int,
-    stopwatch: String
+    stopwatch: String,
+    exerciseTitle: String,
 ) {
     Column (
         modifier = Modifier
@@ -46,7 +47,8 @@ fun WV_ES_TopBar(
             WV_ES_TB_StopwatchAndInfo(
                 exerciseIndex = exerciseIndex,
                 exerciseAmount = exerciseAmount,
-                stopwatch = stopwatch
+                stopwatch = stopwatch,
+                exerciseTitle = exerciseTitle
             )
         }
     }

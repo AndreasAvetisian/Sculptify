@@ -13,7 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,6 +30,9 @@ import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.Dark_Blue
+import com.example.sculptify.ui.theme.Transparent
+import com.example.sculptify.ui.theme.White
 import com.example.sculptify.ui.theme.Workout_Timer_Gray
 import java.util.Locale
 
@@ -33,8 +41,26 @@ fun WV_ES_BottomSheet(
     onExerciseDescriptionClick: () -> Unit,
     exerciseTitle: String,
     exerciseValue: String,
-    onCompleteClick: () -> Unit
+    onCompleteClick: () -> Unit,
+    onExerciseFinished: () -> Unit,
+    isTimerStopped: Boolean,
+    isTimedExercise: Boolean,
+    remainingExerciseTime: Int
 ) {
+    val iconID = if (isTimedExercise) {
+        if (!isTimerStopped) {
+            R.drawable.pause
+        } else {
+            R.drawable.play_button
+        }
+    } else {
+        R.drawable.check
+    }
+
+    val initialValue by remember { mutableIntStateOf(remainingExerciseTime) }
+
+    val widthFraction = 1 - (remainingExerciseTime.toFloat() / initialValue.toFloat())
+
     Card (
         colors = CardDefaults.cardColors(Black),
         shape = RoundedCornerShape(
@@ -78,14 +104,54 @@ fun WV_ES_BottomSheet(
                 text = exerciseValue,
                 fontSize = 70.sp
             )
-            ConfirmButton(
-                bgColor = Blue,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                onClick = { onCompleteClick() },
-                withText = false
-            )
+            Surface (
+                color = Transparent
+            ) {
+                ConfirmButton(
+                    bgColor = Blue,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    onClick = {
+                        if  (!isTimedExercise) {
+                            onCompleteClick()
+                        } else {
+                            onExerciseFinished()
+                        }
+                    },
+                    withText = false
+                )
+                if (isTimedExercise) {
+                    Card(
+                        colors = CardDefaults.cardColors(Dark_Blue),
+                        shape = MaterialTheme.shapes.extraLarge,
+                        modifier = Modifier
+                            .fillMaxWidth(widthFraction)
+                            .height(60.dp)
+                            .clickable {
+                                onExerciseFinished()
+                            },
+                        content = {}
+                    )
+                }
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        painter = painterResource(id = iconID),
+                        contentDescription = "",
+                        tint = White,
+                        modifier = Modifier
+                            .size(
+                                if (iconID == R.drawable.pause) 50.dp else 40.dp
+                            )
+                    )
+                }
+            }
         }
     }
 }
