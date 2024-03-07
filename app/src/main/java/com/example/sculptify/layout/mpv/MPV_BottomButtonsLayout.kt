@@ -41,7 +41,7 @@ fun MPV_BottomButtonsLayout(
                 .fillMaxWidth()
                 .padding(horizontal = 15.675.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(15.675.dp)
         ) {
             ConfirmButton(
                 text = "Sign out",
@@ -51,8 +51,7 @@ fun MPV_BottomButtonsLayout(
                     onSignOutClick()
                 },
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(end = 7.5.dp)
+                    .weight(1f)
             )
             ConfirmButton(
                 text = "Delete account",
@@ -62,8 +61,7 @@ fun MPV_BottomButtonsLayout(
                     isDeletionOpen = !isDeletionOpen
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 7.5.dp)
+                    .weight(1f)
             )
         }
         AnimatedVisibility(

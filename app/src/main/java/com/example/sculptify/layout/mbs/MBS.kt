@@ -11,7 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeeklyGoal
 import com.example.sculptify.layout.msv.bmi.BMI_EditBodyParameters
 import com.example.sculptify.layout.wdv.WDV_ExerciseInfo
-import com.example.sculptify.layout.wv.WV_ExerciseInfo
+import com.example.sculptify.layout.wv.mbs.WV_ExerciseInfo
 import com.example.sculptify.pages.MeView
 import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray

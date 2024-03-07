@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.wv
+package com.example.sculptify.layout.wv.mbs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

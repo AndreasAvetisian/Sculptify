@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.wv.es
+package com.example.sculptify.layout.wv.es.layout
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card

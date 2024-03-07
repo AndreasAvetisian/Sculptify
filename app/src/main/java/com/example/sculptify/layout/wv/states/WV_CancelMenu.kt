@@ -1,4 +1,4 @@
-package com.example.sculptify.layout.wv
+package com.example.sculptify.layout.wv.states
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

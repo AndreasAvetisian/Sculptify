@@ -33,8 +33,7 @@ fun ConfirmButton(
     onClick: () -> Unit,
     animationDuration: Int = 50,
     scaleDown: Float = 0.9f,
-    withText: Boolean = true,
-    iconID: Int = 0
+    withText: Boolean = true
 ) {
     val interactionSource = MutableInteractionSource()
 

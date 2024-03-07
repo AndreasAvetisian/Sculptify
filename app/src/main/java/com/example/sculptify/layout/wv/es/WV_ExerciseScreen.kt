@@ -14,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.sculptify.layout.wv.es.layout.WV_ES_BottomSheet
+import com.example.sculptify.layout.wv.es.layout.WV_ES_ExercisePic
 import com.example.sculptify.layout.wv.es.topBar.WV_ES_TopBar
 import com.example.sculptify.pages.countdown
 import com.example.sculptify.pages.formatTime
@@ -38,7 +40,7 @@ fun WV_ExerciseScreen(
 ) {
     val exerciseDurationAsInt = exerciseDuration.toIntOrNull()
 
-    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 30) }
+    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 2) }
     val formattedTime = remember { mutableStateOf(formatTime(remainingExerciseTime.toLong())) }
 
     var countdownJob: Job? by remember { mutableStateOf(null) }
@@ -92,8 +94,7 @@ fun WV_ExerciseScreen(
                 onCancelMenuClick()
             },
             exerciseIndex = exerciseIndex,
-            stopwatch = formatTime(elapsedSeconds),
-            exerciseTitle = exerciseTitle
+            stopwatch = formatTime(elapsedSeconds)
         )
         if (!isCountdownActive && !isCancelMenuOpen) {
             WV_ES_ExercisePic()

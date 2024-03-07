@@ -17,11 +17,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sculptify.layout.mbs.MBS
-import com.example.sculptify.layout.wv.WV_CBS
-import com.example.sculptify.layout.wv.WV_CancelMenu
+import com.example.sculptify.layout.wv.cs.WV_CompleteScreen
 import com.example.sculptify.layout.wv.es.WV_ExerciseScreen
 import com.example.sculptify.layout.wv.rs.WV_RestScreen
 import com.example.sculptify.layout.wv.rs.countdown
+import com.example.sculptify.layout.wv.states.WV_CBS
+import com.example.sculptify.layout.wv.states.WV_CancelMenu
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +55,28 @@ fun WorkoutView(
     val cbsValue = userVM.userdata.collectAsState().value["cbs"].toString().toIntOrNull()
 
     var isCancelMenuOpen by remember { mutableStateOf(false) }
+
+    //----------------------------------------------------------------------
+
+    var exerciseIndex by remember { mutableIntStateOf(0) }
+    val nextExerciseIndex = exerciseIndex + 1
+
+    val exerciseAmount = exerciseList.size
+
+    var isExerciseOn by remember { mutableStateOf(true) }
+
+
+    val exerciseTitle = exerciseList[exerciseIndex]["title"].toString()
+    val exerciseInstruction = exerciseList[exerciseIndex]["instructions"].toString()
+    val exerciseFocusAreas = exerciseList[exerciseIndex]["focusArea"].toString()
+    val exerciseDuration = exerciseList[exerciseIndex]["duration"] ?: ""
+    val exerciseRepetitions = exerciseList[exerciseIndex]["repetitions"] ?: ""
+
+    val exerciseValue = if (exerciseDuration.isNotEmpty()) {
+        if (exerciseDuration.toInt() < 60) "00:$exerciseDuration" else "01:00"
+    } else {
+        "x $exerciseRepetitions"
+    }
 
     //-------------------------------MBS-------------------------------
 
@@ -86,6 +110,19 @@ fun WorkoutView(
             }
         }
     }
+
+    //----------------Completed Exercises Indicator-------------------------
+    val exercisesLeft = exerciseAmount - exerciseIndex
+
+    val percentageAsDecimal: Float = if (exercisesLeft != 0) {
+        (exerciseIndex.toFloat() / exerciseAmount.toFloat()) * 100
+    } else {
+        0f
+    }
+
+    val roundedPercentage = String.format("%.2f", percentageAsDecimal)
+
+    val percentageAsInt = roundedPercentage.toFloat().toInt()
 
     //------------------------Stopwatch----------------------------------------
     var isStopwatchRunning by remember { mutableStateOf(true) }
@@ -121,60 +158,27 @@ fun WorkoutView(
             }
         }
     }
-    //----------------------------------------------------------------------
 
-    var exerciseIndex by remember { mutableIntStateOf(0) }
-    val nextExerciseIndex = exerciseIndex + 1
+    //--------------------------------------------------------------------------
 
-    val exerciseAmount = exerciseList.size
+    var isCompleteOn by remember { mutableStateOf(false) }
 
-    var isExerciseOn by remember { mutableStateOf(true) }
-
-    val exerciseTitle = exerciseList[exerciseIndex]["title"].toString()
-    val exerciseInstruction = exerciseList[exerciseIndex]["instructions"].toString()
-    val exerciseFocusAreas = exerciseList[exerciseIndex]["focusArea"].toString()
-    val exerciseDuration = exerciseList[exerciseIndex]["duration"] ?: ""
-    val exerciseRepetitions = exerciseList[exerciseIndex]["repetitions"] ?: ""
-
-    //----------------Completed Exercises Indicator-------------------------
-
-    var exercisesCompleted by remember { mutableIntStateOf(0) }
-    val exercisesLeft = exerciseAmount - exercisesCompleted
-
-    val percentageAsDecimal: Float = if (exercisesLeft != 0) {
-        (exercisesCompleted.toFloat() / exerciseAmount.toFloat()) * 100
-    } else {
-        0f
+    val completeAction = {
+        if (exerciseIndex <= exerciseAmount - 1) {
+            exerciseIndex++
+            isExerciseOn = false
+            if  (exerciseIndex > exerciseAmount - 1) {
+                exerciseIndex = 0
+                isCompleteOn = true
+            }
+        }
     }
 
-    val roundedPercentage = String.format("%.2f", percentageAsDecimal)
-
-    val percentageAsInt = roundedPercentage.toFloat().toInt()
-
-    //---------------------------Exercise countdown---------------------------
-
-
-
-    val exerciseValue = if (exerciseDuration.isNotEmpty()) {
-        if (exerciseDuration.toInt() < 60) "00:$exerciseDuration" else "01:00"
-    } else {
-        "x $exerciseRepetitions"
-    }
-
-
-    //----------------------------------------------------------------------
-
-    val exerciseCompleteAction = {
-        exerciseIndex++
-        exercisesCompleted++
-        isExerciseOn = false
-    }
-
-    if (isExerciseOn) {
+    if (isExerciseOn && !isCompleteOn) {
         WV_ExerciseScreen(
             exerciseIndex = exerciseIndex,
             exerciseAmount = exerciseAmount,
-            exercisesCompleted = exercisesCompleted,
+            exercisesCompleted = exerciseIndex,
             isCountdownActive = isCountdownActive,
             isCancelMenuOpen = isCancelMenuOpen,
             showBottomSheet = showBottomSheet,
@@ -188,16 +192,14 @@ fun WorkoutView(
             exerciseDuration = exerciseDuration,
             exerciseRepetitions = exerciseRepetitions,
             onCompleteClick = {
-                if (exercisesCompleted != exerciseAmount) {
-                    exerciseCompleteAction()
-                }
+                completeAction()
             },
             onExerciseDescriptionClick = { showBottomSheet = true },
             onExerciseFinished = {
-                exerciseCompleteAction()
+                completeAction()
             }
         )
-    } else {
+    } else if (!isExerciseOn && !isCompleteOn) {
         WV_RestScreen(
             initialRestingTimeSeconds = 30,
             onSkipClick = { isExerciseOn = true },
@@ -206,6 +208,16 @@ fun WorkoutView(
             exerciseAmount = exerciseAmount,
             exerciseTitle = exerciseTitle,
             exerciseValue = exerciseValue
+        )
+    } else if (!isExerciseOn){
+        WV_CompleteScreen(
+            focusArea = focusArea,
+            level = level,
+            exerciseAmount = exerciseAmount,
+            durationInSeconds = elapsedSeconds,
+            onFinishClick = {
+                navController.navigate(Screen.Main.route)
+            }
         )
     }
 
