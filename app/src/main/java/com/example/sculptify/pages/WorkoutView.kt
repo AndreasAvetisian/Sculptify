@@ -43,6 +43,7 @@ fun WorkoutView(
     val focusArea = arguments?.getString("focusArea") ?: ""
     val level = arguments?.getString("level") ?: ""
     val time = arguments?.getString("time") ?: ""
+    val estCalBurned = arguments?.getString("estCalBurned") ?: ""
     val exercises = arguments?.getString("exercises") ?: ""
     val exerciseList = convertToList(exercises)
 
@@ -159,7 +160,47 @@ fun WorkoutView(
         }
     }
 
-    //--------------------------------------------------------------------------
+    //--------------------------Estimated Calories Burned-------------------------
+
+    val estimatedCaloriesBurned = when(workoutID) {
+        "absBeginner" -> 256
+        "armBeginner" -> 260
+        "chestBeginner" -> 226
+        "legBeginner" -> 375
+        "shoulderAndBackBeginner" -> 222
+        "absIntermediate" -> 396
+        "armIntermediate" -> 382
+        "chestIntermediate" -> 248
+        "legIntermediate" -> 401
+        "shoulderAndBackIntermediate" -> 234
+        "absAdvanced" -> 406
+        "armAdvanced" -> 387
+        "chestAdvanced" -> 345
+        "legAdvanced" -> 512
+        "shoulderAndBackAdvanced" -> 295
+        else -> 330
+    }
+
+    val estimatedTimeInSeconds = when(workoutID) {
+        "absBeginner" -> 1080
+        "armBeginner" -> 960
+        "chestBeginner" -> 600
+        "legBeginner" -> 1320
+        "shoulderAndBackBeginner" -> 900
+        "absIntermediate" -> 1500
+        "armIntermediate" -> 1440
+        "chestIntermediate" -> 780
+        "legIntermediate" -> 2160
+        "shoulderAndBackIntermediate" -> 1020
+        "absAdvanced" -> 1800
+        "armAdvanced" -> 1740
+        "chestAdvanced" -> 960
+        "legAdvanced" -> 2820
+        "shoulderAndBackAdvanced" -> 1020
+        else -> 1340
+    }
+
+    //----------------------------------------------------------------------------
 
     var isCompleteOn by remember { mutableStateOf(false) }
 
@@ -214,6 +255,8 @@ fun WorkoutView(
             focusArea = focusArea,
             level = level,
             exerciseAmount = exerciseAmount,
+            estimatedCaloriesBurned = estimatedCaloriesBurned,
+            estimatedTimeInSeconds = estimatedTimeInSeconds,
             durationInSeconds = elapsedSeconds,
             onFinishClick = {
                 navController.navigate(Screen.Main.route)

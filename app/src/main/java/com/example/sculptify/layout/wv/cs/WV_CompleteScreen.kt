@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,11 +27,17 @@ fun WV_CompleteScreen(
     focusArea: String,
     level: String,
     exerciseAmount: Int,
+    estimatedCaloriesBurned: Int,
+    estimatedTimeInSeconds: Int,
     durationInSeconds: Long,
     onFinishClick: () -> Unit
 ) {
+    val estCalBurned by remember { mutableIntStateOf(estimatedCaloriesBurned) }
+    val estTimeInSec by remember { mutableIntStateOf(estimatedTimeInSeconds) }
     val finalDuration by remember { mutableLongStateOf(durationInSeconds) }
 
+    val caloriesBurned = "%.1f".format(estCalBurned.toFloat() * (finalDuration/estTimeInSec.toFloat())).toFloat()
+    
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +72,7 @@ fun WV_CompleteScreen(
             )
             WV_CS_Card(
                 modifier = Modifier.weight(1f),
-                value = "132.3",
+                value = caloriesBurned.toString(),
                 title = "Calories",
             )
             WV_CS_Card(

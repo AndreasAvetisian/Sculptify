@@ -40,7 +40,7 @@ fun WV_ExerciseScreen(
 ) {
     val exerciseDurationAsInt = exerciseDuration.toIntOrNull()
 
-    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 2) }
+    var remainingExerciseTime by remember { mutableIntStateOf(exerciseDurationAsInt ?: 30) }
     val formattedTime = remember { mutableStateOf(formatTime(remainingExerciseTime.toLong())) }
 
     var countdownJob: Job? by remember { mutableStateOf(null) }
@@ -63,7 +63,7 @@ fun WV_ExerciseScreen(
                 remainingExerciseTime = newTime
                 formattedTime.value = formatTime(newTime.toLong())
 
-                if (remainingExerciseTime == 0 && exercisesCompleted != exerciseAmount) {
+                if (remainingExerciseTime == 0 && exercisesCompleted != exerciseAmount && exerciseRepetitions.isEmpty()) {
                     onExerciseFinished()
                 }
             }

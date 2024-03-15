@@ -71,6 +71,7 @@ fun MV_Workout(
                     val focusArea = workoutDetailsMap?.get("focusArea") as? String
                     val level = workoutDetailsMap?.get("level") as? String
                     val time = workoutDetailsMap?.get("time") as? String
+                    val estCalBurned = workoutDetailsMap?.get("estCalBurned") as? String
                     val exercises = workoutDetailsMap?.get("exercises") as? List<Map<String, Any>>
 
                     MV_WorkoutItem(
@@ -87,7 +88,7 @@ fun MV_Workout(
                         },
                         onClick = {
                             navController.navigate(
-                                "workoutDetail/${workoutID}/${focusArea}/${level}/${time}/${exercises}"
+                                "workoutDetail/${workoutID}/${focusArea}/${level}/${time}/${exercises}/${estCalBurned}"
                             )
                         }
                     )
