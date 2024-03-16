@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.wdv
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,6 +39,19 @@ fun WDV_ExerciseInfo(
     val focusArea = exercise["focusArea"].toString()
     val listOfFocusAreas = convertToList(focusArea)
 
+    val duration = exercise["duration"]
+    val repetitions = exercise["repetitions"]
+
+    val value = if (duration?.isNotEmpty() == true) {
+        "$duration seconds"
+    } else {
+        "$repetitions repetitions"
+    }
+
+    val estCalBurned = exercise["estCalBurned"].toString()
+
+    Log.d("AAAAAAAAAAAAAAAAAAAAAAaaa", "$duration $repetitions")
+
     val mainColor = when(workoutLevel) {
         "Beginner" -> Beginner_Green
         "Intermediate" -> Intermediate_Orange
@@ -62,6 +76,19 @@ fun WDV_ExerciseInfo(
             )
             CustomText(
                 text = instructions.toString(),
+                fontSize = 18.sp
+            )
+        }
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            CustomText(
+                text = "ESTIMATED CALORIES BURNED",
+                color = mainColor
+            )
+            CustomText(
+                text = "$estCalBurned kcal (per $value)",
                 fontSize = 18.sp
             )
         }

@@ -12,6 +12,7 @@ import com.example.sculptify.layout.dayStreakActiveDaysView.adv.ADV_ModifyWeekly
 import com.example.sculptify.layout.msv.bmi.BMI_EditBodyParameters
 import com.example.sculptify.layout.wdv.WDV_ExerciseInfo
 import com.example.sculptify.layout.wv.mbs.WV_ExerciseInfo
+import com.example.sculptify.layout.wv.mbs.el.WV_ExerciseList
 import com.example.sculptify.pages.MeView
 import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Dark_Gray
@@ -25,9 +26,13 @@ fun MBS(
     scope: CoroutineScope,
     onDismiss: () -> Unit,
     data: Map<String, String> = emptyMap(),
+    view: Int = 0,
+    exerciseList: List<MutableMap<String, String>> = emptyList(),
     workoutLevel: String = "",
     workoutInstruction: String = "",
-    exerciseFocusAreas: String = ""
+    exerciseFocusAreas: String = "",
+    exerciseEstCalBurned: String = "",
+    exerciseValue: String = ""
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
@@ -73,13 +78,27 @@ fun MBS(
                 )
             }
             Screen.Workout.route -> {
-                WV_ExerciseInfo(
-                    scope = scope,
-                    sheetState = sheetState,
-                    onDismiss = onDismiss,
-                    workoutInstruction = workoutInstruction,
-                    exerciseFocusAreas = exerciseFocusAreas,
-                )
+                when (view) {
+                    0 -> {
+                        WV_ExerciseInfo(
+                            scope = scope,
+                            sheetState = sheetState,
+                            onDismiss = onDismiss,
+                            workoutInstruction = workoutInstruction,
+                            exerciseFocusAreas = exerciseFocusAreas,
+                            exerciseEstCalBurned = exerciseEstCalBurned,
+                            exerciseValue = exerciseValue
+                        )
+                    }
+                    1 -> {
+                        WV_ExerciseList(
+                            scope = scope,
+                            sheetState = sheetState,
+                            onDismiss = onDismiss,
+                            exerciseList = exerciseList
+                        )
+                    }
+                }
             }
         }
     }

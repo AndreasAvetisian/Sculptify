@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.List
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,6 +18,8 @@ fun WV_ES_TopBar(
     exerciseAmount: Int,
     exercisesCompleted: Int,
     isCountdownActive: Boolean,
+    isExerciseListOpen: Boolean,
+    onExerciseListOpen: () -> Unit,
     isCancelMenuOpen: Boolean,
     onCancelMenuClick: () -> Unit,
     exerciseIndex: Int,
@@ -36,12 +41,25 @@ fun WV_ES_TopBar(
             horizontalArrangement = if (isCountdownActive) Arrangement.End else Arrangement.SpaceBetween
         ) {
             if (!isCountdownActive) {
-                WV_ES_TB_CancelButton(
-                    isCancelMenuOpen = isCancelMenuOpen,
-                    onCancelMenuClick = {
-                        onCancelMenuClick()
-                    }
-                )
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    WV_ES_TB_Button(
+                        imageVector = Icons.Rounded.Close,
+                        isButtonClicked = isCancelMenuOpen,
+                        onClick = {
+                            onCancelMenuClick()
+                        }
+                    )
+                    WV_ES_TB_Button(
+                        imageVector = Icons.Rounded.List,
+                        isButtonClicked = isExerciseListOpen,
+                        onClick = {
+                            onExerciseListOpen()
+                        }
+                    )
+                }
             }
             WV_ES_TB_StopwatchAndInfo(
                 exerciseIndex = exerciseIndex,

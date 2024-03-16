@@ -27,6 +27,8 @@ fun WV_ExerciseScreen(
     exerciseAmount: Int,
     exercisesCompleted: Int,
     isCountdownActive: Boolean,
+    isExerciseListOpen: Boolean,
+    onExerciseListOpen: () -> Unit,
     isCancelMenuOpen: Boolean,
     showBottomSheet: Boolean,
     onCancelMenuClick: () -> Unit,
@@ -49,9 +51,9 @@ fun WV_ExerciseScreen(
 
     LaunchedEffect(
         !isCountdownActive
-            && !showBottomSheet
-            && !isCancelMenuOpen
-            && !isTimerStopped
+                && !showBottomSheet
+                && !isCancelMenuOpen
+                && !isTimerStopped
     ) {
         countdownJob = countdown(remainingExerciseTime) { newTime ->
             if (
@@ -89,6 +91,10 @@ fun WV_ExerciseScreen(
             exerciseAmount = exerciseAmount,
             exercisesCompleted = exercisesCompleted,
             isCountdownActive = isCountdownActive,
+            isExerciseListOpen = isExerciseListOpen,
+            onExerciseListOpen = {
+                onExerciseListOpen()
+            },
             isCancelMenuOpen = isCancelMenuOpen,
             onCancelMenuClick = {
                 onCancelMenuClick()

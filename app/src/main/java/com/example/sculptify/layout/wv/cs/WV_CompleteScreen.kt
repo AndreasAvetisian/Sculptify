@@ -37,7 +37,7 @@ fun WV_CompleteScreen(
     val finalDuration by remember { mutableLongStateOf(durationInSeconds) }
 
     val caloriesBurned = "%.1f".format(estCalBurned.toFloat() * (finalDuration/estTimeInSec.toFloat())).toFloat()
-    
+
     Column (
         modifier = Modifier
             .fillMaxSize()

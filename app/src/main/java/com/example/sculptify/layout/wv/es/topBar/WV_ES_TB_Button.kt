@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -14,14 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Workout_Gray
 
 @Composable
-fun WV_ES_TB_CancelButton(
-    isCancelMenuOpen: Boolean,
-    onCancelMenuClick: () -> Unit
+fun WV_ES_TB_Button(
+    imageVector: ImageVector,
+    isButtonClicked: Boolean,
+    onClick: () -> Unit
 ) {
     Card (
         colors = CardDefaults.cardColors(
@@ -31,8 +31,8 @@ fun WV_ES_TB_CancelButton(
         modifier = Modifier
             .size(40.dp)
             .clickable {
-                if (!isCancelMenuOpen) {
-                    onCancelMenuClick()
+                if (!isButtonClicked) {
+                    onClick()
                 }
             },
     ) {
@@ -43,7 +43,7 @@ fun WV_ES_TB_CancelButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                Icons.Rounded.Close,
+                imageVector,
                 contentDescription = "",
                 tint = Black
             )

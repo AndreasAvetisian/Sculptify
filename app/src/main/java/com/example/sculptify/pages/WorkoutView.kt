@@ -56,7 +56,6 @@ fun WorkoutView(
     val cbsValue = userVM.userdata.collectAsState().value["cbs"].toString().toIntOrNull()
 
     var isCancelMenuOpen by remember { mutableStateOf(false) }
-
     //----------------------------------------------------------------------
 
     var exerciseIndex by remember { mutableIntStateOf(0) }
@@ -70,6 +69,7 @@ fun WorkoutView(
     val exerciseTitle = exerciseList[exerciseIndex]["title"].toString()
     val exerciseInstruction = exerciseList[exerciseIndex]["instructions"].toString()
     val exerciseFocusAreas = exerciseList[exerciseIndex]["focusArea"].toString()
+    val exerciseEstCalBurned = exerciseList[exerciseIndex]["estCalBurned"].toString()
     val exerciseDuration = exerciseList[exerciseIndex]["duration"] ?: ""
     val exerciseRepetitions = exerciseList[exerciseIndex]["repetitions"] ?: ""
 
@@ -79,15 +79,32 @@ fun WorkoutView(
         "x $exerciseRepetitions"
     }
 
-    //-------------------------------MBS-------------------------------
+    val exerciseValueForMBS = if (exerciseDuration.isNotEmpty()) {
+        "$exerciseDuration seconds"
+    } else {
+        "$exerciseRepetitions repetitions"
+    }
+
+    //-----------------------Exercise Info (MBS)----------------------------
 
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    val infoSheetState = rememberModalBottomSheetState()
+    val infoScope = rememberCoroutineScope()
+
+    val onInfoBottomSheetDismiss: () -> Unit = {
+        showBottomSheet = false
+    }
+
+    //-----------------------Exercise List (MBS)----------------------------
+
+    var isExerciseListOpen by remember { mutableStateOf(false) }
 
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
     val onBottomSheetDismiss: () -> Unit = {
-        showBottomSheet = false
+        isExerciseListOpen = false
     }
 
     //------------------------Countdown Before Start------------------------
@@ -221,6 +238,10 @@ fun WorkoutView(
             exerciseAmount = exerciseAmount,
             exercisesCompleted = exerciseIndex,
             isCountdownActive = isCountdownActive,
+            isExerciseListOpen = isExerciseListOpen,
+            onExerciseListOpen = {
+                isExerciseListOpen = true
+            },
             isCancelMenuOpen = isCancelMenuOpen,
             showBottomSheet = showBottomSheet,
             onCancelMenuClick = {
@@ -290,12 +311,26 @@ fun WorkoutView(
 
     if (showBottomSheet) {
         MBS(
+            sheetState = infoSheetState,
+            scope = infoScope,
+            onDismiss = onInfoBottomSheetDismiss,
+            navController = navController,
+            workoutInstruction = exerciseInstruction,
+            exerciseFocusAreas = exerciseFocusAreas,
+            exerciseEstCalBurned = exerciseEstCalBurned,
+            exerciseValue = exerciseValueForMBS,
+            view = 0
+        )
+    }
+
+    if (isExerciseListOpen) {
+        MBS(
             sheetState = sheetState,
             scope = scope,
             onDismiss = onBottomSheetDismiss,
             navController = navController,
-            workoutInstruction = exerciseInstruction,
-            exerciseFocusAreas = exerciseFocusAreas
+            exerciseList = exerciseList,
+            view = 1
         )
     }
 }

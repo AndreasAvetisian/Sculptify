@@ -27,7 +27,9 @@ fun WV_ExerciseInfo(
     sheetState: SheetState,
     onDismiss: () -> Unit,
     workoutInstruction: String,
-    exerciseFocusAreas: String
+    exerciseFocusAreas: String,
+    exerciseEstCalBurned: String,
+    exerciseValue: String
 ) {
     val instructions = workoutInstruction
         .replace(";", ",")
@@ -52,6 +54,19 @@ fun WV_ExerciseInfo(
             )
             CustomText(
                 text = instructions,
+                fontSize = 18.sp
+            )
+        }
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            CustomText(
+                text = "ESTIMATED CALORIES BURNED",
+                color = Blue
+            )
+            CustomText(
+                text = "$exerciseEstCalBurned kcal (per $exerciseValue)",
                 fontSize = 18.sp
             )
         }
