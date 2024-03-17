@@ -268,6 +268,10 @@ fun WorkoutView(
             onExerciseDescriptionClick = { showBottomSheet = true },
             nextExerciseIndex = nextExerciseIndex,
             exerciseAmount = exerciseAmount,
+            isExerciseListOpen = isExerciseListOpen,
+            onExerciseListOpen = {
+                isExerciseListOpen = true
+            },
             exerciseTitle = exerciseTitle,
             exerciseValue = exerciseValue
         )
@@ -330,6 +334,7 @@ fun WorkoutView(
             onDismiss = onBottomSheetDismiss,
             navController = navController,
             exerciseList = exerciseList,
+            exerciseIndex = exerciseIndex,
             view = 1
         )
     }

@@ -15,6 +15,7 @@ import com.example.sculptify.layout.wv.mbs.WV_ExerciseInfo
 import com.example.sculptify.layout.wv.mbs.el.WV_ExerciseList
 import com.example.sculptify.pages.MeView
 import com.example.sculptify.screens.Screen
+import com.example.sculptify.ui.theme.Black
 import com.example.sculptify.ui.theme.Dark_Gray
 import kotlinx.coroutines.CoroutineScope
 
@@ -28,6 +29,7 @@ fun MBS(
     data: Map<String, String> = emptyMap(),
     view: Int = 0,
     exerciseList: List<MutableMap<String, String>> = emptyList(),
+    exerciseIndex: Int = 0,
     workoutLevel: String = "",
     workoutInstruction: String = "",
     exerciseFocusAreas: String = "",
@@ -42,7 +44,7 @@ fun MBS(
             onDismiss()
         },
         sheetState = sheetState,
-        containerColor = Dark_Gray,
+        containerColor = if (currentRoute == Screen.Workout.route && view == 1) Black else Dark_Gray,
         windowInsets = WindowInsets(0)
     ) {
         when (currentRoute) {
@@ -95,7 +97,8 @@ fun MBS(
                             scope = scope,
                             sheetState = sheetState,
                             onDismiss = onDismiss,
-                            exerciseList = exerciseList
+                            exerciseList = exerciseList,
+                            exerciseIndex = exerciseIndex
                         )
                     }
                 }

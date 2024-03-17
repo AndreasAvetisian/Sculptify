@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.sculptify.layout.wv.layout.WV_CircleButton
 
 @Composable
 fun WV_ES_TopBar(
@@ -45,14 +46,14 @@ fun WV_ES_TopBar(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    WV_ES_TB_Button(
+                    WV_CircleButton(
                         imageVector = Icons.Rounded.Close,
                         isButtonClicked = isCancelMenuOpen,
                         onClick = {
                             onCancelMenuClick()
                         }
                     )
-                    WV_ES_TB_Button(
+                    WV_CircleButton(
                         imageVector = Icons.Rounded.List,
                         isButtonClicked = isExerciseListOpen,
                         onClick = {

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sculptify.layout.general.customText.CustomText
 import java.util.Locale
 
@@ -22,9 +23,10 @@ import java.util.Locale
 fun WV_EL_Item(
     title: String,
     exerciseValue: String,
+    bgColor: Color
 ) {
     Card (
-        colors = CardDefaults.cardColors(Color(0xff3c3c3e)),
+        colors = CardDefaults.cardColors(bgColor),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
@@ -38,12 +40,16 @@ fun WV_EL_Item(
         ) {
             Card (
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(50.dp)
             ) {}
             Column {
-                CustomText(text = title.uppercase(Locale.ROOT))
+                CustomText(
+                    text = title.uppercase(Locale.ROOT),
+                    fontSize = 16.sp
+                )
                 CustomText(
                     text = exerciseValue,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
                 )
             }

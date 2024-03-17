@@ -52,6 +52,7 @@ fun WV_ExerciseScreen(
     LaunchedEffect(
         !isCountdownActive
                 && !showBottomSheet
+                && !isExerciseListOpen
                 && !isCancelMenuOpen
                 && !isTimerStopped
     ) {
@@ -59,6 +60,7 @@ fun WV_ExerciseScreen(
             if (
                 !isCountdownActive
                 && !showBottomSheet
+                && !isExerciseListOpen
                 && !isCancelMenuOpen
                 && !isTimerStopped
                 ) {

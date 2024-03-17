@@ -3,7 +3,12 @@ package com.example.sculptify.layout.wv.rs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -14,10 +19,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.sculptify.layout.wv.layout.WV_CircleButton
 import com.example.sculptify.layout.wv.rs.layout.WV_RS_BottomSheet
 import com.example.sculptify.layout.wv.rs.layout.WV_RS_TimerAndAction
 import com.example.sculptify.pages.formatTime
 import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.ui.theme.White
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -30,6 +38,8 @@ fun WV_RestScreen(
     onSkipClick: () -> Unit,
     onExerciseDescriptionClick: () -> Unit,
     nextExerciseIndex: Int,
+    isExerciseListOpen: Boolean,
+    onExerciseListOpen: () -> Unit,
     exerciseAmount: Int,
     exerciseTitle: String,
     exerciseValue: String
@@ -57,6 +67,21 @@ fun WV_RestScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.675.dp),
+            horizontalArrangement = Arrangement.End
+        ) {
+            WV_CircleButton(
+                imageVector = Icons.Rounded.List,
+                isButtonClicked = isExerciseListOpen,
+                bgColor = White,
+                onClick = {
+                    onExerciseListOpen()
+                }
+            )
+        }
         WV_RS_TimerAndAction(
             countdown = formattedTime.value,
             onAddMoreTimeClick = {
