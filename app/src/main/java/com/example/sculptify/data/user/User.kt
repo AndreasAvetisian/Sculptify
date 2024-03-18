@@ -18,5 +18,6 @@ data class User(
     val reminders: List<Reminder> = emptyList(),
     val userWorkoutStat: List<Map<Int, Timestamp>> = emptyList(),
     val favoriteList: List<FavoriteWorkout> = emptyList(),
-    val pbs: Int = 0 // Personal Best Streak
+    val pbs: Int = 0, // Personal Best Streak
+    val historyOfWorkouts: List<Map<String, Any>> = emptyList()
 )

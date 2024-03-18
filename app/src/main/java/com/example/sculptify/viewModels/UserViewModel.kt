@@ -2,12 +2,14 @@ package com.example.sculptify.viewModels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.sculptify.data.workout.CompletedWorkoutInfo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.LocalDate
 
 class UserViewModel: ViewModel() {
     private val fAuth = Firebase.auth
@@ -37,6 +39,7 @@ class UserViewModel: ViewModel() {
         private const val modifyHeightAndWeightTAG = "ModifyHeightAndWeight"
         private const val deleteUserDataTAG = "DeleteUserData"
         private const val updateFavoriteListTAG = "updateFavoriteList"
+        private const val finishWorkoutTAG = "finishWorkout"
 
         // Default values for deleteUserData
         private const val DEFAULT_RBE = 30
@@ -265,6 +268,67 @@ class UserViewModel: ViewModel() {
             }.addOnFailureListener { exception ->
                 Log.e(updateFavoriteListTAG, "Error updating favorite list item", exception)
             }
+        }
+    }
+
+    val userDefaults = mapOf(
+        "lastIncrementedDate" to ""
+    )
+
+    fun finishWorkout(workoutInfo: CompletedWorkoutInfo) {
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser != null) {
+            val userRef = Firebase.firestore.collection("users").document(currentUser.uid)
+
+            userRef.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val historyOfWorkouts = documentSnapshot.get("historyOfWorkouts") as? List<Map<String, Any>>
+
+                    val workoutMap = mapOf(
+                        "date" to workoutInfo.dateAndTime,
+                        "focusArea" to workoutInfo.focusArea,
+                        "level" to workoutInfo.level,
+                        "caloriesBurned" to workoutInfo.caloriesBurned,
+                        "finalDuration" to workoutInfo.finalDuration
+                    )
+
+                    val updatedHistoryOfWorkouts = historyOfWorkouts?.plus(workoutMap) ?: listOf(workoutMap)
+
+                    userRef.update("historyOfWorkouts", updatedHistoryOfWorkouts)
+                        .addOnSuccessListener {
+                            Log.d(finishWorkoutTAG, "Workout added successfully")
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(finishWorkoutTAG, "Error adding workout", exception)
+                        }
+
+                    val today = LocalDate.now().toString()
+                    val lastIncrementedDate = documentSnapshot.getString("lastIncrementedDate")
+
+                    if (today != lastIncrementedDate) {
+                        val dayStreak = documentSnapshot.getLong("dayStreak") ?: 0
+                        val updatedDayStreak = dayStreak + 1
+                        userRef.update("dayStreak", updatedDayStreak)
+                            .addOnSuccessListener {
+                                // Update lastIncrementedDate to today
+                                userRef.update("lastIncrementedDate", today)
+                                    .addOnSuccessListener {
+                                        Log.d(finishWorkoutTAG, "Personal best streak updated successfully")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                                    }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                            }
+                    } else {
+                        Log.d(finishWorkoutTAG, "User already finished one workout today")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(finishWorkoutTAG, "Error fetching data", exception)
+                }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sculptify.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -23,7 +24,6 @@ import com.example.sculptify.layout.wv.rs.WV_RestScreen
 import com.example.sculptify.layout.wv.rs.countdown
 import com.example.sculptify.layout.wv.states.WV_CBS
 import com.example.sculptify.layout.wv.states.WV_CancelMenu
-import com.example.sculptify.screens.Screen
 import com.example.sculptify.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +43,6 @@ fun WorkoutView(
     val focusArea = arguments?.getString("focusArea") ?: ""
     val level = arguments?.getString("level") ?: ""
     val time = arguments?.getString("time") ?: ""
-    val estCalBurned = arguments?.getString("estCalBurned") ?: ""
     val exercises = arguments?.getString("exercises") ?: ""
     val exerciseList = convertToList(exercises)
 
@@ -56,7 +55,7 @@ fun WorkoutView(
     val cbsValue = userVM.userdata.collectAsState().value["cbs"].toString().toIntOrNull()
 
     var isCancelMenuOpen by remember { mutableStateOf(false) }
-    //----------------------------------------------------------------------
+    //---------------------------Exercise attributes----------------------------
 
     var exerciseIndex by remember { mutableIntStateOf(0) }
     val nextExerciseIndex = exerciseIndex + 1
@@ -217,7 +216,7 @@ fun WorkoutView(
         else -> 1340
     }
 
-    //----------------------------------------------------------------------------
+    //-----------------------------Complete Action--------------------------------
 
     var isCompleteOn by remember { mutableStateOf(false) }
 
@@ -231,6 +230,8 @@ fun WorkoutView(
             }
         }
     }
+
+    //----------------------------------------------------------------------------
 
     if (isExerciseOn && !isCompleteOn) {
         WV_ExerciseScreen(
@@ -277,15 +278,13 @@ fun WorkoutView(
         )
     } else if (!isExerciseOn){
         WV_CompleteScreen(
+            navController = navController,
             focusArea = focusArea,
             level = level,
             exerciseAmount = exerciseAmount,
             estimatedCaloriesBurned = estimatedCaloriesBurned,
             estimatedTimeInSeconds = estimatedTimeInSeconds,
-            durationInSeconds = elapsedSeconds,
-            onFinishClick = {
-                navController.navigate(Screen.Main.route)
-            }
+            durationInSeconds = elapsedSeconds
         )
     }
 

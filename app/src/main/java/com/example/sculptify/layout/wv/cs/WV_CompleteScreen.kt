@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.wv.cs
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,21 +18,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.sculptify.data.workout.CompletedWorkoutInfo
 import com.example.sculptify.layout.general.buttons.ConfirmButton
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.pages.formatTime
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
+import com.example.sculptify.viewModels.UserViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun WV_CompleteScreen(
+    navController: NavHostController,
     focusArea: String,
     level: String,
     exerciseAmount: Int,
     estimatedCaloriesBurned: Int,
     estimatedTimeInSeconds: Int,
-    durationInSeconds: Long,
-    onFinishClick: () -> Unit
+    durationInSeconds: Long
 ) {
+    val userVM: UserViewModel = viewModel()
+
+    val dateAndTime = remember { SimpleDateFormat("h:mma;MMM d;yyyy").format(Date()) }
+
     val estCalBurned by remember { mutableIntStateOf(estimatedCaloriesBurned) }
     val estTimeInSec by remember { mutableIntStateOf(estimatedTimeInSeconds) }
     val finalDuration by remember { mutableLongStateOf(durationInSeconds) }
@@ -96,7 +109,9 @@ fun WV_CompleteScreen(
                 .fillMaxWidth()
                 .height(60.dp),
             onClick = {
-                onFinishClick()
+                val workoutInfo = CompletedWorkoutInfo(dateAndTime, focusArea, level, caloriesBurned, finalDuration)
+                userVM.finishWorkout(workoutInfo)
+                navController.navigate(Screen.Main.route)
             }
         )
     }

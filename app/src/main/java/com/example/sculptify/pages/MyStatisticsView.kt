@@ -1,5 +1,6 @@
 package com.example.sculptify.pages
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -35,13 +36,17 @@ fun MyStatisticsView() {
 
     var selectedButton by remember { mutableStateOf(StatSelectionButton.Today) }
 
-    val (exercisesCompleted, durationValue, caloriesBurned) = remember(userData, selectedButton) {
-        computeStatistics(userData, selectedButton)
-    }
+//    val (workoutsCompleted, durationValue, caloriesBurned) = remember(userData, selectedButton) {
+//        computeStatistics(userData, selectedButton)
+//    }
 
     val pbsValue by rememberUpdatedState(
         newValue = userVM.userdata.collectAsState().value["pbs"].toString()
     )
+
+    val historyOfWorkouts = userData["historyOfWorkouts"] as? List<Map<String, Any>> ?: emptyList()
+
+    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAA", historyOfWorkouts.toString())
 
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -51,16 +56,16 @@ fun MyStatisticsView() {
             selectedButton = button
         }
         MyStatisticsItem(
-            title = "Exercises Completed",
-            value = exercisesCompleted
+            title = "Workouts Completed",
+            value = historyOfWorkouts.size.toString()
         )
         MyStatisticsItem(
             title = "Duration",
-            value = "$durationValue min"
+            value = "$ min"
         )
         MyStatisticsItem(
             title = "Calories Burned",
-            value = "$caloriesBurned kcal"
+            value = "$ kcal"
         )
         AnimatedVisibility(
             visible = selectedButton == StatSelectionButton.AllTime,
@@ -79,34 +84,34 @@ fun MyStatisticsView() {
     }
 }
 
-private fun computeStatistics(
-    userData: Map<String, Any>,
-    selectedButton: StatSelectionButton
-): Triple<String, String, String> {
-    val userWorkoutStat = userData["userWorkoutStat"] as? List<Map<String, Any>> ?: return Triple("0", "0", "0")
-
-    val todayStats = userWorkoutStat.lastOrNull { it["date"] != null }
-
-    val exercisesCompleted = when (selectedButton) {
-        StatSelectionButton.Today -> todayStats?.get("exercisesCompleted")?.toString() ?: "0"
-        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-            it["exercisesCompleted"].toString().toInt()
-        }.toString()
-    }
-
-    val durationValue = when (selectedButton) {
-        StatSelectionButton.Today -> todayStats?.get("duration")?.toString() ?: "0"
-        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-            it["duration"].toString().toInt()
-        }.toString()
-    }
-
-    val caloriesBurned = when (selectedButton) {
-        StatSelectionButton.Today -> todayStats?.get("caloriesBurned")?.toString() ?: "0"
-        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-            it["caloriesBurned"].toString().toInt()
-        }.toString()
-    }
-
-    return Triple(exercisesCompleted, durationValue, caloriesBurned)
-}
+//private fun computeStatistics(
+//    userData: Map<String, Any>,
+//    selectedButton: StatSelectionButton
+//): Triple<String, String, String> {
+//    val userWorkoutStat = userData["userWorkoutStat"] as? List<Map<String, Any>> ?: return Triple("0", "0", "0")
+//
+//    val todayStats = userWorkoutStat.lastOrNull { it["date"] != null }
+//
+//    val exercisesCompleted = when (selectedButton) {
+//        StatSelectionButton.Today -> todayStats?.get("exercisesCompleted")?.toString() ?: "0"
+//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+//            it["exercisesCompleted"].toString().toInt()
+//        }.toString()
+//    }
+//
+//    val durationValue = when (selectedButton) {
+//        StatSelectionButton.Today -> todayStats?.get("duration")?.toString() ?: "0"
+//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+//            it["duration"].toString().toInt()
+//        }.toString()
+//    }
+//
+//    val caloriesBurned = when (selectedButton) {
+//        StatSelectionButton.Today -> todayStats?.get("caloriesBurned")?.toString() ?: "0"
+//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
+//            it["caloriesBurned"].toString().toInt()
+//        }.toString()
+//    }
+//
+//    return Triple(exercisesCompleted, durationValue, caloriesBurned)
+//}
