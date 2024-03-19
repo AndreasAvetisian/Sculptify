@@ -1,6 +1,6 @@
 package com.example.sculptify.pages
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -23,7 +23,10 @@ import com.example.sculptify.enumClasses.StatSelectionButton
 import com.example.sculptify.layout.msv.statistics.MyStatisticsItem
 import com.example.sculptify.layout.msv.statistics.StatSelection
 import com.example.sculptify.viewModels.UserViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun MyStatisticsView() {
     val userVM: UserViewModel = viewModel()
@@ -36,17 +39,32 @@ fun MyStatisticsView() {
 
     var selectedButton by remember { mutableStateOf(StatSelectionButton.Today) }
 
-//    val (workoutsCompleted, durationValue, caloriesBurned) = remember(userData, selectedButton) {
-//        computeStatistics(userData, selectedButton)
-//    }
-
     val pbsValue by rememberUpdatedState(
         newValue = userVM.userdata.collectAsState().value["pbs"].toString()
     )
 
+    val currentDate = remember { SimpleDateFormat("MMM d").format(Date()) }
+
     val historyOfWorkouts = userData["historyOfWorkouts"] as? List<Map<String, Any>> ?: emptyList()
 
-    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAA", historyOfWorkouts.toString())
+    val filteredWorkouts = remember(selectedButton) {
+        when (selectedButton) {
+            StatSelectionButton.Today -> {
+                historyOfWorkouts.filter { workout ->
+                    val workoutDate = workout["date"] as? String
+                    workoutDate?.contains(currentDate) ?: false
+                }
+            }
+            StatSelectionButton.AllTime -> {
+                historyOfWorkouts
+            }
+        }
+    }
+
+    val totalDurationInSec = filteredWorkouts.sumOf { it["finalDuration"] as Long }
+    val totalDurationInMin = totalDurationInSec / 60
+    val totalCalories = "%.1f".format(filteredWorkouts.sumOf { it["caloriesBurned"] as Double })
+    val workoutsCompleted = filteredWorkouts.size
 
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -57,15 +75,15 @@ fun MyStatisticsView() {
         }
         MyStatisticsItem(
             title = "Workouts Completed",
-            value = historyOfWorkouts.size.toString()
+            value = if (selectedButton == StatSelectionButton.Today) workoutsCompleted.toString() else historyOfWorkouts.size.toString()
         )
         MyStatisticsItem(
             title = "Duration",
-            value = "$ min"
+            value = "$totalDurationInMin min"
         )
         MyStatisticsItem(
             title = "Calories Burned",
-            value = "$ kcal"
+            value = "$totalCalories kcal"
         )
         AnimatedVisibility(
             visible = selectedButton == StatSelectionButton.AllTime,
@@ -83,35 +101,3 @@ fun MyStatisticsView() {
         }
     }
 }
-
-//private fun computeStatistics(
-//    userData: Map<String, Any>,
-//    selectedButton: StatSelectionButton
-//): Triple<String, String, String> {
-//    val userWorkoutStat = userData["userWorkoutStat"] as? List<Map<String, Any>> ?: return Triple("0", "0", "0")
-//
-//    val todayStats = userWorkoutStat.lastOrNull { it["date"] != null }
-//
-//    val exercisesCompleted = when (selectedButton) {
-//        StatSelectionButton.Today -> todayStats?.get("exercisesCompleted")?.toString() ?: "0"
-//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-//            it["exercisesCompleted"].toString().toInt()
-//        }.toString()
-//    }
-//
-//    val durationValue = when (selectedButton) {
-//        StatSelectionButton.Today -> todayStats?.get("duration")?.toString() ?: "0"
-//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-//            it["duration"].toString().toInt()
-//        }.toString()
-//    }
-//
-//    val caloriesBurned = when (selectedButton) {
-//        StatSelectionButton.Today -> todayStats?.get("caloriesBurned")?.toString() ?: "0"
-//        StatSelectionButton.AllTime -> userWorkoutStat.sumOf {
-//            it["caloriesBurned"].toString().toInt()
-//        }.toString()
-//    }
-//
-//    return Triple(exercisesCompleted, durationValue, caloriesBurned)
-//}
