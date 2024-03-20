@@ -1,7 +1,6 @@
 package com.example.sculptify.layout.dayStreakActiveDaysView.adv
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +32,7 @@ import com.example.sculptify.ui.theme.Transparent
 import com.example.sculptify.viewModels.UserViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 
 @SuppressLint("SimpleDateFormat")
@@ -71,22 +71,26 @@ fun ADV_CurrentWeekIndicator() {
         }
 
         val startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
-        val daysOfWeek = (0 until 7).map { startOfWeek.plusDays(it.toLong()) }
-
-        Log.d("AAAAAAAAAAAAAAAAAAAA", daysOfWeek.toString())
+        val formatter = DateTimeFormatter.ofPattern("MM-dd")
+        val daysOfWeek = (0 until 7)
+            .map {
+                startOfWeek.plusDays(it.toLong())
+            }.map {
+                it.format(formatter)
+            }
 
         daysOfWeek.forEach { date ->
-            val isCurrentDate = date == LocalDate.now()
+            val isCurrentDate = LocalDate.now().toString().contains(date)
+            val dayOfMonth = date.split("-")[1].toInt()
 
-            val formattedDate = "${date.monthValue}-${date.dayOfMonth}"
-            val cardColor = if (listOfWorkoutDates.contains(formattedDate)) Blue else ADV_Gray
-            
+            val bfColor = if (listOfWorkoutDates.contains(date)) Blue else ADV_Gray
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Card(
-                    colors = CardDefaults.cardColors(cardColor),
+                    colors = CardDefaults.cardColors(bfColor),
                     shape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier
                         .size(35.dp)
@@ -98,7 +102,7 @@ fun ADV_CurrentWeekIndicator() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         CustomText(
-                            text = date.dayOfMonth.toString(),
+                            text = dayOfMonth.toString(),
                             fontSize = 22.sp,
                             textAlign = TextAlign.Center
                         )

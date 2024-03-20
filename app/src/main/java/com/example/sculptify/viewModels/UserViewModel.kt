@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.sculptify.data.workout.CompletedWorkoutInfo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -271,10 +273,6 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    val userDefaults = mapOf(
-        "lastIncrementedDate" to ""
-    )
-
     fun finishWorkout(workoutInfo: CompletedWorkoutInfo) {
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
@@ -314,6 +312,8 @@ class UserViewModel: ViewModel() {
                                 userRef.update("lastIncrementedDate", today)
                                     .addOnSuccessListener {
                                         Log.d(finishWorkoutTAG, "Personal best streak updated successfully")
+                                        // Increment pbs only if dayStreak was incremented
+                                        incrementPbs(userRef, documentSnapshot, updatedDayStreak)
                                     }
                                     .addOnFailureListener { exception ->
                                         Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
@@ -329,6 +329,31 @@ class UserViewModel: ViewModel() {
                 .addOnFailureListener { exception ->
                     Log.d(finishWorkoutTAG, "Error fetching data", exception)
                 }
+        }
+    }
+
+    private fun incrementPbs(userRef: DocumentReference, documentSnapshot: DocumentSnapshot, dayStreak: Long) {
+        val lastPbsIncrementedDate = documentSnapshot.getString("lastPbsIncrementedDate")
+        val today = LocalDate.now().toString()
+
+        if (today != lastPbsIncrementedDate && dayStreak > (documentSnapshot.getLong("pbs") ?: 0)) {
+            val updatedPbs = dayStreak
+            userRef.update("pbs", updatedPbs)
+                .addOnSuccessListener {
+                    // Update lastPbsIncrementedDate to today
+                    userRef.update("lastPbsIncrementedDate", today)
+                        .addOnSuccessListener {
+                            Log.d(finishWorkoutTAG, "Personal best streak incremented successfully")
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                        }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                }
+        } else {
+            Log.d(finishWorkoutTAG, "Personal best streak was not incremented")
         }
     }
 }
