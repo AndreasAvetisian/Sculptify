@@ -19,6 +19,10 @@ import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Orange
 import com.example.sculptify.viewModels.UserViewModel
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 
 
 var selectedTabIndexForDSAD by mutableIntStateOf(0)
@@ -39,6 +43,42 @@ fun MV_ButtonsLayout(navController: NavHostController) {
     val dayStreakValue = userData["dayStreak"] ?: 0
     val weeklyGoalValue = userData["weeklyGoal"] ?: 0
     val pbsValue = userData["pbs"] ?: 0
+
+    //--------------------------------------------------------------------------------
+
+    val historyOfWorkouts = userData["historyOfWorkouts"] as? List<Map<String, Any>> ?: emptyList()
+
+    val monthMap = mapOf(
+        "Jan" to "01", "Feb" to "02", "Mar" to "03", "Apr" to "04",
+        "May" to "05", "Jun" to "06", "Jul" to "07", "Aug" to "08",
+        "Sep" to "09", "Oct" to "10", "Nov" to "11", "Dec" to "12"
+    )
+
+    val listOfWorkoutDates = historyOfWorkouts.mapNotNull { workout ->
+        val date = (workout["date"] as? String)?.split(";")?.getOrNull(1)
+        date?.let { dateString ->
+            val (monthAbbreviation, dayOfMonth) = dateString.split(' ')
+            val month = monthMap[monthAbbreviation]
+            "$month-$dayOfMonth"
+        }
+    }
+
+    val startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+    val formatter = DateTimeFormatter.ofPattern("MM-dd")
+    val daysOfWeek = (0 until 7)
+        .map {
+            startOfWeek.plusDays(it.toLong())
+        }.map {
+            it.format(formatter)
+        }
+
+    val currentAmountForWeeklyGoal = listOfWorkoutDates.count { it in daysOfWeek }
+
+    val weeklyGoalDisplay = if (currentAmountForWeeklyGoal >= weeklyGoalValue.toString().toInt()) {
+        "Done!"
+    } else {
+        "$currentAmountForWeeklyGoal/$weeklyGoalValue"
+    }
 
     Row (
         modifier = Modifier
@@ -65,11 +105,11 @@ fun MV_ButtonsLayout(navController: NavHostController) {
                 navController.navigate(Screen.DSAD.route)
             },
             isLoading = userVM.isLoading.value,
-            data = "0/$weeklyGoalValue",
+            data = weeklyGoalDisplay,
             iconId = R.drawable.active_days_main_icon,
             iconColor = Blue,
             title = "This week",
-            stat = "in Total: 0",
+            stat = "in Total: $currentAmountForWeeklyGoal",
             width = 1f,
             paddingStart = 10.dp,
             paddingEnd = 0.dp

@@ -33,6 +33,10 @@ import com.example.sculptify.layout.mbs.MBS
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.viewModels.UserViewModel
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +51,34 @@ fun ActiveDaysView(navController: NavHostController) {
         newValue = userVM.userdata.collectAsState().value
     )
 
+    val historyOfWorkouts = userData["historyOfWorkouts"] as? List<Map<String, Any>> ?: emptyList()
+
+    val monthMap = mapOf(
+        "Jan" to "01", "Feb" to "02", "Mar" to "03", "Apr" to "04",
+        "May" to "05", "Jun" to "06", "Jul" to "07", "Aug" to "08",
+        "Sep" to "09", "Oct" to "10", "Nov" to "11", "Dec" to "12"
+    )
+
+    val listOfWorkoutDates = historyOfWorkouts.mapNotNull { workout ->
+        val date = (workout["date"] as? String)?.split(";")?.getOrNull(1)
+        date?.let { dateString ->
+            val (monthAbbreviation, dayOfMonth) = dateString.split(' ')
+            val month = monthMap[monthAbbreviation]
+            "$month-$dayOfMonth"
+        }
+    }
+
+    val startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+    val formatter = DateTimeFormatter.ofPattern("MM-dd")
+    val daysOfWeek = (0 until 7)
+        .map {
+            startOfWeek.plusDays(it.toLong())
+        }.map {
+            it.format(formatter)
+        }
+
+    val currentAmountForWeeklyGoal = listOfWorkoutDates.count { it in daysOfWeek }
+
     val weeklyGoalValue = userData["weeklyGoal"]?.toString() ?: 0
 
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -54,7 +86,6 @@ fun ActiveDaysView(navController: NavHostController) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
-    // Callback function to be passed to MeMBS
     val onBottomSheetDismiss: () -> Unit = {
         showBottomSheet = false
     }
@@ -83,7 +114,7 @@ fun ActiveDaysView(navController: NavHostController) {
                 .clickable {
                     showBottomSheet = true
                 },
-            currentValue = 4,
+            currentValue = currentAmountForWeeklyGoal,
             primaryColor = Blue,
             secondaryColor = Dark_Gray,
             circleRadius = 320f,
@@ -92,7 +123,10 @@ fun ActiveDaysView(navController: NavHostController) {
         ADV_ModifyButton(
             onClick = { showBottomSheet = true }
         )
-        ADV_CurrentWeekIndicator()
+        ADV_CurrentWeekIndicator(
+            daysOfWeek = daysOfWeek,
+            listOfWorkoutDates = listOfWorkoutDates
+        )
         if (showBottomSheet) {
             MBS(
                 sheetState = sheetState,

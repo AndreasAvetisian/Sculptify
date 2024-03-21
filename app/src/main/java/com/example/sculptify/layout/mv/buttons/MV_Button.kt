@@ -103,7 +103,7 @@ fun MV_Button(
                 } else {
                     CustomText(
                         text = data,
-                        fontSize = 40.sp
+                        fontSize = if (data == "Done!") 35.sp else 40.sp
                     )
                 }
                 Icon(

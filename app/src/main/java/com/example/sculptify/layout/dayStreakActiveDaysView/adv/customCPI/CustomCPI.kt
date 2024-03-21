@@ -101,8 +101,8 @@ fun CustomCPI( // Custom Circular Progress Indicator
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomText(
-                text = if (currentValue == maxValue) "Done!" else "$positionValue/$maxValue",
-                fontSize = if (currentValue == maxValue) 50.sp else 80.sp
+                text = if (currentValue >= maxValue) "Done!" else "$positionValue/$maxValue",
+                fontSize = if (currentValue >= maxValue) 50.sp else 80.sp
             )
         }
     }

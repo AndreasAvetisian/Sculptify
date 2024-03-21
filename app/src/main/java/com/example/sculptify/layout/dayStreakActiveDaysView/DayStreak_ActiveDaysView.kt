@@ -26,11 +26,13 @@ import com.example.sculptify.screens.Screen
 val DayStreak_ActiveDays_TabItems = listOf(
     DayStreakActiveDaysTabItem(
         title = "Streak",
-        defaultDescription = "Work out every day to create a winning streak!"
+        defaultDescription = "Work out every day to create a winning streak!",
+        updatedDescription = "Great job today! \n Remember to continue tomorrow \n or"
     ),
     DayStreakActiveDaysTabItem(
         title = "Active Days",
-        defaultDescription = "Get on with your weekly goals!"
+        defaultDescription = "Get on with your weekly goals!",
+        updatedDescription = "Great job today! \n Remember to continue tomorrow \n or"
     )
 )
 

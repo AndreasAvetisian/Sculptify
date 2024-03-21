@@ -15,29 +15,24 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sculptify.layout.general.customText.CustomText
 import com.example.sculptify.ui.theme.ADV_Gray
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Transparent
-import com.example.sculptify.viewModels.UserViewModel
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjusters
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun ADV_CurrentWeekIndicator() {
+fun ADV_CurrentWeekIndicator(
+    daysOfWeek: List<String>,
+    listOfWorkoutDates: List<String>
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,40 +40,6 @@ fun ADV_CurrentWeekIndicator() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        val userVM: UserViewModel = viewModel()
-
-        LaunchedEffect(true) {
-            userVM.getUserData()
-        }
-
-        val userData by userVM.userdata.collectAsState()
-
-        val historyOfWorkouts = userData["historyOfWorkouts"] as? List<Map<String, Any>> ?: emptyList()
-
-        val monthMap = mapOf(
-            "Jan" to "01", "Feb" to "02", "Mar" to "03", "Apr" to "04",
-            "May" to "05", "Jun" to "06", "Jul" to "07", "Aug" to "08",
-            "Sep" to "09", "Oct" to "10", "Nov" to "11", "Dec" to "12"
-        )
-
-        val listOfWorkoutDates = historyOfWorkouts.mapNotNull { workout ->
-            val date = (workout["date"] as? String)?.split(";")?.getOrNull(1)
-            date?.let { dateString ->
-                val (monthAbbreviation, dayOfMonth) = dateString.split(' ')
-                val month = monthMap[monthAbbreviation]
-                "$month-$dayOfMonth"
-            }
-        }
-
-        val startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
-        val formatter = DateTimeFormatter.ofPattern("MM-dd")
-        val daysOfWeek = (0 until 7)
-            .map {
-                startOfWeek.plusDays(it.toLong())
-            }.map {
-                it.format(formatter)
-            }
-
         daysOfWeek.forEach { date ->
             val isCurrentDate = LocalDate.now().toString().contains(date)
             val dayOfMonth = date.split("-")[1].toInt()
