@@ -40,6 +40,20 @@ fun MFV_FavoriteWorkoutItem(
     onTheList: Boolean,
     onHeartClick: () -> Unit
 ) {
+    val bgColor = when(level) {
+        "Beginner" -> Beginner_Green
+        "Intermediate" -> Intermediate_Orange
+        else -> Advanced_Red
+    }
+
+    val iconID = when (focusArea) {
+        "Chest" -> R.drawable.chest
+        "Abs" -> R.drawable.abs
+        "Shoulder & Back" -> R.drawable.shoulderandback
+        "Arm" -> R.drawable.arm
+        else -> R.drawable.leg
+    }
+
     Card (
         colors = CardDefaults.cardColors(Dark_Gray),
         shape = MaterialTheme.shapes.extraLarge,
@@ -62,13 +76,7 @@ fun MFV_FavoriteWorkoutItem(
                 horizontalArrangement = Arrangement.spacedBy(15.675.dp)
             ) {
                 Card (
-                    colors = CardDefaults.cardColors(
-                        when(level) {
-                            "Beginner" -> Beginner_Green
-                            "Intermediate" -> Intermediate_Orange
-                            else -> Advanced_Red
-                        }
-                    ),
+                    colors = CardDefaults.cardColors(bgColor),
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier
                         .size(60.dp)
@@ -80,15 +88,7 @@ fun MFV_FavoriteWorkoutItem(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            painter = painterResource(
-                                id = when (focusArea) {
-                                    "Chest" -> R.drawable.chest
-                                    "Abs" -> R.drawable.abs
-                                    "Shoulder & Back" -> R.drawable.shoulderandback
-                                    "Arm" -> R.drawable.arm
-                                    else -> R.drawable.leg
-                                }
-                            ),
+                            painter = painterResource(iconID),
                             contentDescription = "",
                             modifier = Modifier
                                 .fillMaxSize(0.7f)
