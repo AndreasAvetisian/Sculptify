@@ -44,7 +44,7 @@ fun MHV_ListItem(
             ) {
                 MHV_LI_Icon(
                     modifier = Modifier
-                        .weight(0.45f),
+                        .weight(0.4f),
                     workoutLevel = workoutLevel,
                     workoutFocusArea = workoutFocusArea
                 )

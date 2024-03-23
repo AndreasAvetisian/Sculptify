@@ -72,7 +72,8 @@ fun MV_ButtonsLayout(navController: NavHostController) {
             it.format(formatter)
         }
 
-    val currentAmountForWeeklyGoal = listOfWorkoutDates.count { it in daysOfWeek }
+    val uniqueWorkoutDates = listOfWorkoutDates.toSet()
+    val currentAmountForWeeklyGoal = uniqueWorkoutDates.count { it in daysOfWeek }
 
     val weeklyGoalDisplay = if (currentAmountForWeeklyGoal >= weeklyGoalValue.toString().toInt()) {
         "Done!"

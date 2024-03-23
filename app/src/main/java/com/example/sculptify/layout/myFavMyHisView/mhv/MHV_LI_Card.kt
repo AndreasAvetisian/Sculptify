@@ -42,7 +42,8 @@ fun MHV_LI_Card(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomText(
-                text = value
+                text = value,
+                fontSize = 16.sp
             )
             CustomText(
                 text = title,

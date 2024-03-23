@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.math.abs
 
 class UserViewModel: ViewModel() {
     private val fAuth = Firebase.auth
@@ -42,6 +44,8 @@ class UserViewModel: ViewModel() {
         private const val deleteUserDataTAG = "DeleteUserData"
         private const val updateFavoriteListTAG = "updateFavoriteList"
         private const val finishWorkoutTAG = "finishWorkout"
+        private const val incrementPbsTAG = "incrementPbs"
+        private const val checkDayStreakTAG = "checkDayStreak"
 
         // Default values for deleteUserData
         private const val DEFAULT_RBE = 30
@@ -302,18 +306,19 @@ class UserViewModel: ViewModel() {
 
                     val today = LocalDate.now().toString()
                     val lastIncrementedDate = documentSnapshot.getString("lastIncrementedDate")
+                    val pbs = documentSnapshot.getLong("pbs") ?: 0
 
                     if (today != lastIncrementedDate) {
                         val dayStreak = documentSnapshot.getLong("dayStreak") ?: 0
                         val updatedDayStreak = dayStreak + 1
                         userRef.update("dayStreak", updatedDayStreak)
                             .addOnSuccessListener {
-                                // Update lastIncrementedDate to today
                                 userRef.update("lastIncrementedDate", today)
                                     .addOnSuccessListener {
                                         Log.d(finishWorkoutTAG, "Personal best streak updated successfully")
-                                        // Increment pbs only if dayStreak was incremented
-                                        incrementPbs(userRef, documentSnapshot, updatedDayStreak)
+                                        if (pbs >= dayStreak) {
+                                            incrementPbs(userRef, documentSnapshot, updatedDayStreak)
+                                        }
                                     }
                                     .addOnFailureListener { exception ->
                                         Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
@@ -343,17 +348,45 @@ class UserViewModel: ViewModel() {
                     // Update lastPbsIncrementedDate to today
                     userRef.update("lastPbsIncrementedDate", today)
                         .addOnSuccessListener {
-                            Log.d(finishWorkoutTAG, "Personal best streak incremented successfully")
+                            Log.d(incrementPbsTAG, "Personal best streak incremented successfully")
                         }
                         .addOnFailureListener { exception ->
-                            Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                            Log.d(incrementPbsTAG, "Error updating personal best streak", exception)
                         }
                 }
                 .addOnFailureListener { exception ->
-                    Log.d(finishWorkoutTAG, "Error updating personal best streak", exception)
+                    Log.d(incrementPbsTAG, "Error updating personal best streak", exception)
                 }
         } else {
-            Log.d(finishWorkoutTAG, "Personal best streak was not incremented")
+            Log.d(incrementPbsTAG, "Personal best streak was not incremented")
+        }
+    }
+    
+    fun checkDayStreak() {
+        fAuth.currentUser?.uid?.let { userId ->
+            val userRef = fireStore.collection("users").document(userId)
+
+            fireStore.runTransaction { transaction ->
+                val snapshot = transaction.get(userRef)
+                val lastIncrementedDate = snapshot.get("lastIncrementedDate") as? String
+
+                val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+
+                val today = LocalDate.now()
+
+                val lastDate = LocalDate.parse(lastIncrementedDate, formatter)
+
+                val difference = abs(today.toEpochDay() - lastDate.toEpochDay())
+
+                if (difference == 2L) {
+                    transaction.update(userRef, "dayStreak", 0)
+                }
+            }.addOnSuccessListener {
+                getUserData()
+                Log.d(checkDayStreakTAG, "Day streak was set to 0")
+            }.addOnFailureListener { exception ->
+                Log.e(checkDayStreakTAG, "Error updating day streak", exception)
+            }
         }
     }
 }

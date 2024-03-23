@@ -42,7 +42,7 @@ fun MHV_LI_Icon(
         colors = CardDefaults.cardColors(bgColor),
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
-            .size(60.dp)
+            .size(50.dp)
     ) {
         Column (
             modifier = Modifier

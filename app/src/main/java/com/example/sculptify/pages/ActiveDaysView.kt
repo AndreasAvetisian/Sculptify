@@ -1,5 +1,6 @@
 package com.example.sculptify.pages
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -77,7 +78,10 @@ fun ActiveDaysView(navController: NavHostController) {
             it.format(formatter)
         }
 
-    val currentAmountForWeeklyGoal = listOfWorkoutDates.count { it in daysOfWeek }
+    val uniqueWorkoutDates = listOfWorkoutDates.toSet()
+    val currentAmountForWeeklyGoal = uniqueWorkoutDates.count { it in daysOfWeek }
+
+    Log.d("AAAAAAAAAAAAAAAAAAAaa", "$daysOfWeek \n $listOfWorkoutDates")
 
     val weeklyGoalValue = userData["weeklyGoal"]?.toString() ?: 0
 

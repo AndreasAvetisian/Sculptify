@@ -96,7 +96,10 @@ fun MainScaffoldView() {
 fun MainContentView(navController: NavHostController) {
     val authVM: AuthenticationViewModel = viewModel()
     val reminderVM: ReminderViewModel = viewModel()
+    val userVM: UserViewModel = viewModel()
     val isAuthorized = Firebase.auth.currentUser?.uid?.isNotEmpty() == true
+
+    userVM.checkDayStreak()
 
     var previousRoute by remember { mutableStateOf<String?>(null) }
     var currentRoute by remember { mutableStateOf<String?>(null) }
