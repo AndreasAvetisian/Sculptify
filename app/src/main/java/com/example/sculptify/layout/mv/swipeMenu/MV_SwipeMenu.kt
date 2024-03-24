@@ -28,10 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.example.sculptify.R
-import com.example.sculptify.data.mv.MVSwipeMenuContentItem
+import androidx.navigation.NavHostController
 import com.example.sculptify.data.mv.MVSwipeMenuTabItem
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.layout.mv.swipeMenu.recentTab.MV_RecentSwipeTab
+import com.example.sculptify.layout.mv.swipeMenu.updateTab.MV_UpdatesSwipeTab
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
 import com.example.sculptify.ui.theme.Transparent
@@ -40,37 +41,18 @@ import com.example.sculptify.ui.theme.Transparent
 val MV_SwipeMenuTabItems = listOf(
     MVSwipeMenuTabItem(
         title = "Recent",
-        description = "Lately enjoyed. Keep on!",
-        swipeMenuContent = listOf(
-            MVSwipeMenuContentItem(
-                contentIconId = R.drawable.day_streak_main_icon,
-                contentTitle = "Abs Intermediate",
-                contentDate = "Nov 18 - First time"
-            ),
-            MVSwipeMenuContentItem(
-                contentIconId = R.drawable.password_hidden,
-                contentTitle = "Abs Beginner",
-                contentDate = "Nov 15 - First time"
-            )
-        )
+        description = "Lately enjoyed. Keep on!"
 
     ),
     MVSwipeMenuTabItem(
-        title = "My Plan",
-        description = "Lately enjoyed. Keep on!",
-        swipeMenuContent = listOf(
-            MVSwipeMenuContentItem(
-                contentIconId = R.drawable.day_streak_main_icon,
-                contentTitle = "Abs Intermediate",
-                contentDate = "Nov 17 - First time"
-            )
-        )
+        title = "Updates",
+        description = "More updates soon!"
     )
 )
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MV_SwipeMenu() {
+fun MV_SwipeMenu(navController: NavHostController) {
 
     val deviceWidthDp = LocalConfiguration.current.screenWidthDp
     val deviceHeightDp = LocalConfiguration.current.screenHeightDp
@@ -156,8 +138,8 @@ fun MV_SwipeMenu() {
                     .padding(15.675.dp)
             ) {
                 when (index) {
-                    0 -> { MV_RecentSwipeTab() }
-                    1 -> { MV_MyPlanSwipeTab() }
+                    0 -> { MV_RecentSwipeTab(navController = navController) }
+                    1 -> { MV_UpdatesSwipeTab() }
                 }
             }
         }

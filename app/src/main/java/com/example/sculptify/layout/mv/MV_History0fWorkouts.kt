@@ -1,5 +1,6 @@
 package com.example.sculptify.layout.mv
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,17 +19,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.sculptify.R
 import com.example.sculptify.layout.general.customText.CustomText
+import com.example.sculptify.layout.myFavMyHisView.selectedTabIndexForMFMH
+import com.example.sculptify.screens.Screen
 import com.example.sculptify.ui.theme.Blue
 import com.example.sculptify.ui.theme.Dark_Gray
 
 @Composable
-fun MV_HistoryOfWorkouts() {
+fun MV_HistoryOfWorkouts(navController: NavHostController) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 15.675.dp, bottom = 20.dp)
+            .clickable {
+                selectedTabIndexForMFMH = 1
+                navController.navigate(Screen.MFMH.route)
+            }
     ) {
         Card (
             colors = CardDefaults.cardColors(Dark_Gray),

@@ -43,8 +43,8 @@ fun MainView(
         ) {
             item {
                 MV_ButtonsLayout(navController)
-                MV_SwipeMenu()
-                MV_HistoryOfWorkouts()
+                MV_SwipeMenu(navController)
+                MV_HistoryOfWorkouts(navController)
                 MV_Workouts(navController)
             }
         }
